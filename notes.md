@@ -2,7 +2,7 @@ Bonjour,
 * Tout d'abord notre choix c'est porté sur ce site : https://agneslloydplatt.com/
 * La typo de notre logo (en piece jointe) sera celle du site avec des grosseurs differentes comme le site exemple.
 * La typo : KEEP CALM
-* Voici les indications pour le site de Diversity:
+* Voici les indications pour le site de Diversity ci-après.
 * N'hésitez pas si vous avez des questions ou si quelque chose n'est pas très claire.
 * Merci beaucoup !!
 
