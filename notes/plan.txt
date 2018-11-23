@@ -1,0 +1,55 @@
+Pour trouver des photos de modèles libres de droit:
+    https://unsplash.com/search/photos/model
+
+index
+    menu
+    logo
+    photo 1
+    photo 2
+    text: Montreal's sexiest street casting agency
+    text "lorem ipsum"
+    lien email: info@diversitymontreal.com + numéro de téléphone 514 904 0075
+models
+    menu
+    page menu:
+        By Type
+            Trends
+            Lifestyle
+            14 And Under
+            Mature
+    8 photos de modèles. Pour chaque modèle:
+        image (clic -> page du modèle)
+        nom du model
+contacts
+    menu
+    text: You want to be a part of the diversity
+    1 vidéo
+    plusieurs petites photos
+    Liste des agents. Pour chaque agent:
+        nom
+        poste
+        courriel
+    Button "for model submission" -> page submission
+model
+    logo DMM -> page d'accueil
+    Prénom du modèle
+    Caractéristique du modèle
+    Boutons:
+        Instagram (lien qui donne accès au insta du modele),
+        Model Card (Donne accès à la card pdf),
+        Clip (lien vers la video viméo)
+    photos ...
+submission
+    menu
+    photo
+    logo DMM
+    texte: L'agence pour les gens trop cool pour être mannequins
+    texte: Les auditions ont lieu au 270 st catherine Ouest suite 3. Presentez vous directement sans rendez vous. Soyez naturel, légé maquillage et pas de vêtements amples. Prevoyez au moins 30 min. Frais d'audition 20$+tx. Pour gens serieux seulement.
+    image + texte: Open Call
+
+notes model
+    grandeur
+    age
+    sexe
+    couleur de cheveux
+    couleur d'yeux
