@@ -1,0 +1,50 @@
+configuration
+    # home_photo_1
+    # home_photo_2
+    # submission_photo
+    # submission_bottom_photo
+    home_text_left
+    home_text_right
+    home_text_bottom
+    contact_text
+    contact_video
+    submission_title
+    submission_text
+    submission_bottom_photo_text
+model
+    model_id
+    first_name
+    last_name
+    hint (caractéristique)
+    trend_rank (-1 if no trend, >= otherwise)
+    category (lifestyle, 14 and under, mature)
+    instagram_link
+    video_link
+    age
+    sex
+    height
+    hair
+    eyes
+agent
+    agent_id
+    first_name
+    last_name
+    role
+    email
+model_photos
+    model_id
+    photo_id
+    photo_rank
+contact_photos
+    photo_id
+    photo_rank
+
+Nomenclature:
+    Folder `data`
+    Home photo 1: home_1.{ext}
+    Home photo 2: home_2.{ext}
+    Submission photo: submission.{ext}
+    Submission bottom photo: submission_bottom.{ext}
+    Model photo: model_{model_id}_{photo_id}.{ext}
+    Contact photo: contact_{photo_id}.{ext}
+    Model card: card_{model_id}.{ext}

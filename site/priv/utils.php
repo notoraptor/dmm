@@ -71,30 +71,40 @@ class Database {
 			') ENGINE = INNODB;',
 			'CREATE TABLE IF NOT EXISTS '.DB_PREFIX.'configuration ('.
 				'config_id INT UNSIGNED NOT NULL AUTO_INCREMENT,'.
-				'home_video_link VARCHAR (255),'.
-				'about_page_text TEXT,'.
-				'submission_page_text TEXT,'.
-				'submission_page_data_sharing_text TEXT,'.
-				'site_email TEXT,'.
+				'home_text_left TEXT,'.
+				'home_text_right TEXT,'.
+				'home_text_bottom TEXT,'.
+				'contact_text TEXT,'.
+				'contact_video VARCHAR (255),'.
+				'submission_title TEXT,'.
+				'submission_text TEXT,'.
+				'submission_bottom_photo_text TEXT,'.
 				'PRIMARY KEY (config_id)'.
 			') ENGINE = INNODB;',
 			'CREATE TABLE IF NOT EXISTS '.DB_PREFIX.'model ('.
 				'model_id INT UNSIGNED NOT NULL AUTO_INCREMENT,'.
-				'in_lifestyle TINYINT NOT NULL DEFAULT 0,'.
-				'instagram_link VARCHAR (255),'.
-				'sex VARCHAR(255),'.
 				'first_name VARCHAR(255) NOT NULL,'.
 				'last_name VARCHAR(255) NOT NULL,'.
-				'address VARCHAR(512),'.
+				'hint VARCHAR(255),'.
+				'trend_rank INTEGER NOT NULL DEFAULT -1,'.
+				'category VARCHAR(512),'.
+				'instagram_link VARCHAR (255),'.
+				'video_link VARCHAR (255),'.
+				'age INTEGER NOT NULL,'.
+				'sex VARCHAR(255) NOT NULL,'.
 				'height VARCHAR(255),'.
-				'bust VARCHAR(255),'.
-				'waist VARCHAR(255),'.
-				'hips VARCHAR(255),'.
-				'shoes VARCHAR(255),'.
 				'hair VARCHAR(255),'.
 				'eyes VARCHAR(255),'.
 				'date_added DATE,'.
 				'PRIMARY KEY (model_id)'.
+			') ENGINE = INNODB;',
+			'CREATE TABLE IF NOT EXISTS '.DB_PREFIX.'agent ('.
+				'agent_id INT UNSIGNED NOT NULL AUTO_INCREMENT,'.
+				'first_name VARCHAR(255) NOT NULL,'.
+				'last_name VARCHAR(255) NOT NULL,'.
+				'role VARCHAR(255),'.
+				'email VARCHAR(255),'.
+				'PRIMARY KEY (agent_id)'.
 			') ENGINE = INNODB;',
 			'CREATE TABLE IF NOT EXISTS '.DB_PREFIX.'model_photo ('.
 				'model_id INT UNSIGNED NOT NULL,'.
