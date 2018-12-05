@@ -2,10 +2,15 @@
 /* Fichier destiné à être inclus dans ./index.php */
 require_once('priv/admin-template.php');
 $allowedPages = array(
+	// todo configphotos add/update/delete
+	// todo modelphotos add/update/delete
+	// todo agents
+	// todo agent
+	// todo deleteagent
+	// todo newagent
 	'config',
 	'deletemodel',
 	'model',
-	'modelarticle',
 	'modelphoto',
 	'modelportfolio',
 	'models',

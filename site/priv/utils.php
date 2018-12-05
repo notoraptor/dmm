@@ -1,18 +1,105 @@
 <?php
-require_once(server_dir().'/priv/password.php');
-require_once(server_dir().'/priv/Set.php');
-require_once(server_dir().'/priv/Data.php');
-require_once(server_dir().'/priv/FrontData.php');
-require_once(server_dir().'/priv/Admin.php');
-require_once(server_dir().'/priv/Config.php');
-require_once(server_dir().'/priv/Contact.php');
-require_once(server_dir().'/priv/Model.php');
+require_once(__DIR__.'/password.php');
+require_once(__DIR__.'/Set.php');
+
+$GLOBALS['CONFIG_FIELDS'] = array(
+	'home_text_left',
+	'home_text_right',
+	'home_text_bottom',
+	'contact_text',
+	'contact_video',
+	'submission_title',
+	'submission_text',
+	'submission_bottom_photo_text'
+);
+
+$GLOBALS['MODEL_FIELDS'] = array(
+	'model_id',
+	'first_name',
+	'last_name',
+	'hint',
+	'trend_rank',
+	'category',
+	'instagram_link',
+	'video_link',
+	'age',
+	"sex",
+	'height',
+	'hair',
+	'eyes'
+);
+
+$GLOBALS['AGENT_FIELDS'] = array(
+	'agent_id',
+	'first_name',
+	'last_name',
+	'role',
+	'email'
+);
+
+class DatabaseRow {
+	protected $data = array();
+	public function __construct($data) {$this->data = $data;}
+}
+
+class Admin extends DatabaseRow {
+	public function username() {return $this->data['username'];}
+	public function password() {return $this->data['password'];}
+	public function is_valid() {return $this->data !== false;}
+	public function approved() {return $this->data['approved'] != '0';}
+	public function id() {return $this->data['admin_id'];}
+}
+
+class Config extends DatabaseRow  {
+	public function home_text_left() { return $this->data['home_text_left']; }
+	public function home_text_right() { return $this->data['home_text_right']; }
+	public function home_text_bottom() { return $this->data['home_text_bottom']; }
+	public function contact_text() { return $this->data['contact_text']; }
+	public function contact_video() { return $this->data['contact_video']; }
+	public function submission_title() { return $this->data['submission_title']; }
+	public function submission_text() { return $this->data['submission_text']; }
+	public function submission_bottom_photo_text() { return $this->data['submission_bottom_photo_text']; }
+}
+
+class Model extends DatabaseRow {
+	public function id() {return $this->data['model_id'];}
+	public function first_name() {return $this->data['first_name'];}
+	public function last_name() {return $this->data['last_name'];}
+	public function hint() {return $this->data['hint'];}
+	public function trend_rank() {return $this->data['trend_rank'];}
+	public function category() {return $this->data['category'];}
+	public function instagram_link() {return $this->data['instagram_link'];}
+	public function video_link() {return $this->data['video_link'];}
+	public function age() {return $this->data['age'];}
+	public function sex() {return $this->data['sex'];}
+	public function height() {return $this->data['height'];}
+	public function hair() {return $this->data['hair'];}
+	public function eyes() {return $this->data['eyes'];}
+}
+
+class Agent extends DatabaseRow {
+	public function id() {return $this->data['agent_id'];}
+	public function first_name() {return $this->data['first_name'];}
+	public function last_name() {return $this->data['last_name'];}
+	public function role() {return $this->data['role'];}
+	public function email() {return $this->data['email'];}
+}
+
+class Photo extends DatabaseRow {
+	public function id() {return $this->data['photo_id'];}
+	public function rank() {return $this->data['photo_rank'];}
+	static function sort(Photo $photo_a, Photo $photo_b) {
+		$t = $photo_a->rank() - $photo_b->rank();
+		if (!$t)
+			$t = $photo_a->id() - $photo_b->id();
+		return $t;
+	}
+}
 
 class Database {
 	// Dossiers de la BDD sur disque.
 	private $dir_db = null;
 	private $dir_db_main = null;
-	private $dir_db_model = null;
 	//.
 	private $requetes_tables = array();
 	private $bdd = null;
@@ -34,7 +121,7 @@ class Database {
 			while(($ligne = $execution->fetch())) {
 				$donnees_ligne = array();
 				foreach($ligne as $key => $value) {
-					if(is_string($value)) $value = utils_unescape($value);	//revoir eventuellement.
+					if(is_string($value)) $value = utils_unescape($value);	//todo useful?
 					if(!is_int($key)) $donnees_ligne[$key] = $value;
 				}
 				$donnees[] = $donnees_ligne;
@@ -54,7 +141,7 @@ class Database {
 			$execution = $this->bdd->prepare($requete);
 			$execution->execute($parametres);
 		} catch(Exception $e) {
-			$this->throw_exception($e, 'Erreur pendant une requ&ecirc;te de modification');
+			$this->throw_exception($e, 'Erreur pendant une requ&ecirc;te de modification: '.$requete);
 		}
 	}
 	private function throw_exception(Exception &$e, $prefix = '') {
@@ -91,11 +178,10 @@ class Database {
 				'instagram_link VARCHAR (255),'.
 				'video_link VARCHAR (255),'.
 				'age INTEGER NOT NULL,'.
-				'sex VARCHAR(255) NOT NULL,'.
+				"sex ENUM('male', 'female', 'X') NOT NULL,".
 				'height VARCHAR(255),'.
 				'hair VARCHAR(255),'.
 				'eyes VARCHAR(255),'.
-				'date_added DATE,'.
 				'PRIMARY KEY (model_id)'.
 			') ENGINE = INNODB;',
 			'CREATE TABLE IF NOT EXISTS '.DB_PREFIX.'agent ('.
@@ -107,13 +193,16 @@ class Database {
 				'PRIMARY KEY (agent_id)'.
 			') ENGINE = INNODB;',
 			'CREATE TABLE IF NOT EXISTS '.DB_PREFIX.'model_photo ('.
+				'photo_id INT UNSIGNED NOT NULL AUTO_INCREMENT,'.
 				'model_id INT UNSIGNED NOT NULL,'.
-				'photo_1 VARCHAR(255) NOT NULL,'.
-				'photo_2 VARCHAR(255) NOT NULL,'.
-				'photo_3 VARCHAR(255) NOT NULL,'.
-				'photo_4 VARCHAR(255) NOT NULL,'.
-				'PRIMARY KEY (model_id),'.
-				'CONSTRAINT fk_model_photos FOREIGN KEY (model_id) REFERENCES model (model_id) ON DELETE CASCADE'.
+				'photo_rank INT UNSIGNED NOT NULL,'.
+				'PRIMARY KEY (photo_id),'.
+				'CONSTRAINT fk_model_photo FOREIGN KEY (model_id) REFERENCES model (model_id) ON DELETE CASCADE'.
+			') ENGINE = INNODB;',
+			'CREATE TABLE IF NOT EXISTS '.DB_PREFIX.'contact_photo ('.
+				'photo_id INT UNSIGNED NOT NULL AUTO_INCREMENT,'.
+				'photo_rank INT UNSIGNED NOT NULL,'.
+				'PRIMARY KEY (photo_id)'.
 			') ENGINE = INNODB;',
 		);
 		$compte = count($this->requetes_tables);
@@ -123,26 +212,12 @@ class Database {
 	}
 	private function alterer_tables() {
 		$alterations = array(
-            array(
+			/*
+			array(
 				'SHOW COLUMNS FROM '.DB_PREFIX.'model LIKE \'article_content\'',
 				'ALTER TABLE '.DB_PREFIX.'model ADD article_content TEXT',
 			),
-			array(
-				'SHOW COLUMNS FROM '.DB_PREFIX.'model LIKE \'article\'',
-				'ALTER TABLE '.DB_PREFIX.'model ADD article TEXT',
-			),
-			array(
-				'SHOW COLUMNS FROM '.DB_PREFIX.'model LIKE \'show_article\'',
-				'ALTER TABLE '.DB_PREFIX.'model ADD show_article TINYINT NOT NULL DEFAULT 0',
-			),
-			array(
-				'SHOW COLUMNS FROM '.DB_PREFIX.'model LIKE \'article_rank\'',
-				'ALTER TABLE '.DB_PREFIX.'model ADD article_rank INT UNSIGNED DEFAULT 0',
-			),
-			array(
-				'SHOW COLUMNS FROM '.DB_PREFIX.'configuration LIKE \'about_contact_text\'',
-				'ALTER TABLE '.DB_PREFIX.'configuration ADD about_contact_text TEXT DEFAULT NULL',
-			)
+			*/
 		);
 		$compte = count($alterations);
 		for($i = 0; $i < $compte; ++$i) {
@@ -167,10 +242,7 @@ class Database {
 	private function verifier_existence_bdd_sur_disque() {
 		$this->dir_db = server_dir() . '/data';
 		$this->dir_db_main  = $this->dir_db . '/main';
-		$this->dir_db_model = $this->dir_db . '/model';
-		$folders = array(
-			$this->dir_db, $this->dir_db_main, $this->dir_db_model
-		);
+		$folders = array($this->dir_db, $this->dir_db_main);
 		$countFolders = count($folders);
 		for($i = 0; $i < $countFolders; ++$i) {
 			if(!file_exists($folders[$i]))
@@ -226,51 +298,88 @@ class Database {
 		return $administrators;
 	}
 	public function config() {
-		$data = $this->oneResult('SELECT home_video_link, about_page_text, about_contact_text, submission_page_text, submission_page_data_sharing_text, site_email FROM '.DB_PREFIX.'configuration');
+		$data = $this->oneResult('SELECT '.implode(', ', $GLOBALS['CONFIG_FIELDS']).' FROM '.DB_PREFIX.'configuration');
 		return $data ? new Config($data) : false;
 	}
 	public function config_update($config_dict) {
-		$this->secure_modif(
-			'UPDATE '.DB_PREFIX.'configuration SET home_video_link = ?, about_page_text = ?, about_contact_text = ?, submission_page_text = ?, submission_page_data_sharing_text = ?, site_email = ?',
-			array($config_dict['home_video_link'], $config_dict['about_page_text'], $config_dict['about_contact_text'], $config_dict['submission_page_text'], $config_dict['submission_page_data_sharing_text'], $config_dict['site_email'])
-		);
+		$config_query = array();
+		$config_params = array();
+		foreach($GLOBALS['CONFIG_FIELDS'] as $config_field) {
+			if (isset($config_dict[$config_field])) {
+				$config_query[] = $config_field.' = ?';
+				$config_params[] = $config_dict[$config_field];
+			}
+		}
+		if ($config_query)
+			$this->secure_modif('UPDATE '.DB_PREFIX.'configuration SET '.implode(', ', $config_query), $config_params);
+	}
+	public function model_photos($id) {
+		$photos = array();
+		$data_photos = $this->secure_query('SELECT * FROM '.DB_PREFIX.'model_photo WHERE model_id = ?', array($id));
+		foreach($data_photos as $row)
+			$photos[] = new Photo($row);
+		usort($photos, array('Photo', 'sort'));
+		return $photos;
+	}
+	public function model_photo_add($model_id, $photo_rank) {
+		$this->secure_modif('INSERT INTO '.DB_PREFIX.'model_photo (model_id, photo_rank) VALUES (?,?)', array($model_id, $photo_rank));
+		$photo_id = $this->bdd->lastInsertId();
+		$this->model_photo_update($model_id, $photo_id, $photo_rank);
+	}
+	public function model_photo_delete($model_id, $photo_id) {
+		$this->secure_modif('DELETE FROM '.DB_PREFIX.'model_photo WHERE model_id = ? AND photo_id = ?', array($model_id, $photo_id));
+		// todo delete photo on disk
+	}
+	public function model_photo_update($model_id, $photo_id, $photo_rank) {
+		$photos = $this->model_photos($model_id);
+		if (empty($photos))
+			return false;
+		$other_photos = array();
+		$updated_photo = null;
+		foreach($photos as $photo) {
+			if ($photo->id() != $photo_id) {
+				$other_photos[] = $photo;
+			} else {
+				$updated_photo = $photo;
+			}
+		}
+		if (!$updated_photo || empty($other_photos))
+			return false;
+		if ($photo_rank <= $other_photos[0]->rank())
+			array_splice($other_photos, 0, 0, array($updated_photo));
+		else if ($photo_rank > $other_photos[count($other_photos) - 1]->rank()) {
+			$other_photos[] = $updated_photo;
+		} else for ($i = 1; $i < count($other_photos); ++$i) {
+			$current_rank = $other_photos[$i]->rank();
+			$previous_rank = $other_photos[$i-1]->rank();
+			if ($photo_rank == $current_rank || ($previous_rank < $photo_rank && $photo_rank < $current_rank)) {
+				array_splice($other_photos, $i, 0, array($updated_photo));
+				break;
+			}
+		}
+		for ($i = 0; $i < count($other_photos); ++$i) {
+			$this->secure_modif('UPDATE '.DB_PREFIX.'model_photo SET photo_rank = ? WHERE model_id = ? AND photo_id = ?', array($i, $model_id, $photo_id));
+		}
 	}
 	public function model_exists($id) {
 		return $this->oneResult('SELECT model_id FROM '.DB_PREFIX.'model WHERE model_id = ?', array($id));
 	}
 	public function model($id) {
-		$data = $this->oneResult(
-			'SELECT 
-				m.model_id AS model_id,
-				m.in_lifestyle AS in_lifestyle,
-				m.instagram_link AS instagram_link,
-				m.sex AS sex,
-				m.first_name AS first_name,
-				m.last_name AS last_name,
-				m.address AS address,
-				m.height AS height,
-				m.bust AS bust,
-				m.waist AS waist,
-				m.hips AS hips,
-				m.shoes AS shoes,
-				m.hair AS hair,
-				m.eyes AS eyes,
-				m.date_added AS date_added,
-				m.article_content AS article_content,
-				m.article AS article,
-				m.show_article AS show_article,
-				m.article_rank AS article_rank,
-				p.photo_1 AS photo_1,
-				p.photo_2 AS photo_2,
-				p.photo_3 AS photo_3,
-				p.photo_4 AS photo_4
-			FROM '.DB_PREFIX.'model AS m
-			LEFT JOIN '.DB_PREFIX.'model_photo AS p ON m.model_id = p.model_id
-			WHERE m.model_id = ?',
-			array($id)
-		);
+		$data = $this->oneResult('SELECT * FROM '.DB_PREFIX.'model WHERE model_id = ?', array($id));
 		if(!$data) return false;
+		$data['photos'] = $this->model_photos($id);
 		return new Model($data);
+	}
+	public function models() {
+		$data = $this->secure_query('SELECT * FROM '.DB_PREFIX.'model');
+		$models = array();
+		// Vidéos.
+		$countModels = count($data);
+		for($i = 0; $i < $countModels; ++$i) {
+			$data[$i]['photos'] = $this->model_photos($data[$i]['model_id']);
+			$models[] = new Model($data[$i]);
+		}
+		return $models;
 	}
 	public function model_update($id, $fields) {
 		$keys = array_keys($fields);
@@ -285,78 +394,129 @@ class Database {
 		$this->secure_modif('UPDATE '.DB_PREFIX.'model SET '.(implode(',', $keysForDB)).' WHERE model_id = ?', $values);
 		return $this->model($id);
 	}
-	public function model_update_article($model_id, $article, $article_content, $show, $rank) {
-		$this->secure_modif('UPDATE '.DB_PREFIX.'model SET article = ?, article_content = ?, show_article = ?, article_rank = ? WHERE model_id = ?', array($article, $article_content, $show, $rank ? $rank : 0, $model_id));
-	}
-	public function model_photo_update($model_id, $photo_rank, $photo_name) {
-		if(!in_array($photo_rank, array(1, 2, 3, 4))) return false;
-		$data = $this->secure_query('SELECT model_id FROM '.DB_PREFIX.'model_photo WHERE model_id = ?', array($model_id));
-		if($data)
-			$this->secure_modif('UPDATE '.DB_PREFIX.'model_photo SET photo_'.$photo_rank.' = ? WHERE model_id = ?', array($photo_name, $model_id));
-		else {
-			$photo_values = array(
-				'photo_1' => '',
-				'photo_2' => '',
-				'photo_3' => '',
-				'photo_4' => ''
-			);
-			$photo_values['photo_'.$photo_rank] = $photo_name;
-			$this->secure_modif('INSERT INTO ' . DB_PREFIX . 'model_photo (model_id, photo_1, photo_2, photo_3, photo_4) VALUES(?,?,?,?,?)',
-				array($model_id, $photo_values['photo_1'], $photo_values['photo_2'], $photo_values['photo_3'], $photo_values['photo_4']));
-		}
-		return true;
-	}
-	public function models() {
-		$data = $this->secure_query(
-			'SELECT 
-				m.model_id AS model_id,
-				m.in_lifestyle AS in_lifestyle,
-				m.instagram_link AS instagram_link,
-				m.sex AS sex,
-				m.first_name AS first_name,
-				m.last_name AS last_name,
-				m.address AS address,
-				m.height AS height,
-				m.bust AS bust,
-				m.waist AS waist,
-				m.hips AS hips,
-				m.shoes AS shoes,
-				m.hair AS hair,
-				m.eyes AS eyes,
-				m.date_added AS date_added,
-				m.article_content AS article_content,
-				m.article AS article,
-				m.show_article AS show_article,
-				m.article_rank AS article_rank,
-				p.photo_1 AS photo_1,
-				p.photo_2 AS photo_2,
-				p.photo_3 AS photo_3,
-				p.photo_4 AS photo_4
-			FROM '.DB_PREFIX.'model AS m
-			LEFT JOIN '.DB_PREFIX.'model_photo AS p ON m.model_id = p.model_id
-			ORDER BY m.model_id ASC'
-		);
-		$models = array();
-		// Vidéos.
-		$countModels = count($data);
-		for($i = 0; $i < $countModels; ++$i) {
-			$models[] = new Model($data[$i]);
-		}
-		return $models;
-	}
 	public function model_create($mainValues) {
 		$data = $this->secure_query('SELECT model_id FROM '.DB_PREFIX.'model WHERE first_name = ? AND last_name = ?', array($mainValues['first_name'], $mainValues['last_name']));
 		if(!empty($data)) return false;
-		$this->secure_modif('INSERT INTO '.DB_PREFIX.'model (in_lifestyle, instagram_link, sex, first_name, last_name, height, bust, waist, hips, shoes, hair, eyes) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)',
-			array($mainValues['in_lifestyle'], $mainValues['instagram_link'], $mainValues['sex'], $mainValues['first_name'], $mainValues['last_name'], $mainValues['height'], $mainValues['bust'], $mainValues['waist'], $mainValues['hips'], $mainValues['shoes'], $mainValues['hair'], $mainValues['eyes']));
+		$fields = array();
+		$holders = array();
+		$params = array();
+		foreach($GLOBALS['MODEL_FIELDS'] as $field) {
+			if (isset($mainValues[$field])) {
+				$fields[] = $field;
+				$holders[] = '?';
+				$params[] = $mainValues[$field];
+			}
+		}
+		if (!$fields) return false;
+		$this->secure_modif('INSERT INTO '.DB_PREFIX.'model ('.implode(',', $fields).' VALUES('.implode(',', $holders).')', $params);
 		$data = $this->oneResult('SELECT model_id FROM '.DB_PREFIX.'model WHERE first_name = ? AND last_name = ?', array($mainValues['first_name'], $mainValues['last_name']));
-		mkdir(utils_model_dir($data['model_id']));
 		return $this->model($data['model_id']);
 	}
 	public function model_delete($id) {
 		$this->secure_modif('DELETE FROM '.DB_PREFIX.'model WHERE model_id = ?', array($id));
-		delTree(utils_model_dir($id));
+		// TODO delete model photos.
 		return true;
+	}
+	public function agent_exists($id) {
+		return $this->oneResult('SELECT agent_id FROM '.DB_PREFIX.'ageent WHERE agent_id = ?', array($id));
+	}
+	public function agent($id) {
+		$data = $this->oneResult('SELECT * FROM '.DB_PREFIX.'agent WHERE agent_id = ?', array($id));
+		if(!$data) return false;
+		return new Agent($data);
+	}
+	public function agents() {
+		$data = $this->secure_query('SELECT * FROM '.DB_PREFIX.'agent');
+		$agents = array();
+		// Vidéos.
+		$countAgents = count($data);
+		for($i = 0; $i < $countAgents; ++$i) {
+			$agents[] = new Agent($data[$i]);
+		}
+		return $agents;
+	}
+	public function agent_update($id, $fields) {
+		$keys = array_keys($fields);
+		$keysForDB = array();
+		$values = array();
+		$count = count($keys);
+		for($i = 0; $i < $count; ++$i) {
+			$keysForDB[] = $keys[$i] . '= ?';
+			$values[] = $fields[$keys[$i]];
+		}
+		$values[] = $id;
+		$this->secure_modif('UPDATE '.DB_PREFIX.'agent SET '.(implode(',', $keysForDB)).' WHERE agent_id = ?', $values);
+		return $this->agent($id);
+	}
+	public function agent_create($mainValues) {
+		$data = $this->secure_query('SELECT agent_id FROM '.DB_PREFIX.'agent WHERE first_name = ? AND last_name = ?', array($mainValues['first_name'], $mainValues['last_name']));
+		if(!empty($data)) return false;
+		$fields = array();
+		$holders = array();
+		$params = array();
+		foreach($GLOBALS['AGENT_FIELDS'] as $field) {
+			if (isset($mainValues[$field])) {
+				$fields[] = $field;
+				$holders[] = '?';
+				$params[] = $mainValues[$field];
+			}
+		}
+		if (!$fields) return false;
+		$this->secure_modif('INSERT INTO '.DB_PREFIX.'agent ('.implode(',', $fields).' VALUES('.implode(',', $holders).')', $params);
+		$data = $this->oneResult('SELECT agent_id FROM '.DB_PREFIX.'agent WHERE first_name = ? AND last_name = ?', array($mainValues['first_name'], $mainValues['last_name']));
+		return $this->agent($data['agent_id']);
+	}
+	public function agent_delete($id) {
+		$this->secure_modif('DELETE FROM '.DB_PREFIX.'agent WHERE agent_id = ?', array($id));
+		return true;
+	}
+	public function contact_photos() {
+		$photos = array();
+		$data_photos = $this->secure_query('SELECT * FROM '.DB_PREFIX.'contact_photo');
+		foreach($data_photos as $row)
+			$photos[] = new Photo($row);
+		usort($photos, array('Photo', 'sort'));
+		return $photos;
+	}
+	public function contact_photo_add($photo_rank) {
+		$this->secure_modif('INSERT INTO '.DB_PREFIX.'contact_photo (photo_rank) VALUES (?)', array($photo_rank));
+		$photo_id = $this->bdd->lastInsertId();
+		$this->contact_photo_update($photo_id, $photo_rank);
+	}
+	public function contact_photo_delete($photo_id) {
+		$this->secure_modif('DELETE FROM '.DB_PREFIX.'contact_photo WHERE photo_id = ?', array($photo_id));
+		// todo delete photo on disk
+	}
+	public function contact_photo_update($photo_id, $photo_rank) {
+		$photos = $this->contact_photos();
+		if (empty($photos))
+			return false;
+		$other_photos = array();
+		$updated_photo = null;
+		foreach($photos as $photo) {
+			if ($photo->id() != $photo_id) {
+				$other_photos[] = $photo;
+			} else {
+				$updated_photo = $photo;
+			}
+		}
+		if (!$updated_photo || empty($other_photos))
+			return false;
+		if ($photo_rank <= $other_photos[0]->rank())
+			array_splice($other_photos, 0, 0, array($updated_photo));
+		else if ($photo_rank > $other_photos[count($other_photos) - 1]->rank()) {
+			$other_photos[] = $updated_photo;
+		} else for ($i = 1; $i < count($other_photos); ++$i) {
+			$current_rank = $other_photos[$i]->rank();
+			$previous_rank = $other_photos[$i-1]->rank();
+			if ($photo_rank == $current_rank || ($previous_rank < $photo_rank && $photo_rank < $current_rank)) {
+				array_splice($other_photos, $i, 0, array($updated_photo));
+				break;
+			}
+		}
+		for ($i = 0; $i < count($other_photos); ++$i) {
+			$this->secure_modif('UPDATE '.DB_PREFIX.'contact_photo SET photo_rank = ? WHERE photo_id = ?', array($i, $photo_id));
+		}
 	}
 	public function list_hairs() {
 		$data = $this->secure_query('SELECT hair FROM '.DB_PREFIX.'model');
@@ -376,7 +536,6 @@ class Database {
 		$data = $this->secure_query('SELECT sex FROM '.DB_PREFIX.'model');
 		$set = new Set(array());
 		foreach($data as $row) $set->add($row['sex']);
-		$set->add(array('homme', 'femme'));
 		return $set;
 	}
 }
@@ -628,7 +787,7 @@ function delTree($dir) {
 		(is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file");
 	}
 	return rmdir($dir);
-} 
+}
 
 function utils_local_photo($photopath) {
 	if(is_file($photopath)) {
