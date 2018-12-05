@@ -15,7 +15,7 @@ ob_start();?><!DOCTYPE html>
 		<div class="messages"><?php echo $data->messages;?></div>
 		<div class="content"><?php echo $data->content;?></div>
 	</div>
-	<script type="text/javascript"><!--
+	<script type="text/javascript">//<!--
 	function confirmer(message) {
 		return confirm(message);
 	}
@@ -32,7 +32,15 @@ ob_start();?><!DOCTYPE html>
 			field.value = hexadecimal(field.value);
 		}
 	}
-	--></script>
+	function loadNiceEditor(fieldName) {
+        new nicEditor({
+            iconsPath: 'nicEdit/nicEditorIcons.gif',
+            buttonList: [
+                'fontSize','bold','italic','underline','left','center','right','justify','link',
+                'unlink','removeformat','xhtml'
+            ]}).panelInstance(fieldName);
+    }
+	//--></script>
 	</body>
 </html>
 <?php

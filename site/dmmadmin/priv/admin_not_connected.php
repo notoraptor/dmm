@@ -1,7 +1,8 @@
 <?php
 /* Fichier destiné à être inclus dans ./index.php */
-require_once('priv/admin-template.php');
-require_once('priv/cool-php-captcha/captcha.php');
+require_once(__DIR__.'/../../priv/Data.php');
+require_once(__DIR__.'/admin-template.php');
+require_once(__DIR__.'/cool-php-captcha/captcha.php');
 $db = new Database();
 $donnees = new Data();
 ob_start();

@@ -37,6 +37,60 @@ $GLOBALS['AGENT_FIELDS'] = array(
 	'email'
 );
 
+$GLOBALS['DIR_DB'] = server_dir() . '/data';
+$GLOBALS['DIR_DB_MAIN'] = $GLOBALS['DIR_DB'] . '/main';
+
+function CONFIG_FIELDS() {return $GLOBALS['CONFIG_FIELDS'];}
+function MODEL_FIELDS() {return $GLOBALS['MODEL_FIELDS'];}
+function AGENT_FIELDS() {return $GLOBALS['AGENT_FIELDS'];}
+function DIR_DB() {return $GLOBALS['DIR_DB'];}
+function DIR_DB_MAIN() {return $GLOBALS['DIR_DB_MAIN'];}
+
+function utils_photo($folder, $name) {
+    $files = scandir($folder);
+    $found = array();
+    foreach($files as $file) if (strpos($file, $name.'.') === 0) $found[] = $file;
+    return count($found) == 1 ? $folder.'/'.$found[0] : false;
+}
+function utils_photos($folder, $prefix) {
+	$files = scandir($folder);
+	$found = array();
+	foreach($files as $file) {
+		if (strpos($file, $prefix) === 0) {
+			$pos_dot = strpos($file, '.');
+			$file_name = substr($file, 0, $pos_dot);
+			if (isset($found[$file_name]))
+				return false;
+			$found[$file_name] = $file;
+		}
+	}
+	$files_found = array_values($found);
+	sort($files_found);
+	$paths = array();
+	foreach($files_found as $file)
+		$paths[] = DIR_DB().'/'.$file;
+	return $paths;
+}
+
+function utils_home_photo_1_name() {return 'home_1';}
+function utils_home_photo_2_name() {return 'home_2';}
+function utils_submission_photo_name() {return 'submission';}
+function utils_submission_bottom_photo_name() {return 'submission_bottom';}
+function utils_model_photo_prefix($model_id) {return 'model_'.$model_id;}
+function utils_model_photo_name($model_id, $photo_id) {return utils_model_photo_prefix($model_id).'_'.$photo_id;}
+function utils_contact_photo_prefix() {return 'contact';}
+function utils_contact_photo_name($photo_id) {return utils_contact_photo_prefix().'_'.$photo_id;}
+function utils_home_photo_1() {return utils_photo(DIR_DB(), utils_home_photo_1_name());}
+function utils_home_photo_2() {return utils_photo(DIR_DB(), utils_home_photo_2_name());}
+function utils_submission_photo() {return utils_photo(DIR_DB(), utils_submission_photo_name());}
+function utils_submission_bottom_photo() {return utils_photo(DIR_DB(), utils_submission_bottom_photo_name());}
+function utils_model_photo($model_id, $photo_id) {return utils_photo(DIR_DB(), utils_model_photo_name($model_id, $photo_id));}
+function utils_model_photos($model_id) {return utils_photos(DIR_DB(), utils_model_photo_prefix($model_id));}
+function utils_contact_photo($photo_id) {return utils_photo(DIR_DB(), utils_contact_photo_name($photo_id));}
+function utils_contact_photos() {return utils_photos(DIR_DB(), utils_contact_photo_prefix());}
+
+function utils_as_link($path) {return str_replace(server_dir(), server_http(), $path);}
+
 class DatabaseRow {
 	protected $data = array();
 	public function __construct($data) {$this->data = $data;}
@@ -97,9 +151,6 @@ class Photo extends DatabaseRow {
 }
 
 class Database {
-	// Dossiers de la BDD sur disque.
-	private $dir_db = null;
-	private $dir_db_main = null;
 	//.
 	private $requetes_tables = array();
 	private $bdd = null;
@@ -240,9 +291,7 @@ class Database {
 			$this->secure_modif('INSERT INTO '.DB_PREFIX.'configuration (config_id) VALUES(1)');
 	}
 	private function verifier_existence_bdd_sur_disque() {
-		$this->dir_db = server_dir() . '/data';
-		$this->dir_db_main  = $this->dir_db . '/main';
-		$folders = array($this->dir_db, $this->dir_db_main);
+		$folders = array(DIR_DB(), DIR_DB_MAIN());
 		$countFolders = count($folders);
 		for($i = 0; $i < $countFolders; ++$i) {
 			if(!file_exists($folders[$i]))
@@ -726,7 +775,7 @@ function utils_microtime() {
 	return bcadd($realsec, $realmicro, 0);
 }
 
-function utils_upload($name, $updir) {
+function utils_upload($name, $updir, $file_name = null, $extension = null) {
 	// Testons si le fichier a bien été envoyé et s'il n'y a pas d'erreur
 	$nom = '';
 	$erreur = '';
@@ -744,7 +793,9 @@ function utils_upload($name, $updir) {
 				if($extension_upload == 'jpeg')	$extension_upload = 'jpg';
 				else if($extension_upload == 'tif')	$extension_upload = 'tiff';
 				if($extension_upload != '') $extension_upload = '.'.$extension_upload;
-				$time = utils_microtime();
+				if ($extension !== null)
+				    $extension_upload = $extension;
+				$time = $file_name === null ? utils_microtime() : $file_name;
 				$nom = $updir.'/'.$time.$extension_upload;
 				if(!move_uploaded_file($_FILES[$name]['tmp_name'], $nom))
 					$erreur = 'Unable to save file. Please re-try later!';

@@ -3,7 +3,7 @@
 Merci à: https://lmorel3.fr/2013/08/recuperer-lid-dune-video-dailymotion-youtube-ou-vimeo-via-son-lien-en-php/
 (Page consultée le 20 Juillet 2016 à 16h24 heure de l'Est (GMT-5))
 */
-require_once(__DIR__.'/php/Utils.php');
+require_once(__DIR__.'/utils.php');
 class Video {
 	// Détection de l'ID.
 	static public function parse($link) {

@@ -1,6 +1,7 @@
 <?php
 /* Fichier destiné à être inclus dans ./index.php */
-require_once('priv/admin-template.php');
+require_once(__DIR__.'/admin-template.php');
+require_once (__DIR__.'/../../priv/Data.php');
 $allowedPages = array(
 	// todo configphotos add/update/delete
 	// todo modelphotos add/update/delete

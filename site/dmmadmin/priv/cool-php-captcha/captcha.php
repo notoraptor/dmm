@@ -113,7 +113,7 @@ class SimpleCaptcha {
 	//-
 	static public function generate($text = null) {
 		$captcha = new SimpleCaptcha();
-		$captcha->resourcesPath = server_dir().'/silkadmin/priv/cool-php-captcha/resources';
+		$captcha->resourcesPath = server_dir().'/'.ADMIN_NAME.'/priv/cool-php-captcha/resources';
 		if(!$text) $text = $captcha->getSomeCaptchaText();
 		ob_start();
 		$captcha->CreateImage($text);
@@ -327,7 +327,6 @@ class SimpleCaptcha {
 
         // Full path of font file
         $fontfile = $this->resourcesPath.'/fonts/'.$fontcfg['font'];
-
 
         /** Increase font-size for shortest words: 9% for each glyp missing */
         $lettersMissing = $this->maxWordLength-strlen($text);
