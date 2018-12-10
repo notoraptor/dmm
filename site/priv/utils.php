@@ -119,8 +119,8 @@ class Model extends DatabaseRow {
 	public function id() {return $this->data['model_id'];}
 	public function first_name() {return $this->data['first_name'];}
 	public function last_name() {return $this->data['last_name'];}
-	public function hint() {return $this->data['hint'];}
 	public function trend_rank() {return $this->data['trend_rank'];}
+	public function hint() {return $this->data['hint'];}
 	public function category() {return $this->data['category'];}
 	public function instagram_link() {return $this->data['instagram_link'];}
 	public function video_link() {return $this->data['video_link'];}
@@ -129,6 +129,7 @@ class Model extends DatabaseRow {
 	public function height() {return $this->data['height'];}
 	public function hair() {return $this->data['hair'];}
 	public function eyes() {return $this->data['eyes'];}
+	public function photos() {return $this->data['photos'];}
 }
 
 class Agent extends DatabaseRow {
@@ -140,8 +141,19 @@ class Agent extends DatabaseRow {
 }
 
 class Photo extends DatabaseRow {
+    private $model_id = false;
+    public function __construct($data, $model_id = null) {
+		parent::__construct($data);
+		$this->model_id = $model_id;
+	}
 	public function id() {return $this->data['photo_id'];}
 	public function rank() {return $this->data['photo_rank'];}
+	public function setAsConfig() {$this->model_id = false;}
+	public function setAsModel($model_id) {$this->model_id = $model_id;}
+	public function isConfig() {return !$this->model_id;}
+	public function isModel() {return $this->model_id;}
+	public function getPath() {return $this->model_id ? utils_model_photo($this->model_id, $this->id()) : utils_contact_photo($this->id());}
+	public function getURL() {return utils_as_link($this->getPath());}
 	static function sort(Photo $photo_a, Photo $photo_b) {
 		$t = $photo_a->rank() - $photo_b->rank();
 		if (!$t)
@@ -347,13 +359,13 @@ class Database {
 		return $administrators;
 	}
 	public function config() {
-		$data = $this->oneResult('SELECT '.implode(', ', $GLOBALS['CONFIG_FIELDS']).' FROM '.DB_PREFIX.'configuration');
+		$data = $this->oneResult('SELECT '.implode(', ', CONFIG_FIELDS()).' FROM '.DB_PREFIX.'configuration');
 		return $data ? new Config($data) : false;
 	}
 	public function config_update($config_dict) {
 		$config_query = array();
 		$config_params = array();
-		foreach($GLOBALS['CONFIG_FIELDS'] as $config_field) {
+		foreach(CONFIG_FIELDS() as $config_field) {
 			if (isset($config_dict[$config_field])) {
 				$config_query[] = $config_field.' = ?';
 				$config_params[] = $config_dict[$config_field];
@@ -366,7 +378,7 @@ class Database {
 		$photos = array();
 		$data_photos = $this->secure_query('SELECT * FROM '.DB_PREFIX.'model_photo WHERE model_id = ?', array($id));
 		foreach($data_photos as $row)
-			$photos[] = new Photo($row);
+			$photos[] = new Photo($row, $id);
 		usort($photos, array('Photo', 'sort'));
 		return $photos;
 	}
@@ -449,7 +461,7 @@ class Database {
 		$fields = array();
 		$holders = array();
 		$params = array();
-		foreach($GLOBALS['MODEL_FIELDS'] as $field) {
+		foreach(MODEL_FIELDS() as $field) {
 			if (isset($mainValues[$field])) {
 				$fields[] = $field;
 				$holders[] = '?';
@@ -457,7 +469,7 @@ class Database {
 			}
 		}
 		if (!$fields) return false;
-		$this->secure_modif('INSERT INTO '.DB_PREFIX.'model ('.implode(',', $fields).' VALUES('.implode(',', $holders).')', $params);
+		$this->secure_modif('INSERT INTO '.DB_PREFIX.'model ('.implode(',', $fields).') VALUES('.implode(',', $holders).')', $params);
 		$data = $this->oneResult('SELECT model_id FROM '.DB_PREFIX.'model WHERE first_name = ? AND last_name = ?', array($mainValues['first_name'], $mainValues['last_name']));
 		return $this->model($data['model_id']);
 	}
@@ -503,7 +515,7 @@ class Database {
 		$fields = array();
 		$holders = array();
 		$params = array();
-		foreach($GLOBALS['AGENT_FIELDS'] as $field) {
+		foreach(AGENT_FIELDS() as $field) {
 			if (isset($mainValues[$field])) {
 				$fields[] = $field;
 				$holders[] = '?';
@@ -585,6 +597,22 @@ class Database {
 		$data = $this->secure_query('SELECT sex FROM '.DB_PREFIX.'model');
 		$set = new Set(array());
 		foreach($data as $row) $set->add($row['sex']);
+		$set->add('male');
+		$set->add('female');
+		$set->add('X');
+		print_r($set);
+		return $set;
+	}
+	public function list_hints() {
+		$data = $this->secure_query('SELECT hint FROM '.DB_PREFIX.'model');
+		$set = new Set(array());
+		foreach($data as $row) $set->add($row['hint']);
+		return $set;
+	}
+	public function list_categories() {
+		$data = $this->secure_query('SELECT category FROM '.DB_PREFIX.'model');
+		$set = new Set(array());
+		foreach($data as $row) $set->add($row['category']);
 		return $set;
 	}
 }
@@ -657,7 +685,7 @@ function utils_username_error() {
 }
 
 function utils_posted($name) {
-	if(utils_has_s_post($name) && utils_s_post($name)) return ' value="'.htmlentities(utils_safe_post($name)).'"';
+	if(utils_has_s_post($name) && utils_s_post($name) !== null) return ' value="'.htmlentities(utils_safe_post($name)).'"';
 	return '';
 }
 function utils_input($title, $name, $type = 'text', $others = '', $help = '') {
@@ -665,6 +693,17 @@ function utils_input($title, $name, $type = 'text', $others = '', $help = '') {
 		'<div class="cell name"><label for="'.$name.'">'.$title.'</label></div>'.
 		'<div class="cell value"><input type="'.$type.'" id="'.$name.'" name="'.$name.'"'.utils_posted($name).' '.$others.'/>'.($help == '' ? '' : ' <span class="help">'.$help.'</span>').'</div>'.
 	'</div>';
+}
+function utils_select($title, $name, $options, $others = '', $help = '') {
+    $selected_value = utils_has_s_post($name) ? utils_s_post($name) : null;
+    $text_options = '';
+    foreach ($options as $key => $value) {
+        $text_options .= '<option '.($key === $selected_value ? 'selected' : '').' value="'.$key.'">'.$value.'</option>';
+    }
+	return '<div class="row">'.
+		'<div class="cell name"><label for="'.$name.'">'.$title.'</label></div>'.
+		'<div class="cell value"><select id="'.$name.'" name="'.$name.'"'.' '.$others.'>'.$text_options.'</select>'.($help == '' ? '' : ' <span class="help">'.$help.'</span>').'</div>'.
+		'</div>';
 }
 function utils_required_input($title, $name, $type = 'text', $others = '', $help = '') {
 	return utils_input($title.' <span class="required">*</span>', $name, $type, $others, $help);

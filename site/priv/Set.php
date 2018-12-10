@@ -5,7 +5,7 @@ class Set {
 		$this->add($list);
 	}
 	public function add($list) {
-		if(is_array($list)) foreach($list as $element) if($element != '') $this->set[$element] = null;
+		if(is_array($list)) {foreach($list as $element) if($element != '') $this->set[$element] = null;}
 		else if($list != '') $this->set[$list] = null;
 	}
 	public function values() {
