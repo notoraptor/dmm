@@ -1,8 +1,4 @@
 configuration
-    # home_photo_1
-    # home_photo_2
-    # submission_photo
-    # submission_bottom_photo
     home_text_left
     home_text_right
     home_text_bottom
@@ -43,8 +39,8 @@ Nomenclature:
     Folder `data`
     Home photo 1: home_1.{ext}
     Home photo 2: home_2.{ext}
-    Submission photo: submission.{ext}
-    Submission bottom photo: submission_bottom.{ext}
+    (done) Submission photo: submission.{ext}
+    (done) Submission bottom photo: submission_bottom.{ext}
     Model photo: model_{model_id}_{photo_id}.{ext}
     Contact photo: contact_{photo_id}.{ext}
-    Model card: card_{model_id}.{ext}
+    TODO Model card: card_{model_id}.{ext}

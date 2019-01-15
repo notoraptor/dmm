@@ -29,7 +29,7 @@ foreach($models as &$model) {
 				<span class="instalink"><a target="_blank" href="<?php echo $model->instagram_link();?>"><img src="<?php echo server_http()?>/data/main/instagram-gold.svg"/></a></span>
 				<?php } ?>
 			</div>
-			<div><a href="index.php?panel=modelportfolio&id=<?php echo $model->model_id;?>">Portfolio</a></div>
+			<div><a href="index.php?panel=modelportfolio&id=<?php echo $model->id();?>">Portfolio</a></div>
 			<div>
 				<a style="color:red;"
                    href="index.php?panel=deletemodel&id=<?php echo $model->id();?>"

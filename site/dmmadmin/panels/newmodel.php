@@ -1,4 +1,5 @@
 <?php
+require_once (__DIR__.'/../../priv/videodetection.php');
 $db = new Database();
 $model = false;
 
@@ -41,7 +42,17 @@ if(!empty($_POST)) {
 	else {
 		$model = $db->model_create($values);
 		if(!$model) utils_message_add_error('Ce prénom et ce nom correspondent déjà à un modèle.');
-		else utils_message_add_success('Le modèle '.$prenom.' '.$nom.' a été créé. <a href="index.php?panel=newmodel">Créer un autre modèle.</a>');
+		else {
+		    utils_message_add_success('Le modèle '.$first_name.' '.$last_name.' a été créé. <a href="index.php?panel=newmodel">Créer un autre modèle.</a>');
+			$title = 'Model card';
+			$name = 'model_card';
+			if (isset($_FILES[$name]) && $_FILES[$name]['name']) {
+				$uploaded = utils_upload($name, DIR_DB(), utils_model_card_name($model->id()), 'pdf', array('pdf'));
+				$error = $uploaded['error'];
+				if($error)
+					utils_message_add_error("Erreur interne: impossible d'enregistrer la model card. ".$error);
+			}
+		}
 	}
 	if (!$model) {
 		$_POST = $values;
@@ -56,7 +67,7 @@ if($model) {
 } else {
 ?><h2><a href="index.php?panel=models">Modèles</a> / Créer un nouveau modèle</h2>
 <div class="newmodel">
-<form method="post" onsubmit="careful(['video_link', 'instagram_link']);">
+<form method="post" onsubmit="careful(['video_link', 'instagram_link']);" enctype="multipart/form-data">
 <fieldset>
 <legend>Création d'un nouveau modèle.</legend>
 <p>Veuillez créer un nouveau modèle en définissant les infos élémentaires. Vous pourrez ensuite modifier toutes les données du modèle après sa création.</p>
@@ -75,6 +86,7 @@ if($model) {
 	echo utils_input('Hauteur [height]', 'height', 'text', '');
 	echo utils_input('Couleur des cheveux [hair]', 'hair', 'text', 'list="current-hairs"', $help);
 	echo utils_input('Couleur des yeux [eyes]', 'eyes', 'text', 'list="current-eyes"', $help);
+	echo utils_input('Model card (PDF)', 'model_card', 'file');
 	echo utils_datalist('current-hairs', $db->list_hairs());
 	echo utils_datalist('current-eyes', $db->list_eyes());
 	echo utils_datalist('current-hints', $db->list_hints());

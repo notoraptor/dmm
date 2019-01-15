@@ -1,5 +1,20 @@
 <?php
 require_once('../priv/videodetection.php');
+
+function get_photo_field($title, $name, $photo_name, $photo_getter) {
+	if (isset($_FILES[$name]) && $_FILES[$name]['name']) {
+		$previous = $photo_getter();
+		$uploaded = utils_upload($name, DIR_DB(), $photo_name);
+		$error = $uploaded['error'];
+		if(!$error) {
+			utils_message_add_success('Mise à jour: '.$title);
+			if ($previous && $previous != $photo_getter())
+				unlink($previous);
+		} else
+			utils_message_add_error('Erreur interne: impossible de mettre à jour: '.$title.'. '.$error);
+	}
+}
+
 $db = new Database();
 if(!empty($_POST)) {
 	$home_text_left = utils_safe_post('home_text_left');
@@ -9,17 +24,12 @@ if(!empty($_POST)) {
 	$submission_title = utils_safe_post('submission_title');
 	$submission_text = utils_safe_post('submission_text');
 	$submission_bottom_photo_text = utils_safe_post('submission_bottom_photo_text');
-	if (isset($_FILES['submission_bottom_photo']) && $_FILES['submission_bottom_photo']['name']) {
-	    $previous = utils_submission_bottom_photo();
-	    $uploaded = utils_upload('submission_bottom_photo', DIR_DB(), utils_submission_bottom_photo_name());
-		$error = $uploaded['error'];
-	    if(!$error) {
-			utils_message_add_success('La nouvelle photo en base de la page de soumission a été mise en ligne.');
-			if ($previous)
-			    unlink($previous);
-		} else
-			utils_message_add_error('Erreur interne: impossible de mettre en ligne la nouvelle photo en bas de l page de soumission. '.$error);
-    }
+
+	get_photo_field('Home photo 1', 'home_photo_1', utils_home_photo_1_name(), 'utils_home_photo_1');
+	get_photo_field('Home photo 2', 'home_photo_2', utils_home_photo_2_name(), 'utils_home_photo_2');
+	get_photo_field('Submission photo', 'submission_photo', utils_submission_photo_name(), 'utils_submission_photo');
+	get_photo_field('Submission bottom photo', 'submission_bottom_photo', utils_submission_bottom_photo_name(), 'utils_submission_bottom_photo');
+
 	$contact_video = hex2bin(utils_safe_post('contact_video'));
 	if($contact_video && (!utils_valid_url($contact_video) || !Video::parse($contact_video)))
 		utils_message_add_error("Le lien vidéo est invalide.");
@@ -54,6 +64,19 @@ $_POST = array(
 	'submission_text' => utils_safe_post('submission_text', $config->submission_text()),
 	'submission_bottom_photo_text' => utils_safe_post('submission_bottom_photo_text', $config->submission_bottom_photo_text()),
 );
+
+function add_photo_field($title, $name, $current_photo) {
+	echo utils_input($title, $name, 'file');
+	if ($current_photo) {
+		echo '<div class="row">'.
+			'<div class="cell name">['.$title.'] current</div>'.
+			'<div class="cell value">'.
+			'<img style="max-width: 200px; max-height: 200px" src="'.utils_as_link($current_photo).'"/>'.
+			'</div>'.
+			'</div>';
+	}
+}
+
 ?>
 <div class="configuration">
 <form method="post" onsubmit="wrap();" enctype="multipart/form-data">
@@ -69,16 +92,11 @@ $_POST = array(
 		echo utils_textarea('Submission title','submission_title');
 		echo utils_textarea('Submission text','submission_text');
 		echo utils_textarea('Submission bottom photo text','submission_bottom_photo_text');
-		echo utils_input('Submission bottom photo', 'submission_bottom_photo', 'file');
-		$submission_bottom_photo = utils_submission_bottom_photo();
-		if ($submission_bottom_photo) {
-		    echo '<div class="row">'.
-                '<div class="cell name">Current bottom photo</div>'.
-                '<div class="cell value">'.
-                    '<img style="max-width: 200px; max-height: 200px" src="'.utils_as_link($submission_bottom_photo).'"/>'.
-                '</div>'.
-                '</div>';
-        }
+
+		add_photo_field('Home photo 1', 'home_photo_1', utils_home_photo_1());
+		add_photo_field('Home photo 2', 'home_photo_2', utils_home_photo_2());
+		add_photo_field('Submission photo', 'submission_photo', utils_submission_photo());
+		add_photo_field('Submission bottom photo', 'submission_bottom_photo', utils_submission_bottom_photo());
 		?>
 	</div>
 	<div><input type="submit" value="Mettre à jour"/></div>

@@ -2,21 +2,20 @@
 function template($data) {
 if (!session_id()) session_start();
 if ($data->meta_description == '')
-	$data->meta_description = 'SILK fashion modeling agency, official website';
+	$data->meta_description = 'DMM diversity montreal fashion modeling agency, official website';
 if ($data->meta_keywords == '') {
 	$data->meta_keywords = implode(',', array(
-		'fashion', 'modeling agency', 'silk', 'photography', 'booking', 'montreal', 'modeling', 'agency', 'model',
-		'models', 'silk girl', 'silk man', 'silk team', 'silkgirl', 'silkteam'
+		'fashion', 'modeling agency', 'silk', 'photography', 'booking', 'diversity', 'montreal', 'modeling',
+        'agency', 'model', 'models', 'dmm girl', 'dmm man', 'dmm team', 'silkgirl', 'silkteam', 'diversity montreal'
 	));
 }
 $menu_titles = array('ABOUT', 'MODELS', 'CONTACTS');
-$menu_names = array('home', 'models', 'contacts');
+$menu_names = array('index', 'models', 'contacts');
 $count_menu = count($menu_titles);
 ob_start();
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
-    <base href="<?php echo server_http(); ?>/"/>
     <meta charset="UTF-8"/>
     <meta name="description" content="<?php echo $data->meta_description; ?>"/>
     <meta name="keywords" content="<?php echo $data->meta_keywords; ?>"/>
@@ -24,7 +23,7 @@ ob_start();
     <title><?php echo $data->title; ?></title>
     <link rel="shortcut icon" type="image/x-icon" href="data/main/favicon.ico"/><!-- TODO favicon -->
     <link rel="icon" type="image/x-icon" href="data/main/favicon.ico"/>
-    <link rel="stylesheet" href="lib/css/bootstrap.css"/>
+    <link rel="stylesheet" href="css/bootstrap.css"/>
     <link rel="stylesheet" href="css/style.css"/>
 	<?php if ($data->head != '') echo $data->head; ?>
 </head>
@@ -41,10 +40,9 @@ ob_start();
 			$menu_name = $menu_names[$i];
 			?>
             <div class="col-md menu py-2 py-md-0">
-				<?php if ($data->pagename != $menu_name) { ?>
-                <a href="<?php echo $menu_name.'.php'; ?>"><?php } ?>
-					<?php echo $menu_title; ?>
-					<?php if ($data->pagename != $menu_name) { ?></a><?php } ?>
+				<?php if ($data->pagename != $menu_name) { ?><a href="<?php echo $menu_name.'.php'; ?>"><?php } ?>
+                <?php echo $menu_title; ?>
+                <?php if ($data->pagename != $menu_name) { ?></a><?php } ?>
             </div>
 			<?php
 		} ?>
@@ -57,12 +55,11 @@ ob_start();
 		<?php echo $data->content; ?>
     </div>
 </div>
-<script type="text/javascript" src="lib/js/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="lib/js/popper.min.js"></script>
-<script type="text/javascript" src="lib/js/bootstrap.js"></script>
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="js/popper.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
 <?php if ($data->scripts != '') echo $data->scripts; ?>
-<script type="text/javascript" src="js/AnimateScroll.min.js"></script>
-<script type="text/javascript"><!--
+<script type="text/javascript">//<!--
     document.body.onload = function () {
         // Gestion des éléments survolables pour iPhone et les appareils mobiles.
         var hoverables = document.getElementsByClassName('hoverable');
@@ -71,13 +68,12 @@ ob_start();
             var hoverable = hoverables[x];
             if (!hoverable.onclick) {
                 hoverable.onclick = function () {
-                    void(0);
-                    //console.log('clicked');
+                    void(0); //console.log('clicked');
                 };
             }
         }
     }
-    //--></script>
+//--></script>
 </body>
 </html><?php
 $content = ob_get_contents();

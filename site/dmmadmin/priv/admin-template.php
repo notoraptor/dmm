@@ -11,7 +11,6 @@ ob_start();?><!DOCTYPE html>
 	</head>
 	<body>
 	<div class="page">
-		<div class="before"><?php echo $data->before;?></div>
 		<div class="messages"><?php echo $data->messages;?></div>
 		<div class="content"><?php echo $data->content;?></div>
 	</div>

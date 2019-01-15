@@ -78,18 +78,37 @@ function utils_submission_photo_name() {return 'submission';}
 function utils_submission_bottom_photo_name() {return 'submission_bottom';}
 function utils_model_photo_prefix($model_id) {return 'model_'.$model_id;}
 function utils_model_photo_name($model_id, $photo_id) {return utils_model_photo_prefix($model_id).'_'.$photo_id;}
+function utils_model_card_name($model_id) {return 'card_'.$model_id.'.pdf';}
 function utils_contact_photo_prefix() {return 'contact';}
 function utils_contact_photo_name($photo_id) {return utils_contact_photo_prefix().'_'.$photo_id;}
+
 function utils_home_photo_1() {return utils_photo(DIR_DB(), utils_home_photo_1_name());}
 function utils_home_photo_2() {return utils_photo(DIR_DB(), utils_home_photo_2_name());}
 function utils_submission_photo() {return utils_photo(DIR_DB(), utils_submission_photo_name());}
 function utils_submission_bottom_photo() {return utils_photo(DIR_DB(), utils_submission_bottom_photo_name());}
 function utils_model_photo($model_id, $photo_id) {return utils_photo(DIR_DB(), utils_model_photo_name($model_id, $photo_id));}
 function utils_model_photos($model_id) {return utils_photos(DIR_DB(), utils_model_photo_prefix($model_id));}
+function utils_model_card($model_id) {
+    $path = DIR_DB().'/'.utils_model_card_name($model_id);
+    return is_file($path) ? $path: false;
+}
 function utils_contact_photo($photo_id) {return utils_photo(DIR_DB(), utils_contact_photo_name($photo_id));}
 function utils_contact_photos() {return utils_photos(DIR_DB(), utils_contact_photo_prefix());}
 
 function utils_as_link($path) {return str_replace(server_dir(), server_http(), $path);}
+
+function utils_array_to_lines($table, $line_length) {
+	$lines = array();
+	$count_elements = count($table);
+	for ($i = 0; $i < $count_elements; ++$i) {
+		if ($i % $line_length == 0) {
+			$lines[] = array();
+		}
+		$lines[count($lines) - 1][] = $table[$i];
+	}
+	return $lines;
+}
+
 
 class DatabaseRow {
 	protected $data = array();
@@ -130,6 +149,17 @@ class Model extends DatabaseRow {
 	public function hair() {return $this->data['hair'];}
 	public function eyes() {return $this->data['eyes'];}
 	public function photos() {return $this->data['photos'];}
+	public function full_name() {return $this->first_name().' '.$this->last_name();}
+	public function to_post() {
+	    $post = array();
+	    foreach(MODEL_FIELDS() as $field) $post[$field] = $this->data[$field];
+	    unset($post['model_id']);
+	    return $post;
+    }
+    public function get_profile_photo() {
+	    $photos = $this->photos();
+	    return $photos ? $photos[0]->getURL() : null;
+    }
 }
 
 class Agent extends DatabaseRow {
@@ -138,6 +168,13 @@ class Agent extends DatabaseRow {
 	public function last_name() {return $this->data['last_name'];}
 	public function role() {return $this->data['role'];}
 	public function email() {return $this->data['email'];}
+	public function full_name() {return $this->first_name().' '.$this->last_name();}
+	public function to_post() {
+		$post = array();
+		foreach(AGENT_FIELDS() as $field) $post[$field] = $this->data[$field];
+		unset($post['agent_id']);
+		return $post;
+	}
 }
 
 class Photo extends DatabaseRow {
@@ -382,14 +419,25 @@ class Database {
 		usort($photos, array('Photo', 'sort'));
 		return $photos;
 	}
-	public function model_photo_add($model_id, $photo_rank) {
+	public function model_photos_max_rank($model_id) {
+	    $data = $this->secure_query('SELECT MAX(photo_rank) AS max_rank FROM '.DB_PREFIX.'model_photo WHERE model_id = ?', array($model_id));
+	    return $data && $data[0]['max_rank'] ? $data[0]['max_rank'] : 0;
+    }
+	public function model_photo_add($model_id) {
+	    $photo_rank = $this->model_photos_max_rank($model_id) + 1;
 		$this->secure_modif('INSERT INTO '.DB_PREFIX.'model_photo (model_id, photo_rank) VALUES (?,?)', array($model_id, $photo_rank));
-		$photo_id = $this->bdd->lastInsertId();
-		$this->model_photo_update($model_id, $photo_id, $photo_rank);
+		return $this->bdd->lastInsertId();
 	}
 	public function model_photo_delete($model_id, $photo_id) {
 		$this->secure_modif('DELETE FROM '.DB_PREFIX.'model_photo WHERE model_id = ? AND photo_id = ?', array($model_id, $photo_id));
-		// todo delete photo on disk
+		$link = utils_model_photo($model_id, $photo_id);
+		if ($link)
+		    unlink($link);
+		$photos = $this->model_photos($model_id);
+		for ($i = 0; $i < count($photos); ++$i) {
+			$this->secure_modif('UPDATE '.DB_PREFIX.'model_photo SET photo_rank = ? WHERE model_id = ? AND photo_id = ?', array($i, $model_id, $photos[$i]->id()));
+		}
+		return $link;
 	}
 	public function model_photo_update($model_id, $photo_id, $photo_rank) {
 		$photos = $this->model_photos($model_id);
@@ -419,7 +467,7 @@ class Database {
 			}
 		}
 		for ($i = 0; $i < count($other_photos); ++$i) {
-			$this->secure_modif('UPDATE '.DB_PREFIX.'model_photo SET photo_rank = ? WHERE model_id = ? AND photo_id = ?', array($i, $model_id, $photo_id));
+			$this->secure_modif('UPDATE '.DB_PREFIX.'model_photo SET photo_rank = ? WHERE model_id = ? AND photo_id = ?', array($i, $model_id, $other_photos[$i]->id()));
 		}
 	}
 	public function model_exists($id) {
@@ -432,7 +480,7 @@ class Database {
 		return new Model($data);
 	}
 	public function models() {
-		$data = $this->secure_query('SELECT * FROM '.DB_PREFIX.'model');
+		$data = $this->secure_query('SELECT * FROM '.DB_PREFIX.'model ORDER BY trend_rank ASC, model_id ASC');
 		$models = array();
 		// Vidéos.
 		$countModels = count($data);
@@ -475,7 +523,11 @@ class Database {
 	}
 	public function model_delete($id) {
 		$this->secure_modif('DELETE FROM '.DB_PREFIX.'model WHERE model_id = ?', array($id));
-		// TODO delete model photos.
+		$model_card = utils_model_card($id);
+		if ($model_card)
+		    unlink($model_card);
+		$photos = utils_model_photos($id);
+		if ($photos) foreach($photos as $photo) unlink($photo);
 		return true;
 	}
 	public function agent_exists($id) {
@@ -523,7 +575,7 @@ class Database {
 			}
 		}
 		if (!$fields) return false;
-		$this->secure_modif('INSERT INTO '.DB_PREFIX.'agent ('.implode(',', $fields).' VALUES('.implode(',', $holders).')', $params);
+		$this->secure_modif('INSERT INTO '.DB_PREFIX.'agent ('.implode(',', $fields).') VALUES('.implode(',', $holders).')', $params);
 		$data = $this->oneResult('SELECT agent_id FROM '.DB_PREFIX.'agent WHERE first_name = ? AND last_name = ?', array($mainValues['first_name'], $mainValues['last_name']));
 		return $this->agent($data['agent_id']);
 	}
@@ -539,14 +591,25 @@ class Database {
 		usort($photos, array('Photo', 'sort'));
 		return $photos;
 	}
-	public function contact_photo_add($photo_rank) {
+	public function contact_photos_max_rank() {
+		$data = $this->secure_query('SELECT MAX(photo_rank) AS max_rank FROM '.DB_PREFIX.'contact_photo');
+		return $data && $data[0]['max_rank'] ? $data[0]['max_rank'] : 0;
+	}
+	public function contact_photo_add() {
+		$photo_rank = $this->contact_photos_max_rank() + 1;
 		$this->secure_modif('INSERT INTO '.DB_PREFIX.'contact_photo (photo_rank) VALUES (?)', array($photo_rank));
-		$photo_id = $this->bdd->lastInsertId();
-		$this->contact_photo_update($photo_id, $photo_rank);
+		return $this->bdd->lastInsertId();
 	}
 	public function contact_photo_delete($photo_id) {
 		$this->secure_modif('DELETE FROM '.DB_PREFIX.'contact_photo WHERE photo_id = ?', array($photo_id));
-		// todo delete photo on disk
+		$link = utils_contact_photo($photo_id);
+		if ($link)
+			unlink($link);
+		$photos = $this->contact_photos();
+		for ($i = 0; $i < count($photos); ++$i) {
+			$this->secure_modif('UPDATE '.DB_PREFIX.'contact_photo SET photo_rank = ? WHERE photo_id = ?', array($i, $photos[$i]->id()));
+		}
+		return $link;
 	}
 	public function contact_photo_update($photo_id, $photo_rank) {
 		$photos = $this->contact_photos();
@@ -576,7 +639,7 @@ class Database {
 			}
 		}
 		for ($i = 0; $i < count($other_photos); ++$i) {
-			$this->secure_modif('UPDATE '.DB_PREFIX.'contact_photo SET photo_rank = ? WHERE photo_id = ?', array($i, $photo_id));
+			$this->secure_modif('UPDATE '.DB_PREFIX.'contact_photo SET photo_rank = ? WHERE photo_id = ?', array($i, $other_photos[$i]->id()));
 		}
 	}
 	public function list_hairs() {
@@ -584,6 +647,12 @@ class Database {
 		$set = new Set(array());
 		foreach($data as $row) $set->add($row['hair']);
 		$set->add(array('black', 'brown', 'blond', 'auburn', 'chestnut', 'red', 'gray', 'white'));
+		return $set;
+	}
+	public function list_roles() {
+		$data = $this->secure_query('SELECT role FROM '.DB_PREFIX.'agent');
+		$set = new Set(array());
+		foreach($data as $row) $set->add($row['role']);
 		return $set;
 	}
 	public function list_eyes() {
@@ -600,7 +669,6 @@ class Database {
 		$set->add('male');
 		$set->add('female');
 		$set->add('X');
-		print_r($set);
 		return $set;
 	}
 	public function list_hints() {
@@ -814,20 +882,25 @@ function utils_microtime() {
 	return bcadd($realsec, $realmicro, 0);
 }
 
-function utils_upload($name, $updir, $file_name = null, $extension = null) {
+function utils_upload(
+        $name,
+        $updir,
+        $file_name = null,
+        $extension = null,
+        $allowed_extensions = array(
+                'jpg', 'jpeg', 'gif', 'png', 'tif' , 'tiff', 'bmp', 'pdf', 'doc', 'docx', 'rtf', 'odt')) {
 	// Testons si le fichier a bien été envoyé et s'il n'y a pas d'erreur
 	$nom = '';
 	$erreur = '';
 	if (isset($_FILES[$name]) AND $_FILES[$name]['error'] == UPLOAD_ERR_OK) {
 		// Testons si le fichier n'est pas trop gros.
-		$tailleMaximale = 2*1024*1024; // 64 Mo.
+		$tailleMaximale = 64*1024*1024; // 64 Mo.
 		if ($_FILES[$name]['size'] <= $tailleMaximale) {
 			// Testons si l'extension est autorisée
 			$infosfichier = pathinfo($_FILES[$name]['name']);
 			$extension_upload = "";
 			if(isset($infosfichier['extension'])) $extension_upload = strtolower($infosfichier['extension']);
-			$extensions_autorisees = array('jpg', 'jpeg', 'gif', 'png', 'tif' , 'tiff', 'bmp', 'pdf', 'doc', 'docx', 'rtf', 'odt');
-			if (in_array($extension_upload, $extensions_autorisees)) {
+			if (in_array($extension_upload, $allowed_extensions)) {
 				// On peut valider le fichier et le stocker définitivement
 				if($extension_upload == 'jpeg')	$extension_upload = 'jpg';
 				else if($extension_upload == 'tif')	$extension_upload = 'tiff';
@@ -838,7 +911,7 @@ function utils_upload($name, $updir, $file_name = null, $extension = null) {
 				$nom = $updir.'/'.$time.$extension_upload;
 				if(!move_uploaded_file($_FILES[$name]['tmp_name'], $nom))
 					$erreur = 'Unable to save file. Please re-try later!';
-			} else $erreur = "Disalloed file extension (.".$extension_upload.") ".( empty($extensions_autorisees) ? "" : "Allowed extensions: .".implode(', .',$extensions_autorisees));
+			} else $erreur = "Disalloed file extension (.".$extension_upload.") ".( empty($allowed_extensions) ? "" : "Allowed extensions: .".implode(', .',$allowed_extensions));
 		} else $erreur = ("Fils is too big (expected at most ".($tailleMaximale/1024/1024)." Mb).");
 	} else $erreur = ("Error ".$_FILES[$name]['error'].": missing file field ($name).");
 	return array('file' => $nom, 'error' => $erreur);

@@ -1,7 +1,7 @@
 <?php
 require_once('server_infos.php');
 require_once('priv/utils.php');
-require_once('priv/template.php');
+require_once('priv/_template.php');
 $db = new Database();
 $data = new FrontData($db);
 $config = $data->getConfig();

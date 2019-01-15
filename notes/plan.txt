@@ -6,9 +6,9 @@ index
     logo
     photo 1
     photo 2
-    text: Montreal's sexiest street casting agency
-    text "lorem ipsum"
-    lien email: info@diversitymontreal.com + numéro de téléphone 514 904 0075
+    text left: Montreal's sexiest street casting agency
+    text right "lorem ipsum"
+    text bottom: lien email: info@diversitymontreal.com + numéro de téléphone 514 904 0075
 models
     menu
     page menu:

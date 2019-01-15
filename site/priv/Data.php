@@ -1,14 +1,14 @@
 <?php
 class Data {
-	public $title = '';
-	public $head = '';
-	public $before = '';
-	public $messages = '';
-	public $content = '';
-	public $scripts = '';
 	public $meta_description = '';
 	public $meta_keywords = '';
-    public $show_menu = true;
+	public $title = '';
+	public $head = '';
+	public $pagename = '';
+	public $messages = '';
+	public $show_menu = true;
+	public $content = '';
+	public $scripts = '';
 	public function __construct() {
 		if(session_id()) {
 			if(isset($_SESSION['messages'])) {
