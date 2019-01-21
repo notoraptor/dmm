@@ -46,10 +46,3 @@ submission
     texte: L'agence pour les gens trop cool pour être mannequins
     texte: Les auditions ont lieu au 270 st catherine Ouest suite 3. Presentez vous directement sans rendez vous. Soyez naturel, légé maquillage et pas de vêtements amples. Prevoyez au moins 30 min. Frais d'audition 20$+tx. Pour gens serieux seulement.
     image + texte: Open Call
-
-notes model
-    grandeur
-    age
-    sexe
-    couleur de cheveux
-    couleur d'yeux

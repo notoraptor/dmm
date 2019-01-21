@@ -39,7 +39,7 @@ if(!empty($_POST)) {
 		        'home_text_right' => $home_text_right,
 		        'home_text_bottom' => $home_text_bottom,
 		        'contact_text' => $contact_text,
-		        'submisssion_title' => $submission_title,
+		        'submission_title' => $submission_title,
 		        'submission_text' => $submission_text,
 		        'submission_bottom_photo_text' => $submission_bottom_photo_text,
 		        'contact_video' => $contact_video,
@@ -93,10 +93,10 @@ function add_photo_field($title, $name, $current_photo) {
 		echo utils_textarea('Submission text','submission_text');
 		echo utils_textarea('Submission bottom photo text','submission_bottom_photo_text');
 
+		add_photo_field('Submission bottom photo', 'submission_bottom_photo', utils_submission_bottom_photo());
+		add_photo_field('Submission photo', 'submission_photo', utils_submission_photo());
 		add_photo_field('Home photo 1', 'home_photo_1', utils_home_photo_1());
 		add_photo_field('Home photo 2', 'home_photo_2', utils_home_photo_2());
-		add_photo_field('Submission photo', 'submission_photo', utils_submission_photo());
-		add_photo_field('Submission bottom photo', 'submission_bottom_photo', utils_submission_bottom_photo());
 		?>
 	</div>
 	<div><input type="submit" value="Mettre à jour"/></div>

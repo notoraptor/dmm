@@ -1,7 +1,7 @@
 <?php
 class Data {
-	public $meta_description = '';
-	public $meta_keywords = '';
+	public $meta_description = array();
+	public $meta_keywords = array();
 	public $title = '';
 	public $head = '';
 	public $pagename = '';

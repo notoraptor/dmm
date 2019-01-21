@@ -9,6 +9,7 @@ $allowedPages = array(
 	'agents',
 	'newagent',
 	'deleteagent',
+	'deletecompcard',
 	'deletemodel',
 	'model',
 	'modelphoto',

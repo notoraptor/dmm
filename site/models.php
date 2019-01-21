@@ -11,8 +11,6 @@ $models_lines = utils_array_to_lines($models, 4);
 $model_categories = $db->list_categories();
 $config = $db->config();
 $data = new Data();
-$home_photo_1 = utils_home_photo_1();
-$home_photo_2 = utils_home_photo_2();
 
 capture_start();
 ?>

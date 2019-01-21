@@ -26,7 +26,28 @@ $GLOBALS['MODEL_FIELDS'] = array(
 	"sex",
 	'height',
 	'hair',
-	'eyes'
+	'eyes',
+	'adresse',
+	'ville',
+	'code_postal',
+	'telephone',
+	'cellulaire',
+	'courriel',
+	'nationalite',
+	'langue',
+	'date_inscription',
+	'date_naissance',
+	'numero_uda_actra',
+	'poids',
+	'taille',
+	'taille_chandail',
+	'taille_chaussures',
+	'taille_hanches',
+	'taille_pantalon',
+	'taille_poitrine',
+	'taille_robe',
+	'taille_veston',
+	'talents'
 );
 
 $GLOBALS['AGENT_FIELDS'] = array(
@@ -45,6 +66,28 @@ function MODEL_FIELDS() {return $GLOBALS['MODEL_FIELDS'];}
 function AGENT_FIELDS() {return $GLOBALS['AGENT_FIELDS'];}
 function DIR_DB() {return $GLOBALS['DIR_DB'];}
 function DIR_DB_MAIN() {return $GLOBALS['DIR_DB_MAIN'];}
+
+function utils_meta_description($keep = true, $more = array()) {
+    $terms = array();
+    foreach($more as $term) $terms[] = $term;
+    if ($keep) {
+        $terms = array_merge($terms, array('DMM diversity montreal fashion modeling agency', 'official website'));
+    }
+    return implode(',', $terms);
+}
+
+function utils_meta_keywords($keep = true, $more = array()) {
+	$terms = array();
+	foreach($more as $term) $terms[] = $term;
+	if ($keep) {
+		$terms = array_merge($terms, array(
+		        'fashion', 'modeling agency', 'silk', 'photography', 'booking', 'diversity', 'montreal', 'modeling',
+            'agency', 'model', 'models', 'dmm girl', 'dmm man', 'dmm team', 'silkgirl', 'silkteam',
+            'diversity montreal'
+        ));
+	}
+	return implode(',', $terms);
+}
 
 function utils_photo($folder, $name) {
     $files = scandir($folder);
@@ -78,7 +121,7 @@ function utils_submission_photo_name() {return 'submission';}
 function utils_submission_bottom_photo_name() {return 'submission_bottom';}
 function utils_model_photo_prefix($model_id) {return 'model_'.$model_id;}
 function utils_model_photo_name($model_id, $photo_id) {return utils_model_photo_prefix($model_id).'_'.$photo_id;}
-function utils_model_card_name($model_id) {return 'card_'.$model_id.'.pdf';}
+function utils_model_card_name($model_id) {return 'card_'.$model_id;}
 function utils_contact_photo_prefix() {return 'contact';}
 function utils_contact_photo_name($photo_id) {return utils_contact_photo_prefix().'_'.$photo_id;}
 
@@ -89,7 +132,7 @@ function utils_submission_bottom_photo() {return utils_photo(DIR_DB(), utils_sub
 function utils_model_photo($model_id, $photo_id) {return utils_photo(DIR_DB(), utils_model_photo_name($model_id, $photo_id));}
 function utils_model_photos($model_id) {return utils_photos(DIR_DB(), utils_model_photo_prefix($model_id));}
 function utils_model_card($model_id) {
-    $path = DIR_DB().'/'.utils_model_card_name($model_id);
+    $path = DIR_DB().'/'.utils_model_card_name($model_id).'.pdf';
     return is_file($path) ? $path: false;
 }
 function utils_contact_photo($photo_id) {return utils_photo(DIR_DB(), utils_contact_photo_name($photo_id));}
@@ -135,6 +178,11 @@ class Config extends DatabaseRow  {
 }
 
 class Model extends DatabaseRow {
+	public function __construct($data) {
+		parent::__construct($data);
+		$this->_manage_date('date_naissance');
+		$this->_manage_date('date_inscription');
+	}
 	public function id() {return $this->data['model_id'];}
 	public function first_name() {return $this->data['first_name'];}
 	public function last_name() {return $this->data['last_name'];}
@@ -149,17 +197,48 @@ class Model extends DatabaseRow {
 	public function hair() {return $this->data['hair'];}
 	public function eyes() {return $this->data['eyes'];}
 	public function photos() {return $this->data['photos'];}
+	public function date_naissance_year() {return $this->data['date_naissance_year'];}
+	public function date_naissance_month() {return $this->data['date_naissance_month'];}
+	public function date_naissance_day() {return $this->data['date_naissance_day'];}
+	public function date_inscription_year() {return $this->data['date_inscription_year'];}
+	public function date_inscription_month() {return $this->data['date_inscription_month'];}
+	public function date_inscription_day() {return $this->data['date_inscription_day'];}
 	public function full_name() {return $this->first_name().' '.$this->last_name();}
 	public function to_post() {
 	    $post = array();
 	    foreach(MODEL_FIELDS() as $field) $post[$field] = $this->data[$field];
 	    unset($post['model_id']);
+	    unset($post['date_naissance']);
+	    unset($post['date_inscription']);
+	    $post['date_naissance_year'] = $this->data['date_naissance_year'];
+	    $post['date_naissance_month'] = $this->data['date_naissance_month'];
+	    $post['date_naissance_day'] = $this->data['date_naissance_day'];
+		$post['date_inscription_year'] =  $this->data['date_inscription_year'];
+		$post['date_inscription_month'] = $this->data['date_inscription_month'];
+		$post['date_inscription_day'] =   $this->data['date_inscription_day'];
 	    return $post;
     }
     public function get_profile_photo() {
 	    $photos = $this->photos();
 	    return $photos ? $photos[0]->getURL() : null;
     }
+	private function _manage_date($name) {
+		if(array_key_exists($name, $this->data)) {
+			if(!$this->data[$name])
+				$this->data[$name] = '1900-01-01';
+			$pieces = preg_split('/[^0-9]+/', $this->data[$name]);
+			if(count($pieces) == 3) {
+				$year = utils_get_integer($pieces[0]);
+				$month = utils_get_integer($pieces[1]);
+				$day = utils_get_integer($pieces[2]);
+				if($year && $month && $day) {
+					$this->data[$name.'_year'] = $year;
+					$this->data[$name.'_month'] = $month;
+					$this->data[$name.'_day'] = $day;
+				}
+			};
+		}
+	}
 }
 
 class Agent extends DatabaseRow {
@@ -312,12 +391,27 @@ class Database {
 	}
 	private function alterer_tables() {
 		$alterations = array(
-			/*
-			array(
-				'SHOW COLUMNS FROM '.DB_PREFIX.'model LIKE \'article_content\'',
-				'ALTER TABLE '.DB_PREFIX.'model ADD article_content TEXT',
-			),
-			*/
+			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'adresse'", 'ALTER TABLE '.DB_PREFIX.'model ADD adresse VARCHAR(512)'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'ville'", 'ALTER TABLE '.DB_PREFIX.'model ADD ville VARCHAR(255)'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'code_postal'", 'ALTER TABLE '.DB_PREFIX.'model ADD code_postal VARCHAR(255)'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'telephone'", 'ALTER TABLE '.DB_PREFIX.'model ADD telephone VARCHAR(255)'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'cellulaire'", 'ALTER TABLE '.DB_PREFIX.'model ADD cellulaire VARCHAR(255)'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'courriel'", 'ALTER TABLE '.DB_PREFIX.'model ADD courriel VARCHAR(255)'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'nationalite'", 'ALTER TABLE '.DB_PREFIX.'model ADD nationalite VARCHAR(255)'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'langue'", 'ALTER TABLE '.DB_PREFIX.'model ADD langue VARCHAR(255)'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'date_inscription'", 'ALTER TABLE '.DB_PREFIX.'model ADD date_inscription DATE'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'date_naissance'", 'ALTER TABLE '.DB_PREFIX.'model ADD date_naissance DATE'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'numero_uda_actra'", 'ALTER TABLE '.DB_PREFIX.'model ADD numero_uda_actra VARCHAR(255)'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'poids'", 'ALTER TABLE '.DB_PREFIX.'model ADD poids VARCHAR(255)'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'taille_chandail'", 'ALTER TABLE '.DB_PREFIX.'model ADD taille_chandail VARCHAR(255)'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'taille'", 'ALTER TABLE '.DB_PREFIX.'model ADD taille VARCHAR(255)'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'taille_chaussures'", 'ALTER TABLE '.DB_PREFIX.'model ADD taille_chaussures VARCHAR(255)'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'taille_hanches'", 'ALTER TABLE '.DB_PREFIX.'model ADD taille_hanches VARCHAR(255)'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'taille_pantalon'", 'ALTER TABLE '.DB_PREFIX.'model ADD taille_pantalon VARCHAR(255)'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'taille_poitrine'", 'ALTER TABLE '.DB_PREFIX.'model ADD taille_poitrine VARCHAR(255)'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'taille_robe'", 'ALTER TABLE '.DB_PREFIX.'model ADD taille_robe VARCHAR(255)'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'taille_veston'", 'ALTER TABLE '.DB_PREFIX.'model ADD taille_veston VARCHAR(255)'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'talents'", 'ALTER TABLE '.DB_PREFIX.'model ADD talents VARCHAR(512)'),
 		);
 		$compte = count($alterations);
 		for($i = 0; $i < $compte; ++$i) {
@@ -906,7 +1000,7 @@ function utils_upload(
 				else if($extension_upload == 'tif')	$extension_upload = 'tiff';
 				if($extension_upload != '') $extension_upload = '.'.$extension_upload;
 				if ($extension !== null)
-				    $extension_upload = $extension;
+				    $extension_upload = '.'.$extension;
 				$time = $file_name === null ? utils_microtime() : $file_name;
 				$nom = $updir.'/'.$time.$extension_upload;
 				if(!move_uploaded_file($_FILES[$name]['tmp_name'], $nom))

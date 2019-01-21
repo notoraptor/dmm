@@ -21,27 +21,62 @@ if(!empty($_POST)) {
 	$height = get_post('height');
 	$hair = get_post('hair');
 	$eyes = get_post('eyes');
-	$values = array(
-		'first_name'=> $first_name,
-		'last_name'=> $last_name,
-		'instagram_link'=> $instagram_link,
-		'video_link'=> $video_link,
-		'hint'=> $hint,
-		'category'=> $category,
-		'trend_rank'=> $trend_rank,
-		'height'=> $height,
-		'hair'=> $hair,
-		'eyes'=> $eyes,
-		'sex'=> $sex,
-		'age'=> $age
-	);
+	$date_naissance_day = get_post('date_naissance-day');
+	$date_naissance_month = get_post('date_naissance-month');
+	$date_naissance_year = get_post('date_naissance-year');
+	$date_inscription_day = get_post('date_inscription-day');
+	$date_inscription_month = get_post('date_inscription-month');
+	$date_inscription_year = get_post('date_inscription-year');
+	$courriel = get_post('courriel');
 	if($first_name == '') utils_message_add_error('Veuillez indiquer un prénom !');
 	else if($last_name == '') utils_message_add_error('Veuillez indiquer un nom !');
 	else if($instagram_link && !utils_valid_url($instagram_link))
 		utils_message_add_error("Le lien instagram est invalide.");
 	else if($video_link && (!utils_valid_url($video_link) || !Video::parse($video_link)))
 		utils_message_add_error("Le lien vidéo est invalide.");
+	else if($courriel && !utils_valid_email($courriel)) utils_message_add_error('Courriel invalide.');
+	else if($date_naissance_day && !utils_check_day($date_naissance_day)) utils_message_add_error('Date de naissance: jour invalide.');
+	else if($date_naissance_month && !utils_check_month($date_naissance_month)) utils_message_add_error('Date de naissance: mois  invalide.');
+	else if($date_naissance_year && !utils_check_year($date_naissance_year)) utils_message_add_error('Date de naissance: année invalide.');
+	else if($date_inscription_day && !utils_check_day($date_inscription_day)) utils_message_add_error('Date d\'inscription: jour invalide.');
+	else if($date_inscription_month && !utils_check_month($date_inscription_month)) utils_message_add_error('Date d\'inscription: mois  invalide.');
+	else if($date_inscription_year && !utils_check_year($date_inscription_year)) utils_message_add_error('Date d\'inscription: année invalide.');
 	else {
+		$values = array(
+			'first_name'=> $first_name,
+			'last_name'=> $last_name,
+			'instagram_link'=> $instagram_link,
+			'video_link'=> $video_link,
+			'hint'=> $hint,
+			'category'=> $category,
+			'trend_rank'=> $trend_rank,
+			'height'=> $height,
+			'hair'=> $hair,
+			'eyes'=> $eyes,
+			'sex'=> $sex,
+			'age'=> $age,
+			'date_naissance' => utils_get_date($date_naissance_year, $date_naissance_month, $date_inscription_day),
+			'date_inscription' => utils_get_date($date_inscription_year, $date_inscription_month, $date_inscription_day),
+			'taille' => get_post('taille'),
+			'taille_chaussures' => get_post('taille_chaussures'),
+			'taille_poitrine' => get_post('taille_poitrine'),
+			'taille_hanches' => get_post('taille_hanches'),
+			'langue' => get_post('langue'),
+			'adresse' => get_post('adresse'),
+			'ville' => get_post('ville'),
+			'code_postal' => get_post('code_postal'),
+			'cellulaire' => get_post('cellulaire'),
+			'telephone' => get_post('telephone'),
+			'courriel' => $courriel,
+			'nationalite' => get_post('nationalite'),
+			'poids' => get_post('poids'),
+			'taille_veston' => get_post('taille_veston'),
+			'taille_robe' => get_post('taille_robe'),
+			'taille_chandail' => get_post('taille_chandail'),
+			'taille_pantalon' => get_post('taille_pantalon'),
+			'numero_uda_actra' => get_post('numero_uda_actra'),
+			'talents' => get_post('talents'),
+		);
 		$model = $db->model_update($model->id(), $values);
 		if(!$model) utils_message_add_error('Erreur interne: impossible de mettre à jour les informations de ce modèle.');
 		else {
@@ -75,7 +110,7 @@ $profilePhoto = $model->get_profile_photo();
             </a>
 		</p>
 	</div>
-	<div class="cell photo"><?php if($profilePhoto) { ?><img src="<?php echo $profilePhoto['url'];?>"/><?php } ?></div>
+	<div class="cell photo"><?php if($profilePhoto) { ?><img src="<?php echo $profilePhoto;?>"/><?php } ?></div>
 </div>
 <form method="post" onsubmit="careful(['video_link', 'instagram_link']);" enctype="multipart/form-data">
 <fieldset>
@@ -95,16 +130,34 @@ $profilePhoto = $model->get_profile_photo();
 	echo utils_input('Hauteur [height]', 'height', 'text', '');
 	echo utils_input('Couleur des cheveux [hair]', 'hair', 'text', 'list="current-hairs"', $help);
 	echo utils_input('Couleur des yeux [eyes]', 'eyes', 'text', 'list="current-eyes"', $help);
-	echo utils_input('Model card (PDF)', 'model_card', 'file');
 	$model_card = utils_model_card($model->id());
-	if ($model_card) {
-		echo '<div class="row">'.
-			'<div class="cell name">[Model card] current</div>'.
-			'<div class="cell value">'.
-			'<a href="'.utils_as_link($model_card).'">'.utils_model_card_name($model->id()).'</a>'.
-			'</div>'.
-			'</div>';
-    }
+	$cc = $model_card ? '<a target="_blank" href="'.utils_as_link($model_card).'">[Model card] current</a> | <a href="index.php?panel=deletecompcard&id='.$model->id().'">supprimer le COMPCARD actuel</a>' : '';
+	echo utils_input('Model card (PDF)', 'model_card', 'file', 'accept=".pdf"', $cc);
+
+	//.
+	echo utils_input('Poids', 'poids', 'text', '');
+	echo utils_input('Taille [waist]', 'taille', 'text', '');
+	echo utils_input('Taille chaussures [shoes]', 'taille_chaussures', 'text', '');
+	echo utils_input('Taille poitrine [bust]', 'taille_poitrine', 'text', '');
+	echo utils_input('Taille hanches [hips]', 'taille_hanches', 'text', '');
+	echo utils_input('Taille veston', 'taille_veston', 'text', '');
+	echo utils_input('Taille robe', 'taille_robe', 'text', '');
+	echo utils_input('Taille chandail', 'taille_chandail', 'text', '');
+	echo utils_input('Taille pantalon', 'taille_pantalon', 'text', '');
+	echo utils_date_input('Date de naissance', 'date_naissance', $model->date_naissance_year(), $model->date_naissance_month(), $model->date_naissance_day());
+	echo utils_date_input("Date d'inscription", 'date_inscription', $model->date_inscription_year(), $model->date_inscription_month(), $model->date_inscription_day());
+	echo utils_input('Langue', 'langue', 'text');
+	echo utils_input('Adresse', 'adresse', 'text', '');
+	echo utils_input('Ville', 'ville', 'text', '');
+	echo utils_input('Code postal', 'code_postal', 'text', '');
+	echo utils_input('Téléphone', 'telephone', 'text', '');
+	echo utils_input('Cellulaire', 'cellulaire', 'text', '');
+	echo utils_input('Courriel', 'courriel', 'email', '');
+	echo utils_input('Nationalité', 'nationalite', 'text');
+	echo utils_input('Numéro UDA/ACTRA', 'numero_uda_actra', 'text', '');
+	echo utils_textarea('Talents', 'talents');
+	//.
+
 	echo utils_datalist('current-hairs', $db->list_hairs());
 	echo utils_datalist('current-eyes', $db->list_eyes());
 	echo utils_datalist('current-hints', $db->list_hints());

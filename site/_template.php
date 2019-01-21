@@ -1,14 +1,6 @@
 <?php
 function template($data) {
 if (!session_id()) session_start();
-if ($data->meta_description == '')
-	$data->meta_description = 'DMM diversity montreal fashion modeling agency, official website';
-if ($data->meta_keywords == '') {
-	$data->meta_keywords = implode(',', array(
-		'fashion', 'modeling agency', 'silk', 'photography', 'booking', 'diversity', 'montreal', 'modeling',
-        'agency', 'model', 'models', 'dmm girl', 'dmm man', 'dmm team', 'silkgirl', 'silkteam', 'diversity montreal'
-	));
-}
 $menu_titles = array('ABOUT', 'MODELS', 'CONTACTS');
 $menu_names = array('index', 'models', 'contacts');
 $count_menu = count($menu_titles);
@@ -17,8 +9,8 @@ ob_start();
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <meta name="description" content="<?php echo $data->meta_description; ?>"/>
-    <meta name="keywords" content="<?php echo $data->meta_keywords; ?>"/>
+    <meta name="description" content="<?php echo utils_meta_description(true, $data->meta_description); ?>"/>
+    <meta name="keywords" content="<?php echo utils_meta_keywords(true, $data->meta_keywords); ?>"/>
     <meta name="author" content="Steven Bocco"/>
     <title><?php echo $data->title; ?></title>
     <link rel="shortcut icon" type="image/x-icon" href="data/main/favicon.ico"/><!-- TODO favicon -->
