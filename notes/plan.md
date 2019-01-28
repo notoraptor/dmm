@@ -27,7 +27,7 @@ Page MODELS
     - Trends
     - lifestyle
     - 14 and under
-    - mature 
+    - mature
 - Sur le site exemple, lorsque l'on clic sur Red le by colour devient le mot Red nous voudrions la même chose. 
   Par exemple : Si on clic sur Lifestyle le By type est remplacé par le mot lifestyle et la section des modeles 
   dans la categorie lifestyle apparait.
@@ -55,7 +55,7 @@ Page d'un modèle
 - Le prenom du modele remplace le Raise the Barre. 
   Il doit deborder sur la photo, prendre la même place que sur le site mais avec notre typo. ( Le short film disparait)
 - En dessous du prenom du modele nous voulons une caracteristique par exemple: 
-  activist ou Student ou Artist.. un mot que nous rajouterions pour certains modeles. 
+  activist ou Student ou Artist.. un mot que nous rajouterions pour certains modeles.
   Il doit être écrit avec notre typographie mais en plus petit que le nom et sur la partie blanche.
 - En dessous il nous faut des rectangles les un en dessous des autres (exemple rectangles en piece jointe): 
   - Instagram (lien qui donne accès au insta du modele), 

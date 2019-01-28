@@ -16,7 +16,6 @@ if(!empty($_POST)) {
 	$category = get_post('category', 0);
 	$instagram_link = hex2bin(get_post('instagram_link'));
 	$video_link = hex2bin(get_post('video_link'));
-	$age = get_post('age', 0);
 	$sex = get_post('sex', 'female');
 	$height = get_post('height');
 	$hair = get_post('hair');
@@ -54,8 +53,7 @@ if(!empty($_POST)) {
 			'hair'=> $hair,
 			'eyes'=> $eyes,
 			'sex'=> $sex,
-			'age'=> $age,
-			'date_naissance' => utils_get_date($date_naissance_year, $date_naissance_month, $date_inscription_day),
+			'date_naissance' => utils_get_date($date_naissance_year, $date_naissance_month, $date_naissance_day),
 			'date_inscription' => utils_get_date($date_inscription_year, $date_inscription_month, $date_inscription_day),
 			'taille' => get_post('taille'),
 			'taille_chaussures' => get_post('taille_chaussures'),
@@ -117,35 +115,13 @@ $profilePhoto = $model->get_profile_photo();
 <legend>Modifier ses infos.</legend>
 <div class="table">
 	<?php
+	$model_card = utils_model_card($model->id());
+	$cc = $model_card ? '<a target="_blank" href="'.utils_as_link($model_card).'">[Model card] current</a> | <a href="index.php?panel=deletecompcard&id='.$model->id().'">supprimer le COMPCARD actuel</a>' : '';
 	$help = '(navigateurs récents) appuyez sur la touche BAS dans le champ pour afficher des valeurs prédéfinies proposées.';
 	echo utils_required_input('Prénom', 'first_name', 'text', '');
 	echo utils_required_input('Nom', 'last_name', 'text', '');
-	echo utils_input('Ordre de tendance', 'trend_rank', 'number');
-	echo utils_input('Caractéristique', 'hint', 'text', 'list="current-hints"', $help);
-	echo utils_input('Catégorie', 'category', 'text', 'list="current-categories"', $help);
-	echo input_url("Lien Instagram", 'instagram_link');
-	echo input_url("Lien vidéo", 'video_link');
-	echo utils_input('Age', 'age', 'number', 'min="0" max="200"');
 	echo utils_select('Sexe', 'sex', array('male' => 'male', 'female' => 'female', 'X' => 'X'));
-	echo utils_input('Hauteur [height]', 'height', 'text', '');
-	echo utils_input('Couleur des cheveux [hair]', 'hair', 'text', 'list="current-hairs"', $help);
-	echo utils_input('Couleur des yeux [eyes]', 'eyes', 'text', 'list="current-eyes"', $help);
-	$model_card = utils_model_card($model->id());
-	$cc = $model_card ? '<a target="_blank" href="'.utils_as_link($model_card).'">[Model card] current</a> | <a href="index.php?panel=deletecompcard&id='.$model->id().'">supprimer le COMPCARD actuel</a>' : '';
-	echo utils_input('Model card (PDF)', 'model_card', 'file', 'accept=".pdf"', $cc);
-
-	//.
-	echo utils_input('Poids', 'poids', 'text', '');
-	echo utils_input('Taille [waist]', 'taille', 'text', '');
-	echo utils_input('Taille chaussures [shoes]', 'taille_chaussures', 'text', '');
-	echo utils_input('Taille poitrine [bust]', 'taille_poitrine', 'text', '');
-	echo utils_input('Taille hanches [hips]', 'taille_hanches', 'text', '');
-	echo utils_input('Taille veston', 'taille_veston', 'text', '');
-	echo utils_input('Taille robe', 'taille_robe', 'text', '');
-	echo utils_input('Taille chandail', 'taille_chandail', 'text', '');
-	echo utils_input('Taille pantalon', 'taille_pantalon', 'text', '');
 	echo utils_date_input('Date de naissance', 'date_naissance', $model->date_naissance_year(), $model->date_naissance_month(), $model->date_naissance_day());
-	echo utils_date_input("Date d'inscription", 'date_inscription', $model->date_inscription_year(), $model->date_inscription_month(), $model->date_inscription_day());
 	echo utils_input('Langue', 'langue', 'text');
 	echo utils_input('Adresse', 'adresse', 'text', '');
 	echo utils_input('Ville', 'ville', 'text', '');
@@ -154,9 +130,28 @@ $profilePhoto = $model->get_profile_photo();
 	echo utils_input('Cellulaire', 'cellulaire', 'text', '');
 	echo utils_input('Courriel', 'courriel', 'email', '');
 	echo utils_input('Nationalité', 'nationalite', 'text');
+	echo utils_input('Hauteur [height]', 'height', 'text', '');
+	echo utils_input('Poids', 'poids', 'text', '');
+	echo utils_input('Taille chaussures [shoes]', 'taille_chaussures', 'text', '');
+	echo utils_input('Taille poitrine [bust]', 'taille_poitrine', 'text', '');
+	echo utils_input('Taille hanches [hips]', 'taille_hanches', 'text', '');
+	echo utils_input('Taille veston', 'taille_veston', 'text', '');
+	echo utils_input('Taille robe', 'taille_robe', 'text', '');
+	echo utils_input('Taille [waist]', 'taille', 'text', '');
+	echo utils_input('Taille chandail', 'taille_chandail', 'text', '');
+	echo utils_input('Taille pantalon', 'taille_pantalon', 'text', '');
+	echo utils_input('Couleur des cheveux [hair]', 'hair', 'text', 'list="current-hairs"', $help);
+	echo utils_input('Couleur des yeux [eyes]', 'eyes', 'text', 'list="current-eyes"', $help);
 	echo utils_input('Numéro UDA/ACTRA', 'numero_uda_actra', 'text', '');
+	echo utils_input('Catégorie', 'category', 'text', 'list="current-categories"', $help);
+	echo input_url("Lien Instagram", 'instagram_link');
+	echo input_url("Lien vidéo", 'video_link');
+	echo utils_date_input("Date d'inscription", 'date_inscription', $model->date_inscription_year(), $model->date_inscription_month(), $model->date_inscription_day());
 	echo utils_textarea('Talents', 'talents');
-	//.
+	echo utils_input('Model card (PDF)', 'model_card', 'file', 'accept=".pdf"', $cc);
+
+	echo utils_input('Ordre de tendance', 'trend_rank', 'number');
+	echo utils_input('Caractéristique', 'hint', 'text', 'list="current-hints"', $help);
 
 	echo utils_datalist('current-hairs', $db->list_hairs());
 	echo utils_datalist('current-eyes', $db->list_eyes());

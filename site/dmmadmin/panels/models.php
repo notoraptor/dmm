@@ -26,7 +26,7 @@ foreach($models as &$model) {
 			<div>
                 <strong style="font-size:1.2rem;"><a href="index.php?panel=model&id=<?php echo $model->id();?>"><?php echo $fullName;?></a></strong>
 				<?php if($model->instagram_link()) { ?>
-				<span class="instalink"><a target="_blank" href="<?php echo $model->instagram_link();?>"><img src="<?php echo server_http()?>/data/main/instagram-gold.svg"/></a></span>
+				<span class="instalink"><a target="_blank" href="<?php echo $model->instagram_link();?>"><img src="<?php echo server_http()?>/data/utils/instagram-gold.svg"/></a></span>
 				<?php } ?>
 			</div>
 			<div><a href="index.php?panel=modelportfolio&id=<?php echo $model->id();?>">Portfolio</a></div>

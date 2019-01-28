@@ -13,7 +13,6 @@ if(!empty($_POST)) {
     $category = get_post('category', 0);
     $instagram_link = hex2bin(get_post('instagram_link'));
     $video_link = hex2bin(get_post('video_link'));
-    $age = get_post('age', 0);
     $sex = get_post('sex', 'female');
     $height = get_post('height');
     $hair = get_post('hair');
@@ -31,7 +30,7 @@ if(!empty($_POST)) {
 		'hair'=> $hair,
 		'eyes'=> $eyes,
 		'sex'=> $sex,
-		'age'=> $age
+		'age'=> 0
 	);
 	if($first_name == '') utils_message_add_error('Veuillez indiquer un prénom !');
 	else if($last_name == '') utils_message_add_error('Veuillez indiquer un nom !');
@@ -61,9 +60,8 @@ if(!empty($_POST)) {
     $_POST = array();
 }
 $_POST['trend_rank'] = 0;
-$_POST['age'] = 0;
 if($model) {
-	utils_request_redirection('index.php?panel=model&id='.$model->model_id);
+	utils_request_redirection('index.php?panel=model&id='.$model->id());
 } else {
 ?><h2><a href="index.php?panel=models">Modèles</a> / Créer un nouveau modèle</h2>
 <div class="newmodel">
@@ -81,7 +79,6 @@ if($model) {
 	echo utils_input('Catégorie', 'category', 'text', 'list="current-categories"', $help);
 	echo input_url("Lien Instagram", 'instagram_link');
 	echo input_url("Lien vidéo", 'video_link');
-	echo utils_input('Age', 'age', 'number', 'min="0" max="200"');
 	echo utils_select('Sexe', 'sex', array('male' => 'male', 'female' => 'female', 'X' => 'X'));
 	echo utils_input('Hauteur [height]', 'height', 'text', '');
 	echo utils_input('Couleur des cheveux [hair]', 'hair', 'text', 'list="current-hairs"', $help);

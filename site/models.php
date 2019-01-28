@@ -33,10 +33,10 @@ capture_start();
 						<div class="model">
 							<div class="image">
 								<a href="model.php?id=<?php echo $model->id();?>">
-								<?php if ($profile_photo) { ?><img class="img-fluid" alt="<?php echo $model->full_name();?>" src="<?php echo $profile_photo;?>"/><?php } ?>
+								<?php if ($profile_photo) { ?><img class="img-fluid" alt="<?php echo $model->first_name();?>" src="<?php echo $profile_photo;?>"/><?php } ?>
 								</a>
 							</div>
-							<div class="name"><a href="model.php?id=<?php echo $model->id();?>"><?php echo $model->full_name();?></a></div>
+							<div class="name"><a href="model.php?id=<?php echo $model->id();?>"><?php echo $model->first_name();?></a></div>
 						</div>
 					</div>
 					<?php
