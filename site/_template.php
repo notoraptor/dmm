@@ -25,25 +25,23 @@ ob_start();
 <?php } ?>
 <div id="content" class="container">
     <?php if ($data->show_menu) { ?>
-    <div id="menu">
-        <nav class="row menu-bar text-center">
-		<?php for ($i = 0; $i < $count_menu; ++$i) {
-			$menu_title = $menu_titles[$i];
-			$menu_name = $menu_names[$i];
-			?>
-            <div class="col-md menu py-2 py-md-0">
-				<?php if ($data->pagename != $menu_name) { ?><a href="<?php echo $menu_name.'.php'; ?>"><?php } ?>
-                <?php echo $menu_title; ?>
-                <?php if ($data->pagename != $menu_name) { ?></a><?php } ?>
+    <nav class="row text-center my-5">
+        <?php for ($i = 0; $i < $count_menu; ++$i) {
+            $menu_title = $menu_titles[$i];
+            $menu_name = $menu_names[$i];
+            ?>
+            <div class="col-md">
+                <?php if ($data->pagename != $menu_name) { ?><a href="<?php echo $menu_name.'.php'; ?>"><?php } ?>
+                    <?php echo $menu_title; ?>
+                    <?php if ($data->pagename != $menu_name) { ?></a><?php } ?>
             </div>
-			<?php
-		} ?>
-            <div class="col-md menu py-2 py-md-0"><a href="facebook">facebook</a></div>
-            <div class="col-md menu py-2 py-md-0"><a href="instagram">instagram</a></div>
-        </nav>
-    </div>
+            <?php
+        } ?>
+        <div class="col-md"><a href="index.php">facebook</a></div>
+        <div class="col-md"><a href="index.php">instagram</a></div>
+    </nav>
     <?php }; ?>
-    <div class="mt-5 mb-3 page">
+    <div class="pt-5 mb-3 page">
 		<?php echo $data->content; ?>
     </div>
 </div>

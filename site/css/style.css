@@ -17,3 +17,70 @@
 body {
     font-family: KeepCalm-Medium, sans-serif;
 }
+
+a {
+    color: black;
+}
+
+a:hover {
+    color: #ae6339;
+    text-decoration: none;
+}
+
+nav {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 999;
+}
+
+/* md */
+@media (min-width: 768px) {
+    #home .logo {
+        text-align: center;
+        max-width: 90%;
+        position: relative;
+        z-index: 4;
+    }
+    #home .logo img {
+        max-width: 70%;
+    }
+    #home .home-photo-1 {
+        max-width: 90%;
+        position: relative;
+        top: -140px;
+        z-index: 2;
+    }
+    #home .second-photo {
+        position: relative;
+        top: -400px;
+    }
+    #home .home-photo-2 {
+        max-width: 90%;
+        float: right;
+        position: relative;
+    }
+    #home .home-photo-2:hover {
+        z-index: 3;
+    }
+    #home .home-text {
+        clear: both;
+        position: relative;
+        z-index: 4;
+    }
+    #home .home-text-left {
+        font-size: 6rem;
+        position: relative;
+        top: -24rem;
+        width: 50%;
+    }
+    #home .home-text-right {
+        width: 50%;
+        padding-top: 6rem;
+    }
+}
+
+#home .home-text-bottom {
+    clear: both;
+}
