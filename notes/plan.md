@@ -32,9 +32,9 @@ Page MODELS
   Par exemple : Si on clic sur Lifestyle le By type est remplacé par le mot lifestyle et la section des modeles 
   dans la categorie lifestyle apparait.
 - Afficher les modèles trend (cf. Models.jpg)
-- Quand notre curseur passe sur le portrait d'un modele, le prénom du modele apparait mais en bas pas de mouvement 
-  comme sur le site. Le prénom doit être en bas avec notre typo et il doit deborder sur la photos du modele.
 - Chaque modèle est cliquable -> page modèle
+- Quand notre curseur passe sur le portrait d'un modele, le prénom du modele apparait mais en bas, pas de mouvement 
+  comme sur le site. Le prénom doit être en bas avec notre typo et il doit deborder sur la photos du modele.
 
 Page CONTACTS
 - https://agneslloydplatt.com/about/

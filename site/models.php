@@ -6,9 +6,21 @@ require_once('priv/Data.php');
 require_once('_template.php');
 
 $db = new Database();
-$models = $db->models();
-$models_lines = utils_array_to_lines($models, 4);
 $model_categories = $db->list_categories();
+$trend = utils_s_get('trend', '');
+if ($trend) {
+	$trend = urldecode($trend);
+	if (!$model_categories->contains($trend))
+	    $trend = '';
+}
+$all_models = $db->models();
+$models = $all_models;
+if ($trend) {
+    $models = array();
+    foreach ($all_models as $model) if ($model->category() == $trend)
+        $models[] = $model;
+}
+$models_lines = utils_array_to_lines($models, 4);
 $config = $db->config();
 $data = new Data();
 
@@ -16,10 +28,10 @@ capture_start();
 ?>
 	<div>
 		<div class="models-menu">
-			<ul>By Type
-				<li>Trends</li>
-				<?php foreach($model_categories->values() as $model_category) { ?>
-					<li><?php echo $model_category; ?></li>
+            <ul><?php if ($trend) { ?><span class="current-trend"><?php echo $trend; ?></span><?php } else { ?>By Type<?php } ?>
+                <?php if ($trend) { ?><li><a href="models.php">All trends</a></li><?php } ?>
+				<?php foreach($model_categories->values() as $model_category) if ($model_category != $trend) { ?>
+					<li><a href="models.php?trend=<?php echo urlencode($model_category);?>"><?php echo $model_category; ?></a></li>
 				<?php } ?>
 			</ul>
 		</div>
@@ -29,9 +41,9 @@ capture_start();
 					<?php foreach ($line as $model) {
 						$profile_photo = $model->get_profile_photo();
 						?>
-					<div class="col">
-						<div class="model">
-							<div class="image">
+					<div class="col-md">
+						<div class="model d-flex flex-column">
+							<div class="image flex-grow-1">
 								<a href="model.php?id=<?php echo $model->id();?>">
 								<?php if ($profile_photo) { ?><img class="img-fluid" alt="<?php echo $model->first_name();?>" src="<?php echo $profile_photo;?>"/><?php } ?>
 								</a>

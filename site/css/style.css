@@ -84,3 +84,28 @@ nav {
 #home .home-text-bottom {
     clear: both;
 }
+
+#models .current-trend {
+    color: #ae6339;
+}
+
+#models .model {
+    background-color: red;
+    height: 100%;
+}
+
+#models .model .image {
+    background-color: rgb(80, 80, 80);
+    align-items: center;
+    display: flex;
+}
+
+#models .model .image:after {
+    padding-top: 50%;
+    display: block;
+    content: '';
+}
+
+#models .model .name {
+    text-align: center;
+}
