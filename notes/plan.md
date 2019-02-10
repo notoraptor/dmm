@@ -36,18 +36,6 @@ Page MODELS
 - Quand notre curseur passe sur le portrait d'un modele, le prénom du modele apparait mais en bas, pas de mouvement 
   comme sur le site. Le prénom doit être en bas avec notre typo et il doit deborder sur la photos du modele.
 
-Page CONTACTS
-- https://agneslloydplatt.com/about/
-- Même menu
-- Ligne de texte: You want to be a part of the diversity
-- 1 vidéo + plusieurs petites photos (cf. À la place de la grande photo.png)
-- A la place du texte ''I Spent the first 18 years of my life wanting to be an astonaut'', mettre la
-  liste des contacts de l'agence comme cette liste http://www.antiagency.co.uk/contact/ avec:
-  - les noms des personnes
-  - leur poste
-  - leur email
-- En bas des contact le meme rectangle (lien) que sur les pages des modeles avec ecrit For model submission (->)
-
 Page d'un modèle
 - https://agneslloydplatt.com/raise-the-barre/
 - Pas de menu
@@ -63,6 +51,18 @@ Page d'un modèle
   - Clip (lien vers la video viméo)
 - Pour les photos des modeles, la même disposition de photo que sur la page modele 
   (des portraits, des paysages, des plus petites photos les une au dessus des autres et du blanc autour).
+
+Page CONTACTS
+- https://agneslloydplatt.com/about/
+- Même menu
+- Ligne de texte: You want to be a part of the diversity
+- 1 vidéo + plusieurs petites photos (cf. À la place de la grande photo.png)
+- A la place du texte ''I Spent the first 18 years of my life wanting to be an astonaut'', mettre la
+  liste des contacts de l'agence comme cette liste http://www.antiagency.co.uk/contact/ avec:
+  - les noms des personnes
+  - leur poste
+  - leur email
+- En bas des contact le meme rectangle (lien) que sur les pages des modeles avec ecrit For model submission (->)
 
 Page for model submission
 - https://agneslloydplatt.com/about/

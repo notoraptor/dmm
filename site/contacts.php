@@ -17,7 +17,7 @@ $contact_video = $config->contact_video();
 capture_start();
 ?>
 <div class="contacts">
-    <p><?php echo $config->contact_text();?></p>
+    <h1 class="pb-4"><?php echo $config->contact_text();?></h1>
 	<?php if ($contact_video) {
 		$video_info = get_video_codes($contact_video);
 		echo $video_info[0];
@@ -49,12 +49,12 @@ capture_start();
 			<?php
 		} ?>
     </div>
-    <a class="btn btn-outline-dark" href="submission.php">for model submission</a>
+    <a class="button btn btn-outline-dark" href="submission.php">for model submission</a>
 </div>
 <?php
 capture_end($data->content);
 
-$data->title = 'DMM';
+$data->title = 'Contacts | DMM';
 $data->pagename = 'contacts';
 echo template($data);
 ?>

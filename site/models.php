@@ -5,6 +5,8 @@ require_once('priv/utils.php');
 require_once('priv/Data.php');
 require_once('_template.php');
 
+define('LINE_SIZE', 4);
+
 $db = new Database();
 $model_categories = $db->list_categories();
 $trend = utils_s_get('trend', '');
@@ -20,15 +22,16 @@ if ($trend) {
     foreach ($all_models as $model) if ($model->category() == $trend)
         $models[] = $model;
 }
-$models_lines = utils_array_to_lines($models, 4);
+$models_lines = utils_array_to_lines($models, LINE_SIZE);
 $config = $db->config();
 $data = new Data();
 
 capture_start();
 ?>
 	<div>
-		<div class="models-menu">
-            <ul><?php if ($trend) { ?><span class="current-trend"><?php echo $trend; ?></span><?php } else { ?>By Type<?php } ?>
+		<div class="models-menu mb-5 float-md-left">
+			<div class="menu-title"><?php if ($trend) { ?><span class="current-trend"><?php echo $trend; ?></span><?php } else { ?>By Type<?php } ?></div>
+            <ul>
                 <?php if ($trend) { ?><li><a href="models.php">All trends</a></li><?php } ?>
 				<?php foreach($model_categories->values() as $model_category) if ($model_category != $trend) { ?>
 					<li><a href="models.php?trend=<?php echo urlencode($model_category);?>"><?php echo $model_category; ?></a></li>
@@ -41,18 +44,23 @@ capture_start();
 					<?php foreach ($line as $model) {
 						$profile_photo = $model->get_profile_photo();
 						?>
-					<div class="col-md">
-						<div class="model d-flex flex-column">
-							<div class="image flex-grow-1">
-								<a href="model.php?id=<?php echo $model->id();?>">
-								<?php if ($profile_photo) { ?><img class="img-fluid" alt="<?php echo $model->first_name();?>" src="<?php echo $profile_photo;?>"/><?php } ?>
-								</a>
-							</div>
+					<div class="col-md-3">
+						<div class="model">
+                            <div class="image" <?php if ($profile_photo) { ?>style="background-image: url('<?php echo $profile_photo; ?>')"<?php } ?>>
+                                <a href="model.php?id=<?php echo $model->id();?>"></a>
+                            </div>
 							<div class="name"><a href="model.php?id=<?php echo $model->id();?>"><?php echo $model->first_name();?></a></div>
 						</div>
 					</div>
 					<?php
-				} ?>
+				}
+				if (count($line) < LINE_SIZE) {
+				    $nb_remining_cols = LINE_SIZE - count($line);
+				    for ($i = 0; $i < $nb_remining_cols; ++$i) { ?>
+                        <div class="col-md-3"></div>
+                    <?php }
+                }
+				?>
 				</div><?php
 			} ?>
 		</div>
@@ -60,7 +68,7 @@ capture_start();
 <?php
 capture_end($data->content);
 
-$data->title = 'DMM';
+$data->title = 'Models | DMM';
 $data->pagename = 'models';
 echo template($data);
 ?>

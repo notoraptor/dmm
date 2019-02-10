@@ -23,7 +23,7 @@ ob_start();
 <?php if ($data->messages != '') { ?>
     <div class="messages"><?php echo $data->messages; ?></div>
 <?php } ?>
-<div id="content" class="container">
+<div id="content" class="<?php echo $data->content_class;?>">
     <?php if ($data->show_menu) { ?>
     <nav class="row text-center my-5">
         <?php for ($i = 0; $i < $count_menu; ++$i) {
@@ -40,10 +40,17 @@ ob_start();
         <div class="col-md"><a href="index.php">facebook</a></div>
         <div class="col-md"><a href="index.php">instagram</a></div>
     </nav>
-    <?php }; ?>
-    <div class="pt-5 mb-3 page">
-		<?php echo $data->content; ?>
-    </div>
+    <?php };
+    if ($data->content_class == 'container') {
+        ?>
+        <div class="pt-5 mb-3 page">
+			<?php echo $data->content; ?>
+        </div>
+        <?php
+    } else {
+		echo $data->content;
+    }
+    ?>
 </div>
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="js/popper.min.js"></script>

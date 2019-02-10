@@ -90,22 +90,122 @@ nav {
 }
 
 #models .model {
-    background-color: red;
-    height: 100%;
 }
 
 #models .model .image {
     background-color: rgb(80, 80, 80);
-    align-items: center;
-    display: flex;
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+#models .model .image a {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 #models .model .image:after {
-    padding-top: 50%;
+    padding-top: 177.78%;
     display: block;
     content: '';
 }
 
 #models .model .name {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 2rem;
+    position: relative;
+    top: -1.2rem;
+    visibility: hidden;
+}
+
+#models .model:hover .name {
+    visibility: visible;
+}
+
+.my-img-fluid {
+    max-height: 100%;
+    width: auto;
+}
+
+#models .models-menu {
+    font-size: 4rem;
+}
+
+#models .models {
+    clear: both;
+}
+
+#models .models-menu .menu-title {
+    cursor: pointer;
+}
+
+#models .models-menu ul {
+    position: absolute;
+    display: none;
+    z-index: 1;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#models .models-menu ul li {
+    margin: 0;
+    padding: 0;
+}
+
+#models .models-menu:hover ul {
+    display: block;
+}
+
+#model #content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#model .model {
+    height: 100%;
+}
+
+#model .model .logo img {
+    width: 10rem;
+}
+
+#model .model .details {
+    text-align: center;
+    z-index: 1;
+}
+
+#model .model .details h1 {
+    font-size: 16rem;
+    font-weight: normal;
+}
+
+#model .model .details h2 {
+    font-weight: normal;
+    font-size: 5rem;
+}
+
+#model .photos {
+    white-space: nowrap;
+    height: 100%;
+    position: relative;
+    left: -32rem;
+}
+
+.button {
+    border-radius: 0 !important;
+    background-color: white;
+}
+
+
+#contacts h1 {
     text-align: center;
 }
