@@ -209,3 +209,62 @@ nav {
 #contacts h1 {
     text-align: center;
 }
+
+#contacts .video-wrapper {
+    width: 60%;
+    height: 30rem;
+    float: left;
+}
+
+#contacts .video-wrapper .video {
+    width: 100%;
+    height: 100%;
+}
+
+#contacts .video-wrapper .video iframe {
+    width: 100%;
+    height: 100%;
+}
+
+#contacts img {
+    max-width: 10rem;
+    max-height: 10rem;
+}
+
+#contacts .presentation {
+    position: relative;
+}
+
+#contacts .portfolio {
+    width: 85%;
+}
+
+#contacts .agents {
+    text-align: center;
+    position: absolute;
+    right: 0;
+}
+
+#submission h2 {
+    text-align: center;
+}
+
+#submission .header {
+    position: relative;
+}
+
+#submission .header .photo {
+    width: 80%;
+}
+
+#submission .header .logo {
+    position: absolute; right: 0; width: 50%;
+}
+
+#submission .bottom .image {
+    max-width: 50%; margin: auto;
+}
+
+#submission .bottom .text {
+    font-size: 5rem; line-height: 5rem; position: relative; top: -2.5rem;
+}

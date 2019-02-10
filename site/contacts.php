@@ -18,38 +18,30 @@ capture_start();
 ?>
 <div class="contacts">
     <h1 class="pb-4"><?php echo $config->contact_text();?></h1>
-	<?php if ($contact_video) {
-		$video_info = get_video_codes($contact_video);
-		echo $video_info[0];
-		$data->scripts .= $video_info[1];
-	} ?>
-    <div class="photos">
-	<?php foreach ($photos_lines as $line) {
-		?><div class="row">
-		<?php foreach ($line as $photo) {
-			?>
-            <div class="col">
-                <div class="photo">
-                    <img class="img-fluid" src="<?php echo $photo->getURL();?>"/>
+    <div class="presentation d-flex">
+        <div class="portfolio">
+			<?php if ($contact_video) {
+				$video_info = get_video_codes($contact_video);
+				echo $video_info[0];
+				$data->scripts .= $video_info[1];
+			} ?>
+			<?php foreach ($contact_photos as $photo) {
+				?><img class="ml-2 mb-2" src="<?php echo $photo->getURL();?>"/><?php
+			} ?>
+        </div>
+        <div class="agents">
+			<?php foreach($agents as $agent) {
+				?>
+                <div class="agent my-4">
+                    <div class="name"><?php echo $agent->full_name();?></div>
+                    <div class="role"><?php echo $agent->role();?></div>
+                    <div class="email"><?php echo $agent->email();?></div>
                 </div>
-            </div>
-			<?php
-		} ?>
-        </div><?php
-	} ?>
+				<?php
+			} ?>
+            <a class="button btn btn-outline-dark" href="submission.php">for model submission</a>
+        </div>
     </div>
-    <div class="agents">
-		<?php foreach($agents as $agent) {
-			?>
-            <div class="agent">
-                <div class="name"><?php echo $agent->full_name();?></div>
-                <div class="role"><?php echo $agent->role();?></div>
-                <div class="email"><?php echo $agent->email();?></div>
-            </div>
-			<?php
-		} ?>
-    </div>
-    <a class="button btn btn-outline-dark" href="submission.php">for model submission</a>
 </div>
 <?php
 capture_end($data->content);

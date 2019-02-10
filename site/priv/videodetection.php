@@ -115,8 +115,8 @@ function get_video_codes($video_link) {
 	$video_scripts = '';
 	if($videoInfo) {
 		capture_start(); ?>
-		<div class="welcome" id="videoWelcome">
-			<div class="welcomeElement" id="homeVideo"><?php echo Video::getHomeCode($videoInfo); ?></div>
+		<div class="video-wrapper">
+			<div class="video"><?php echo Video::getHomeCode($videoInfo); ?></div>
 		</div>
 		<?php capture_end($video_html);
 		capture_start();
