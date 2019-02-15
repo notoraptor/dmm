@@ -41,15 +41,7 @@ ob_start();
         <div class="col-md"><a href="index.php">instagram</a></div>
     </nav>
     <?php };
-    if ($data->content_class == 'container') {
-        ?>
-        <div class="pt-5 mb-3 page">
-			<?php echo $data->content; ?>
-        </div>
-        <?php
-    } else {
-		echo $data->content;
-    }
+	echo $data->content;
     ?>
 </div>
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>

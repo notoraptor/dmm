@@ -12,21 +12,16 @@
     font-style: normal;
 }
 
-/** Template. **/
-
 body {
     font-family: KeepCalm-Medium, sans-serif;
 }
-
 a {
     color: black;
 }
-
 a:hover {
-    color: #ae6339;
+    color: #AB8636;
     text-decoration: none;
 }
-
 nav {
     position: -webkit-sticky;
     position: sticky;
@@ -34,73 +29,84 @@ nav {
     background-color: white;
     z-index: 999;
 }
-
-/* md */
-@media (min-width: 768px) {
-    #home .logo {
-        text-align: center;
-        max-width: 90%;
-        position: relative;
-        z-index: 4;
-    }
-    #home .logo img {
-        max-width: 70%;
-    }
-    #home .home-photo-1 {
-        max-width: 90%;
-        position: relative;
-        top: -140px;
-        z-index: 2;
-    }
-    #home .second-photo {
-        position: relative;
-        top: -400px;
-    }
-    #home .home-photo-2 {
-        max-width: 90%;
-        float: right;
-        position: relative;
-    }
-    #home .home-photo-2:hover {
-        z-index: 3;
-    }
-    #home .home-text {
-        clear: both;
-        position: relative;
-        z-index: 4;
-    }
-    #home .home-text-left {
-        font-size: 6rem;
-        position: relative;
-        top: -24rem;
-        width: 50%;
-    }
-    #home .home-text-right {
-        width: 50%;
-        padding-top: 6rem;
-    }
+.my-img-fluid {
+    max-height: 100%;
+    width: auto;
+}
+.button {
+    border-radius: 0 !important;
+    background-color: white;
 }
 
-#home .home-text-bottom {
-    clear: both;
+#home .logo-wrapper {
+    width: 80%;
+    height: 10rem;
 }
-
-#models .current-trend {
-    color: #ae6339;
-}
-
-#models .model {
-}
-
-#models .model .image {
-    background-color: rgb(80, 80, 80);
+#home .logo-wrapper .logo {
+    width: 100%;
+    height: 20rem;
     background-position: center center;
     background-size: contain;
     background-repeat: no-repeat;
     position: relative;
+    z-index: 3;
+}
+#home .images {
+    position: relative;
+}
+#home .images:after {
+    padding-top: 100%;
+    display: block;
+    content: '';
+}
+#home .images .images-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+#home .images .photo-1 {
+    width: 80%;
+    height: 80%;
+    background-position: top left;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: relative;
+    z-index: 2;
+}
+#home .images .photo-2 {
+    width: 80%;
+    height: 80%;
+    background-position: bottom right;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    right: 0;
+}
+#home .images .photo-2:hover {
+    z-index: 2;
+}
+#home .texts {
+    position: relative;
+    z-index: 3;
+    top: -8rem;
+}
+#home .texts .left {
+    font-size: 8rem;
+    line-height: 8rem;
+}
+#home .texts .right .right-wrapper {
+    padding-top: 12rem;
 }
 
-#models .model .image a {
+/* md */
+@media (min-width: 768px) {}
+
+#models .current-trend {
+    color: #ae6339;
+}
+#models .model .placeholder a {
     display: block;
     position: absolute;
     top: 0;
@@ -108,13 +114,11 @@ nav {
     left: 0;
     right: 0;
 }
-
-#models .model .image:after {
-    padding-top: 177.78%;
+#models .model .placeholder:after {
+    padding-top: 150%;
     display: block;
     content: '';
 }
-
 #models .model .name {
     text-align: center;
     font-size: 2rem;
@@ -124,28 +128,19 @@ nav {
     top: -1.2rem;
     visibility: hidden;
 }
-
 #models .model:hover .name {
     visibility: visible;
-}
-
-.my-img-fluid {
-    max-height: 100%;
-    width: auto;
 }
 
 #models .models-menu {
     font-size: 4rem;
 }
-
 #models .models {
     clear: both;
 }
-
 #models .models-menu .menu-title {
     cursor: pointer;
 }
-
 #models .models-menu ul {
     position: absolute;
     display: none;
@@ -154,12 +149,10 @@ nav {
     padding: 0;
     margin: 0;
 }
-
 #models .models-menu ul li {
     margin: 0;
     padding: 0;
 }
-
 #models .models-menu:hover ul {
     display: block;
 }
@@ -169,76 +162,58 @@ nav {
     width: 100%;
     height: 100%;
 }
-
-#model .model {
-    height: 100%;
+#model .header {
+    width: 50%;
 }
-
 #model .model .logo img {
     width: 10rem;
 }
-
 #model .model .details {
     text-align: center;
     z-index: 1;
 }
-
 #model .model .details h1 {
-    font-size: 16rem;
+    font-size: 14rem;
     font-weight: normal;
+    color: black;
+    white-space: nowrap;
 }
-
 #model .model .details h2 {
     font-weight: normal;
     font-size: 5rem;
 }
-
 #model .photos {
     white-space: nowrap;
     height: 100%;
-    position: relative;
-    left: -32rem;
-}
-
-.button {
-    border-radius: 0 !important;
-    background-color: white;
 }
 
 
 #contacts h1 {
     text-align: center;
 }
-
 #contacts .video-wrapper {
     width: 60%;
     height: 30rem;
     float: left;
 }
-
 #contacts .video-wrapper .video {
     width: 100%;
     height: 100%;
 }
-
 #contacts .video-wrapper .video iframe {
     width: 100%;
     height: 100%;
 }
-
 #contacts img {
     max-width: 10rem;
     max-height: 10rem;
 }
-
 #contacts .presentation {
     position: relative;
 }
-
 #contacts .portfolio {
     width: 85%;
 }
-
 #contacts .agents {
     text-align: center;
     position: absolute;
@@ -248,23 +223,18 @@ nav {
 #submission h2 {
     text-align: center;
 }
-
 #submission .header {
     position: relative;
 }
-
 #submission .header .photo {
     width: 80%;
 }
-
 #submission .header .logo {
     position: absolute; right: 0; width: 50%;
 }
-
 #submission .bottom .image {
     max-width: 50%; margin: auto;
 }
-
 #submission .bottom .text {
     font-size: 5rem; line-height: 5rem; position: relative; top: -2.5rem;
 }

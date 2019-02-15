@@ -44,11 +44,25 @@ capture_start();
 					<?php foreach ($line as $model) {
 						$profile_photo = $model->get_profile_photo();
 						?>
-					<div class="col-md-3">
+					<div class="col-md-3 align-self-center">
 						<div class="model">
-                            <div class="image" <?php if ($profile_photo) { ?>style="background-image: url('<?php echo $profile_photo; ?>')"<?php } ?>>
-                                <a href="model.php?id=<?php echo $model->id();?>"></a>
-                            </div>
+                            <?php
+                            if ($profile_photo) {
+                                ?>
+                                <div class="image">
+                                    <a href="model.php?id=<?php echo $model->id();?>">
+                                        <img class="img-fluid" src="<?php echo $profile_photo;?>"/>
+                                    </a>
+                                </div>
+                                <?php
+                            } else {
+                                ?>
+                                <div class="image placeholder" style="background-color: rgb(80, 80, 80);">
+                                    <a href="model.php?id=<?php echo $model->id();?>"></a>
+                                </div>
+                                <?php
+                            }
+                            ?>
 							<div class="name"><a href="model.php?id=<?php echo $model->id();?>"><?php echo $model->first_name();?></a></div>
 						</div>
 					</div>

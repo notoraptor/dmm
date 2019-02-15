@@ -9,7 +9,7 @@ class Data {
 	public $show_menu = true;
 	public $content = '';
 	public $scripts = '';
-	public $content_class = 'container';
+	public $content_class = 'container-fluid px-5';
 	public function __construct() {
 		if(session_id()) {
 			if(isset($_SESSION['messages'])) {

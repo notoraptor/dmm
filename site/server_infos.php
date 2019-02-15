@@ -9,7 +9,7 @@ define('SERVER_IS_WINDOWS', true);
 // Actuellement utiles.
 //// define('SERVER_ADDRESS'   , 'http://localhost/libersaurus');
 define('NOM_HOTE'         , 'localhost');
-define('NOM_BASE'         , 'dmm2');
+define('NOM_BASE'         , 'dmm');
 define('NOM_UTILISATEUR'  , 'root');
 define('MOT_DE_PASSE'     , '');
 define('DB_PREFIX'        , '');
