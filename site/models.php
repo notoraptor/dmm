@@ -9,18 +9,25 @@ define('LINE_SIZE', 4);
 
 $db = new Database();
 $model_categories = $db->list_categories();
-$trend = utils_s_get('trend', 'model');
+$trend = utils_s_get('trend', '');
+$has_trend = true;
+if (!$trend) {
+	$trend = 'model';
+	$has_trend = false;
+}
 if ($trend) {
 	$trend = urldecode($trend);
-	if (!$model_categories->contains($trend) || $trend == '_')
-	    $trend = '';
+	if (!$model_categories->contains($trend))
+		$trend = '';
 }
+if (!$trend)
+	utils_redirection('index.php');
 $all_models = $db->models();
 $models = $all_models;
 if ($trend) {
-    $models = array();
-    foreach ($all_models as $model) if ($model->category() == $trend)
-        $models[] = $model;
+	$models = array();
+	foreach ($all_models as $model) if ($model->category() == $trend)
+		$models[] = $model;
 }
 $models_lines = utils_array_to_lines($models, LINE_SIZE);
 $config = $db->config();
@@ -30,10 +37,9 @@ capture_start();
 ?>
 	<div>
 		<div class="models-menu mb-5 float-md-left">
-			<div class="menu-title"><?php if ($trend) { ?><span class="current-trend"><?php echo $trend; ?></span><?php } else { ?>By Type<?php } ?></div>
-            <ul>
-                <?php if ($trend) { ?><li><a href="models.php?trend=_">All trends</a></li><?php } ?>
-				<?php foreach($model_categories->values() as $model_category) if ($model_category != $trend) { ?>
+			<div class="menu-title"><?php if ($has_trend) { ?><span class="current-trend"><?php echo $trend; ?></span><?php } else { ?>By Type<?php } ?></div>
+			<ul>
+				<?php foreach($model_categories->values() as $model_category) { ?>
 					<li><a href="models.php?trend=<?php echo urlencode($model_category);?>"><?php echo $model_category; ?></a></li>
 				<?php } ?>
 			</ul>
@@ -46,34 +52,34 @@ capture_start();
 						?>
 					<div class="col-md-3 align-self-center">
 						<div class="model">
-                            <?php
-                            if ($profile_photo) {
-                                ?>
-                                <div class="image">
-                                    <a href="model.php?id=<?php echo $model->id();?>">
-                                        <img class="img-fluid" src="<?php echo $profile_photo;?>"/>
-                                    </a>
-                                </div>
-                                <?php
-                            } else {
-                                ?>
-                                <div class="image placeholder" style="background-color: rgb(80, 80, 80);">
-                                    <a href="model.php?id=<?php echo $model->id();?>"></a>
-                                </div>
-                                <?php
-                            }
-                            ?>
+							<?php
+							if ($profile_photo) {
+								?>
+								<div class="image">
+									<a href="model.php?id=<?php echo $model->id();?>">
+										<img class="img-fluid" src="<?php echo $profile_photo;?>"/>
+									</a>
+								</div>
+								<?php
+							} else {
+								?>
+								<div class="image placeholder" style="background-color: rgb(80, 80, 80);">
+									<a href="model.php?id=<?php echo $model->id();?>"></a>
+								</div>
+								<?php
+							}
+							?>
 							<div class="name"><a href="model.php?id=<?php echo $model->id();?>"><?php echo $model->first_name();?></a></div>
 						</div>
 					</div>
 					<?php
 				}
 				if (count($line) < LINE_SIZE) {
-				    $nb_remining_cols = LINE_SIZE - count($line);
-				    for ($i = 0; $i < $nb_remining_cols; ++$i) { ?>
-                        <div class="col-md-3"></div>
-                    <?php }
-                }
+					$nb_remining_cols = LINE_SIZE - count($line);
+					for ($i = 0; $i < $nb_remining_cols; ++$i) { ?>
+						<div class="col-md-3"></div>
+					<?php }
+				}
 				?>
 				</div><?php
 			} ?>

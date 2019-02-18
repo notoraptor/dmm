@@ -113,8 +113,6 @@ nav {
 /* md */
 @media (min-width: 768px) {}
 
-#models .current-trend {
-}
 #models .model .placeholder a {
     display: block;
     position: absolute;
@@ -167,6 +165,7 @@ nav {
 }
 
 #model .wrapper {
+    flex-flow: column wrap;
     position: absolute;
     padding-top: 3rem;
     padding-bottom: 3rem;
@@ -194,19 +193,23 @@ nav {
 #model .details .detail .value {
     text-transform: uppercase;
 }
-
-#model .header {
+#model .wrapper .header {
     width: 50%;
+    height: 100%;
 }
 #model .logo img {
     width: 10rem;
 }
 #model .info {
     text-align: center;
-    z-index: 1;
+    position: relative;
+}
+#model .info .info-inner {
+    position: absolute;
+    width: 100%;
 }
 #model .info h1 {
-    font-size: 14rem;
+    font-size: 11.70vw;
     font-weight: normal;
     color: black;
     white-space: nowrap;

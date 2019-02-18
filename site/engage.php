@@ -5,19 +5,26 @@ require_once('priv/utils.php');
 require_once('priv/Data.php');
 require_once('_template.php');
 function get_post($name, $default = '') {return strip_tags(utils_safe_post($name, $default));}
+
+$id = utils_s_get('id');
+if (!ctype_digit($id))
+	utils_redirection('index.php');
 $db = new Database();
+$model = $db->model($id);
+if(!$model) utils_redirection('index.php');
+
 $config = $db->config();
 $data = new Data();
-$data->title = 'Engager | DMM';
+$data->title = 'Engager '.$model->full_name().' | DMM';
 $data->pagename = 'engage';
 $attention_message = '';
 $attention_type = '';
 if (!empty($_POST)) {
-	$name = get_post('name');
+	$name = htmlentities(get_post('name'));
 	$email = get_post('email');
 	$phone = get_post('phone');
-	$subject = get_post('subject');
-	$message = get_post('message');
+	$subject = htmlentities(get_post('subject'));
+	$message = htmlentities(get_post('message'));
 	if (!$name) {
 		$attention_message = 'Un nom est requis.';
 		$attention_type = 'error';
@@ -39,20 +46,21 @@ if (!empty($_POST)) {
         $message = str_replace("\r", "<br/>", $message);
 		$email_subject = 'DMM / FORMULAIRE D\'ENGAGEMENT ('.date('d/m/Y - H:i:s').')';
 		$body = '';
-		capture_start();
 		if (!$email)
 			$email = '(none)';
 		if (!$phone)
 			$phone = '(none)';
+		capture_start();
 		?>
 		<div>
-			<h1><?php echo $email_subject;?></h1>
+			<h1><?php echo $email_subject;?> POUR <?php echo htmlentities($model->full_name());?></h1>
 			<table>
+				<tr><td><strong>Mod&egrave;le demand&eacute;:</strong></td><td><a target="_blank" href="<?php echo server_http_path('model.php?id='.$model->id()); ?>"><?php echo htmlentities($model->full_name());?></a></td></tr>
 				<tr><td><strong>Nom:</strong></td><td><?php echo $name;?></td></tr>
 				<tr><td><strong>Courriel:</strong></td><td><?php echo $email;?></td></tr>
-				<tr><td><strong>Téléphone:</strong></td><td><?php echo $phone;?></td></tr>
+				<tr><td><strong>T&eacute;l&eacute;phone:</strong></td><td><?php echo $phone;?></td></tr>
 				<tr><td><strong>Sujet:</strong></td><td><?php echo $subject;?></td></tr>
-				<tr><td><strong>Message:</strong></td><td><?php echo $message;?></td></tr>
+				<tr><td valign="top"><strong>Message:</strong></td><td><?php echo $message;?></td></tr>
 			</table>
 		</div>
 		<?php
@@ -69,14 +77,28 @@ if (!empty($_POST)) {
 }
 capture_start();
 ?>
-<div class="engage container">
-    <h1>Engager</h1>
+<div class="engage container pt-5">
 	<?php if($attention_message) { ?>
-        <div class="p-2 message-<?php echo $attention_type;?>"><?php echo $attention_message;?></div>
+        <div class="p-2 my-2 message-<?php echo $attention_type;?>"><?php echo $attention_message;?></div>
 	<?php }; ?>
+    <?php
+	$pp = $model->get_profile_photo();
+	if ($pp) {
+	    ?>
+        <div class="row">
+            <div class="col-md-1"><img class="img-fluid" src="<?php echo $pp;?>"/></div>
+            <div class="col-md-11"><h1 class="text-center text-md-left">Engager <?php echo $model->full_name();?></h1></div>
+        </div>
+        <?php
+    } else {
+	    ?>
+        <h1 class="text-center text-md-left">Engager <?php echo $model->full_name();?></h1>
+        <?php
+    }
+    ?>
     <form method="post" class="mt-5">
         <fieldset class="form-group">
-            <legend>Remplir ce formulaire afin qu'un de nos agents puisse vous contacter</legend>
+            <legend class="text-center text-md-left my-2">Remplir ce formulaire afin qu'un de nos agents puisse vous contacter.</legend>
             <div class="form-row">
                 <div class="form-group col-sm">
                     <input type="text" name="name" class="form-control" placeholder="Nom" value="<?php echo utils_s_post('name', '');?>"/>
@@ -99,7 +121,7 @@ capture_start();
                 </div>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-dark px-4">Send</button>
+                <button type="submit" class="btn btn-dark px-4">Envoyer</button>
             </div>
         </fieldset>
     </form>
