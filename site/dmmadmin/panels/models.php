@@ -4,6 +4,11 @@ $db = new Database();
 <h3><a href="index.php?panel=newmodel">Créer un nouveau modèle</a></h3>
 <?php
 $models = $db->models();
+usort($models, function($a, $b) {
+	$coll = collator_create( 'fr_FR' );
+	return collator_compare( $coll, $a->full_name(), $b->full_name() );
+	// return strcmp($a->full_name(), $b->full_name());
+});
 if(!empty($models)) { ?>
 <h3>Gestion des modèles</h3>
 <div class="models"><?php

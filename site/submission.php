@@ -9,13 +9,6 @@ $db = new Database();
 $config = $db->config();
 $data = new Data();
 
-capture_start();
-?>
-<div class="submission">
-</div>
-<?php
-capture_end($data->content);
-
 $data->title = 'Submission | DMM';
 $data->pagename = 'submission';
 capture_start();

@@ -3,6 +3,7 @@ require_once(__DIR__.'/password.php');
 require_once(__DIR__.'/Set.php');
 
 $GLOBALS['CONFIG_FIELDS'] = array(
+    'site_email',
 	'home_text_left',
 	'home_text_right',
 	'home_text_bottom',
@@ -167,6 +168,7 @@ class Admin extends DatabaseRow {
 }
 
 class Config extends DatabaseRow  {
+	public function site_email() { return $this->data['site_email']; }
 	public function home_text_left() { return $this->data['home_text_left']; }
 	public function home_text_right() { return $this->data['home_text_right']; }
 	public function home_text_bottom() { return $this->data['home_text_bottom']; }
@@ -193,9 +195,15 @@ class Model extends DatabaseRow {
 	public function video_link() {return $this->data['video_link'];}
 	public function age() {return $this->data['age'];}
 	public function sex() {return $this->data['sex'];}
-	public function height() {return $this->data['height'];}
-	public function hair() {return $this->data['hair'];}
-	public function eyes() {return $this->data['eyes'];}
+
+	public function hauteur() {return $this->data['height'];}
+	public function taille() {return $this->data['taille'];}
+	public function taille_poitrine() {return $this->data['taille_poitrine'];}
+	public function taille_hanches() {return $this->data['taille_hanches'];}
+	public function taille_chaussures() {return $this->data['taille_chaussures'];}
+	public function yeux() {return $this->data['eyes'];}
+	public function cheveux() {return $this->data['hair'];}
+
 	public function photos() {return $this->data['photos'];}
 	public function date_naissance_year() {return $this->data['date_naissance_year'];}
 	public function date_naissance_month() {return $this->data['date_naissance_month'];}
@@ -391,6 +399,7 @@ class Database {
 	}
 	private function alterer_tables() {
 		$alterations = array(
+			array('SHOW COLUMNS FROM '.DB_PREFIX."configuration LIKE 'site_email'", 'ALTER TABLE '.DB_PREFIX.'configuration ADD site_email VARCHAR(512)'),
 			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'adresse'", 'ALTER TABLE '.DB_PREFIX.'model ADD adresse VARCHAR(512)'),
 			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'ville'", 'ALTER TABLE '.DB_PREFIX.'model ADD ville VARCHAR(255)'),
 			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'code_postal'", 'ALTER TABLE '.DB_PREFIX.'model ADD code_postal VARCHAR(255)'),

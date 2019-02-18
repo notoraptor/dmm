@@ -9,10 +9,10 @@ define('LINE_SIZE', 4);
 
 $db = new Database();
 $model_categories = $db->list_categories();
-$trend = utils_s_get('trend', '');
+$trend = utils_s_get('trend', 'model');
 if ($trend) {
 	$trend = urldecode($trend);
-	if (!$model_categories->contains($trend))
+	if (!$model_categories->contains($trend) || $trend == '_')
 	    $trend = '';
 }
 $all_models = $db->models();
@@ -30,9 +30,9 @@ capture_start();
 ?>
 	<div>
 		<div class="models-menu mb-5 float-md-left">
-			<div class="menu-title"><?php if ($trend) { ?><span class="current-trend"><?php echo $trend; ?></span><?php } else { ?>By Type<?php } ?></div>
+			<div class="menu-title"><?php if ($trend) { ?><span class="current-trend">By Type (<?php echo $trend; ?>)</span><?php } else { ?>By Type<?php } ?></div>
             <ul>
-                <?php if ($trend) { ?><li><a href="models.php">All trends</a></li><?php } ?>
+                <?php if ($trend) { ?><li><a href="models.php?trend=_">All trends</a></li><?php } ?>
 				<?php foreach($model_categories->values() as $model_category) if ($model_category != $trend) { ?>
 					<li><a href="models.php?trend=<?php echo urlencode($model_category);?>"><?php echo $model_category; ?></a></li>
 				<?php } ?>

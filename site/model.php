@@ -6,7 +6,7 @@ require_once('priv/Data.php');
 require_once('_template.php');
 $id = utils_s_get('id');
 if (!ctype_digit($id))
-	utils_redirection('index.php');
+    utils_redirection('index.php');
 $db = new Database();
 $model = $db->model($id);
 if(!$model) utils_redirection('index.php');
@@ -16,30 +16,54 @@ $data->pagename = 'model';
 $data->show_menu = false;
 $data->meta_description[] = $model->full_name();
 $data->meta_keywords[] = $model->full_name();
-$data->content_class = 'model py-5 d-flex';
+$data->content_class = 'model';
 capture_start();
 ?>
-<div class="header pl-5 d-flex">
-    <div>
-        <a class="logo" href="index.php"><img src="data/main/dmm_logo_cropped.png"/></a>
-    </div>
-    <div class="details align-self-center">
-        <h1><?php echo $model->first_name();?></h1>
-        <h2><?php echo $model->hint();?></h2>
-        <div class="buttons">
-			<?php if ($model->instagram_link()) { echo '<a target="_blank" class="button btn btn-outline-dark" href="'.$model->instagram_link().'">INSTAGRAM</a>'; } ?>
-			<?php if (utils_model_card($model->id())) { echo '<a target="_blank" class="button btn btn-outline-dark" href="'.utils_as_link(utils_model_card($model->id())).'">MODEL CARD</a>'; } ?>
-			<?php if ($model->video_link()) { echo '<a target="_blank" class="button btn btn-outline-dark" href="'.$model->video_link().'">CLIP</a>'; } ?>
+<div class="wrapper d-flex">
+    <div class="header pl-5 d-flex">
+        <div><a class="logo" href="index.php"><img src="data/main/dmm_logo_cropped.png"/></a></div>
+        <div class="info align-self-center">
+            <h1><?php echo $model->first_name();?></h1>
+            <h2><?php echo $model->hint();?></h2>
+            <div class="buttons">
+                <?php if ($model->instagram_link()) { echo '<a target="_blank" class="button btn btn-outline-dark" href="'.$model->instagram_link().'">INSTAGRAM</a>'; } ?>
+                <?php if (utils_model_card($model->id())) { echo '<a target="_blank" class="button btn btn-outline-dark" href="'.utils_as_link(utils_model_card($model->id())).'">MODEL CARD</a>'; } ?>
+                <?php if ($model->video_link()) { echo '<a target="_blank" class="button btn btn-outline-dark" href="'.$model->video_link().'">CLIP</a>'; } ?>
+                <a target="_blank" class="button btn btn-outline-dark" href="engage.php">ENGAGER</a>
+            </div>
         </div>
     </div>
+    <div class="photos">
+        <?php
+        if ($model->photos()) {
+            foreach ($model->photos() as $photo) {
+                ?><img class="mx-2" src="<?php echo $photo->getURL();?>"/><?php
+            }
+        } ?>
+    </div>
 </div>
-<div class="photos">
-<?php
-if ($model->photos()) {
-    foreach ($model->photos() as $photo) {
-        ?><img class="my-img-fluid mx-2" src="<?php echo $photo->getURL();?>"/><?php
+<div class="details d-flex align-items-end">
+    <?php
+    $details = array();
+    if ($model->hauteur()) $details[] = array('hauteur', $model->hauteur());
+    if ($model->taille()) $details[] = array('taille', $model->taille());
+    if ($model->taille_poitrine()) $details[] = array('poitrine', $model->taille_poitrine());
+    if ($model->taille_hanches()) $details[] = array('hanches', $model->taille_hanches());
+    if ($model->taille_chaussures()) $details[] = array('chaussures', $model->taille_chaussures());
+    if ($model->yeux()) $details[] = array('yeux', $model->yeux());
+    if ($model->cheveux()) $details[] = array('cheveux', $model->cheveux());
+    for ($i = 0; $i < count($details); ++$i) {
+        $detail = $details[$i];
+        $detail_name = $detail[0];
+        $detail_value = $detail[1];
+        ?>
+        <div class="detail px-2">
+            <span class="name"><?php echo $detail_name; ?></span>
+            <span class="value"><?php echo $detail_value; ?></span>
+        </div>
+        <?php
     }
-} ?>
+    ?>
 </div>
 <?php
 capture_end($data->content);

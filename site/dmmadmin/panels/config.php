@@ -17,6 +17,7 @@ function get_photo_field($title, $name, $photo_name, $photo_getter) {
 
 $db = new Database();
 if(!empty($_POST)) {
+	$site_email = utils_safe_post('site_email');
 	$home_text_left = utils_safe_post('home_text_left');
 	$home_text_right = utils_safe_post('home_text_right');
 	$home_text_bottom = utils_safe_post('home_text_bottom');
@@ -33,8 +34,12 @@ if(!empty($_POST)) {
 	$contact_video = hex2bin(utils_safe_post('contact_video'));
 	if($contact_video && (!utils_valid_url($contact_video) || !Video::parse($contact_video)))
 		utils_message_add_error("Le lien vidéo est invalide.");
+	else if ($site_email && !utils_valid_email($site_email)) {
+		utils_message_add_error("Le courriel est invalide.");
+    }
 	else {
 		$db->config_update(array(
+		        'site_email' => $site_email,
 		        'home_text_left' => $home_text_left,
 		        'home_text_right' => $home_text_right,
 		        'home_text_bottom' => $home_text_bottom,
@@ -56,6 +61,7 @@ else
     $post_video_link = $config->contact_video();
 $_POST = array(
 	'contact_video' => $post_video_link,
+	'site_email' => utils_safe_post('site_email', $config->site_email()),
 	'home_text_left' => utils_safe_post('home_text_left', $config->home_text_left()),
 	'home_text_right' => utils_safe_post('home_text_right', $config->home_text_right()),
 	'home_text_bottom' => utils_safe_post('home_text_bottom', $config->home_text_bottom()),
@@ -84,6 +90,7 @@ function add_photo_field($title, $name, $current_photo) {
 	<legend>Configuration du site</legend>
 	<div class="table">
 		<?php
+		echo utils_input('Site email','site_email', 'email');
 		echo utils_textarea('Home text left','home_text_left');
 		echo utils_textarea('Home text right','home_text_right');
 		echo utils_textarea('Home text bottom','home_text_bottom');

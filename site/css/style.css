@@ -37,14 +37,24 @@ nav {
     border-radius: 0 !important;
     background-color: white;
 }
+.message-error {
+    color: red;
+    border: 1px solid red;
+    border-radius: 0.25rem;
+}
+.message-success {
+    color: green;
+    border: 1px solid green;
+    border-radius: 0.25rem;
+}
 
 #home .logo-wrapper {
     width: 80%;
-    height: 10rem;
+    height: 8rem;
 }
 #home .logo-wrapper .logo {
     width: 100%;
-    height: 20rem;
+    height: 16rem;
     background-position: center center;
     background-size: contain;
     background-repeat: no-repeat;
@@ -65,7 +75,7 @@ nav {
     height: 100%;
 }
 #home .images .photo-1 {
-    width: 80%;
+    width: 75%;
     height: 80%;
     background-position: top left;
     background-size: contain;
@@ -157,36 +167,62 @@ nav {
     display: block;
 }
 
-#model #content {
+#model .wrapper {
     position: absolute;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
     width: 100%;
     height: 100%;
 }
+#model .details {
+    background-color: rgb(250, 250, 250);
+    height: 3rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+#model .details .detail {
+    border-right: 1px solid gray;
+}
+#model .details .detail .name {
+    font-family: Arial, Helvetica, sans-serif;
+    text-transform: lowercase;
+    font-size: 0.8rem;
+}
+#model .details .detail .value {
+    text-transform: uppercase;
+}
+
 #model .header {
     width: 50%;
 }
-#model .model .logo img {
+#model .logo img {
     width: 10rem;
 }
-#model .model .details {
+#model .info {
     text-align: center;
     z-index: 1;
 }
-#model .model .details h1 {
+#model .info h1 {
     font-size: 14rem;
     font-weight: normal;
     color: black;
     white-space: nowrap;
 }
-#model .model .details h2 {
+#model .info h2 {
     font-weight: normal;
     font-size: 5rem;
 }
 #model .photos {
-    white-space: nowrap;
     height: 100%;
+    white-space: nowrap;
 }
-
+#model .photos img {
+    max-height: 100%;
+}
 
 #contacts h1 {
     text-align: center;
@@ -237,4 +273,7 @@ nav {
 }
 #submission .bottom .text {
     font-size: 5rem; line-height: 5rem; position: relative; top: -2.5rem;
+}
+
+#engage .engage {
 }
