@@ -1,8 +1,8 @@
 <?php
 function template($data) {
 if (!session_id()) session_start();
-$menu_titles = array('ABOUT', 'MODELS', 'CONTACTS');
-$menu_names = array('index', 'models', 'contacts');
+$menu_titles = array('ABOUT', 'MODELS', 'CONTACT');
+$menu_names = array('index', 'models', 'contact');
 $count_menu = count($menu_titles);
 ob_start();
 ?><!DOCTYPE html>

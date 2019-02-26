@@ -34,7 +34,7 @@ if (isset($_FILES[$name]) && $_FILES[$name]['name']) {
 $contact_photos = $db->contact_photos();
 ?>
     <div class="table breadcumbs">
-        <div class="cell main"><h2>Portfolio de la page de contacts</h2></div>
+        <div class="cell main"><h2>Portfolio de la page de contact</h2></div>
     </div>
     <div class="configuration">
         <form method="post" enctype="multipart/form-data">

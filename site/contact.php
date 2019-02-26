@@ -46,8 +46,8 @@ capture_start();
 <?php
 capture_end($data->content);
 
-$data->title = 'Contacts | DMM';
-$data->pagename = 'contacts';
+$data->title = 'Contact | DMM';
+$data->pagename = 'contact';
 echo template($data);
 ?>
 

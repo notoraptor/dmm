@@ -226,33 +226,33 @@ nav {
     max-height: 100%;
 }
 
-#contacts h1 {
+#contact h1 {
     text-align: center;
 }
-#contacts .video-wrapper {
+#contact .video-wrapper {
     width: 60%;
     height: 30rem;
     float: left;
 }
-#contacts .video-wrapper .video {
+#contact .video-wrapper .video {
     width: 100%;
     height: 100%;
 }
-#contacts .video-wrapper .video iframe {
+#contact .video-wrapper .video iframe {
     width: 100%;
     height: 100%;
 }
-#contacts img {
+#contact img {
     max-width: 10rem;
     max-height: 10rem;
 }
-#contacts .presentation {
+#contact .presentation {
     position: relative;
 }
-#contacts .portfolio {
+#contact .portfolio {
     width: 85%;
 }
-#contacts .agents {
+#contact .agents {
     text-align: center;
     position: absolute;
     right: 0;
