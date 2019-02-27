@@ -25,7 +25,7 @@ ob_start();
 <?php } ?>
 <div id="content" class="<?php echo $data->content_class;?>">
     <?php if ($data->show_menu) { ?>
-    <nav class="row text-center my-5">
+    <nav class="row text-center my-5 align-items-center">
         <?php for ($i = 0; $i < $count_menu; ++$i) {
             $menu_title = $menu_titles[$i];
             $menu_name = $menu_names[$i];
@@ -37,8 +37,8 @@ ob_start();
             </div>
             <?php
         } ?>
-        <div class="col-md"><a href="index.php">facebook</a></div>
-        <div class="col-md"><a href="index.php">instagram</a></div>
+        <div class="col-md"><a class="top-link facebook py-1" target="_blank" href="index.php"></a></div>
+        <div class="col-md"><a class="top-link instagram py-1" target="_blank" href="index.php"></a></div>
     </nav>
     <?php };
 	echo $data->content;
