@@ -33,7 +33,7 @@ ob_end_clean();
 if(utils_has_redirection()) {
 	utils_execute_redirection();
 } else {
-	$donnees = new Data();
+	$donnees = new Data(null);
 	$the_title = '';
 	if(isset($GLOBALS['title'])) {
 		$the_title = $GLOBALS['title'].' | ';

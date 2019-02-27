@@ -10,7 +10,7 @@ if (!ctype_digit($id))
 $db = new Database();
 $model = $db->model($id);
 if(!$model) utils_redirection('index.php');
-$data = new Data();
+$data = new Data($db);
 $data->title = $model->full_name(). ' | DMM';
 $data->pagename = 'model';
 $data->show_menu = false;

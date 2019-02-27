@@ -18,6 +18,8 @@ function get_photo_field($title, $name, $photo_name, $photo_getter) {
 $db = new Database();
 if(!empty($_POST)) {
 	$site_email = utils_safe_post('site_email');
+	$link_facebook = hex2bin(utils_safe_post('link_facebook'));
+	$link_instagram = hex2bin(utils_safe_post('link_instagram'));
 	$home_text_left = utils_safe_post('home_text_left');
 	$home_text_right = utils_safe_post('home_text_right');
 	$home_text_bottom = utils_safe_post('home_text_bottom');
@@ -34,12 +36,18 @@ if(!empty($_POST)) {
 	$contact_video = hex2bin(utils_safe_post('contact_video'));
 	if($contact_video && (!utils_valid_url($contact_video) || !Video::parse($contact_video)))
 		utils_message_add_error("Le lien vidéo est invalide.");
+	else if ($link_instagram && !utils_valid_url($link_instagram))
+	    utils_message_add_error('Le lien instagram est invalide.');
+	else if ($link_facebook && !utils_valid_url($link_facebook))
+	    utils_message_add_error('Le lien facebook est invalide.');
 	else if ($site_email && !utils_valid_email($site_email)) {
 		utils_message_add_error("Le courriel est invalide.");
     }
 	else {
 		$db->config_update(array(
 		        'site_email' => $site_email,
+		        'link_facebook' => $link_facebook,
+		        'link_instagram' => $link_instagram,
 		        'home_text_left' => $home_text_left,
 		        'home_text_right' => $home_text_right,
 		        'home_text_bottom' => $home_text_bottom,
@@ -54,14 +62,11 @@ if(!empty($_POST)) {
 }
 $config = $db->config();
 if(!$config) die("Erreur interne: impossible de charger la configuration du site.");
-$post_video_link = utils_safe_post('contact_video');
-if ($post_video_link)
-    $post_video_link = hex2bin($post_video_link);
-else
-    $post_video_link = $config->contact_video();
 $_POST = array(
-	'contact_video' => $post_video_link,
+	'contact_video' => utils_encoded_url_from_post('contact_video', $config->contact_video()),
 	'site_email' => utils_safe_post('site_email', $config->site_email()),
+	'link_facebook' => utils_encoded_url_from_post('link_facebook', $config->link_facebook()),
+	'link_instagram' => utils_encoded_url_from_post('link_instagram', $config->link_instagram()),
 	'home_text_left' => utils_safe_post('home_text_left', $config->home_text_left()),
 	'home_text_right' => utils_safe_post('home_text_right', $config->home_text_right()),
 	'home_text_bottom' => utils_safe_post('home_text_bottom', $config->home_text_bottom()),
@@ -88,9 +93,12 @@ function add_photo_field($title, $name, $current_photo) {
 <form method="post" onsubmit="wrap();" enctype="multipart/form-data">
 <fieldset>
 	<legend>Configuration du site</legend>
+    <div><input type="submit" value="Mettre &agrave; jour"/></div>
 	<div class="table">
 		<?php
 		echo utils_input('Site email','site_email', 'email');
+		echo input_url("Instagram link", 'link_instagram');
+		echo input_url("Facebook link", 'link_facebook');
 		echo utils_textarea('Home text left','home_text_left');
 		echo utils_textarea('Home text right','home_text_right');
 		echo utils_textarea('Home text bottom','home_text_bottom');
@@ -106,7 +114,7 @@ function add_photo_field($title, $name, $current_photo) {
 		add_photo_field('Home photo 2', 'home_photo_2', utils_home_photo_2());
 		?>
 	</div>
-	<div><input type="submit" value="Mettre à jour"/></div>
+	<div><input type="submit" value="Mettre &agrave; jour"/></div>
     <script type="text/javascript">//<!--
         var textAreas = [
             'home_text_left',
@@ -118,7 +126,7 @@ function add_photo_field($title, $name, $current_photo) {
             'submission_bottom_photo_text',
         ];
         function wrap() {
-            careful(['contact_video']);
+            careful(['contact_video', 'link_facebook', 'link_instagram']);
             for(let i = 0; i < textAreas.length; ++i) {
                 const text_area = document.getElementById(indices[i]);
                 text_area.value = text_area.value.trim();

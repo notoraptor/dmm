@@ -11,7 +11,7 @@ $contact_photos = $db->contact_photos();
 $agents = $db->agents();
 $photos_lines = utils_array_to_lines($contact_photos, 4);
 $config = $db->config();
-$data = new Data();
+$data = new Data($db);
 $contact_video = $config->contact_video();
 
 capture_start();

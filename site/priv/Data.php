@@ -1,5 +1,6 @@
 <?php
 class Data {
+	public $db = null;
 	public $meta_description = array();
 	public $meta_keywords = array();
 	public $title = '';
@@ -10,7 +11,8 @@ class Data {
 	public $content = '';
 	public $scripts = '';
 	public $content_class = 'container-fluid px-5';
-	public function __construct() {
+	public function __construct(Database $db = null) {
+		$this->db = $db;
 		if(session_id()) {
 			if(isset($_SESSION['messages'])) {
 				if(isset($_SESSION['messages']['errors']))

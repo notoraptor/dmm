@@ -14,7 +14,7 @@ $model = $db->model($id);
 if(!$model) utils_redirection('index.php');
 
 $config = $db->config();
-$data = new Data();
+$data = new Data($db);
 $data->title = 'Engager '.$model->full_name().' | DMM';
 $data->pagename = 'engage';
 $attention_message = '';

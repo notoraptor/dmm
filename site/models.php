@@ -31,7 +31,7 @@ if ($trend) {
 }
 $models_lines = utils_array_to_lines($models, LINE_SIZE);
 $config = $db->config();
-$data = new Data();
+$data = new Data($db);
 
 capture_start();
 ?>

@@ -7,7 +7,7 @@ require_once('_template.php');
 
 $db = new Database();
 $config = $db->config();
-$data = new Data();
+$data = new Data($db);
 $home_photo_1 = utils_home_photo_1();
 $home_photo_2 = utils_home_photo_2();
 

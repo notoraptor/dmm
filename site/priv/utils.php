@@ -4,6 +4,8 @@ require_once(__DIR__.'/Set.php');
 
 $GLOBALS['CONFIG_FIELDS'] = array(
     'site_email',
+    'link_facebook',
+    'link_instagram',
 	'home_text_left',
 	'home_text_right',
 	'home_text_bottom',
@@ -13,7 +15,6 @@ $GLOBALS['CONFIG_FIELDS'] = array(
 	'submission_text',
 	'submission_bottom_photo_text'
 );
-
 $GLOBALS['MODEL_FIELDS'] = array(
 	'model_id',
 	'first_name',
@@ -50,7 +51,6 @@ $GLOBALS['MODEL_FIELDS'] = array(
 	'taille_veston',
 	'talents'
 );
-
 $GLOBALS['AGENT_FIELDS'] = array(
 	'agent_id',
 	'first_name',
@@ -58,7 +58,6 @@ $GLOBALS['AGENT_FIELDS'] = array(
 	'role',
 	'email'
 );
-
 $GLOBALS['DIR_DB'] = server_dir() . '/data';
 $GLOBALS['DIR_DB_MAIN'] = $GLOBALS['DIR_DB'] . '/main';
 
@@ -76,7 +75,6 @@ function utils_meta_description($keep = true, $more = array()) {
     }
     return implode(',', $terms);
 }
-
 function utils_meta_keywords($keep = true, $more = array()) {
 	$terms = array();
 	foreach($more as $term) $terms[] = $term;
@@ -169,6 +167,8 @@ class Admin extends DatabaseRow {
 
 class Config extends DatabaseRow  {
 	public function site_email() { return $this->data['site_email']; }
+	public function link_facebook() { return $this->data['link_facebook']; }
+	public function link_instagram() { return $this->data['link_instagram']; }
 	public function home_text_left() { return $this->data['home_text_left']; }
 	public function home_text_right() { return $this->data['home_text_right']; }
 	public function home_text_bottom() { return $this->data['home_text_bottom']; }
@@ -400,6 +400,8 @@ class Database {
 	private function alterer_tables() {
 		$alterations = array(
 			array('SHOW COLUMNS FROM '.DB_PREFIX."configuration LIKE 'site_email'", 'ALTER TABLE '.DB_PREFIX.'configuration ADD site_email VARCHAR(512)'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."configuration LIKE 'link_facebook'", 'ALTER TABLE '.DB_PREFIX.'configuration ADD link_facebook VARCHAR(512)'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."configuration LIKE 'link_instagram'", 'ALTER TABLE '.DB_PREFIX.'configuration ADD link_instagram VARCHAR(512)'),
 			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'adresse'", 'ALTER TABLE '.DB_PREFIX.'model ADD adresse VARCHAR(512)'),
 			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'ville'", 'ALTER TABLE '.DB_PREFIX.'model ADD ville VARCHAR(255)'),
 			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'code_postal'", 'ALTER TABLE '.DB_PREFIX.'model ADD code_postal VARCHAR(255)'),
@@ -838,6 +840,14 @@ function utils_safe_string($s) {
 	$chaine = strtolower($chaine);
 	return $chaine;
 };
+function utils_encoded_url_from_post($name, $default) {
+	$link = utils_safe_post($name);
+	if ($link)
+		$link = hex2bin($link);
+	else
+		$link = $default;
+	return $link;
+}
 
 function utils_valid_url($url) {return !filter_var($url, FILTER_VALIDATE_URL) === false;}
 function utils_valid_email($url) {return !filter_var($url, FILTER_VALIDATE_EMAIL) === false;}
@@ -985,13 +995,7 @@ function utils_microtime() {
 	return bcadd($realsec, $realmicro, 0);
 }
 
-function utils_upload(
-        $name,
-        $updir,
-        $file_name = null,
-        $extension = null,
-        $allowed_extensions = array(
-                'jpg', 'jpeg', 'gif', 'png', 'tif' , 'tiff', 'bmp', 'pdf', 'doc', 'docx', 'rtf', 'odt')) {
+function utils_upload($name, $updir, $file_name = null, $extension = null, $allowed_extensions = array('jpg', 'jpeg', 'gif', 'png', 'tif' , 'tiff', 'bmp', 'pdf', 'doc', 'docx', 'rtf', 'odt')) {
 	// Testons si le fichier a bien été envoyé et s'il n'y a pas d'erreur
 	$nom = '';
 	$erreur = '';
@@ -1214,7 +1218,5 @@ function print_models_for_articles($models_with_articles) {
 	capture_end($html);
 	return $html;
 }
-
-
 
 ?>

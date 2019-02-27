@@ -1,5 +1,5 @@
 <?php
-function template($data) {
+function template(Data $data) {
 if (!session_id()) session_start();
 $menu_titles = array('ABOUT', 'MODELS', 'CONTACT');
 $menu_names = array('index', 'models', 'contact');
@@ -36,9 +36,17 @@ ob_start();
                     <?php if ($data->pagename != $menu_name) { ?></a><?php } ?>
             </div>
             <?php
-        } ?>
-        <div class="col-md"><a class="top-link facebook py-1" target="_blank" href="index.php"></a></div>
-        <div class="col-md"><a class="top-link instagram py-1" target="_blank" href="index.php"></a></div>
+        }
+        $link_facebook = 'index.php';
+        $link_instagram = 'index.php';
+        if ($data->db) {
+            $config = $data->db->config();
+            $link_facebook = $config->link_facebook();
+            $link_instagram = $config->link_instagram();
+        }
+        ?>
+        <div class="col-md"><a class="top-link facebook py-1" target="_blank" href="<?php echo $link_facebook;?>"></a></div>
+        <div class="col-md"><a class="top-link instagram py-1" target="_blank" href="<?php echo $link_instagram;?>"></a></div>
     </nav>
     <?php };
 	echo $data->content;

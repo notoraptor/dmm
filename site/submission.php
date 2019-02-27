@@ -7,7 +7,7 @@ require_once('_template.php');
 
 $db = new Database();
 $config = $db->config();
-$data = new Data();
+$data = new Data($db);
 
 $data->title = 'Submission | DMM';
 $data->pagename = 'submission';
