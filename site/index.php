@@ -25,8 +25,8 @@ capture_start();
     </div>
     <div class="texts">
         <div class="row texts-wrapper">
-            <div class="left col-md"><?php echo $config->home_text_left();?></div>
-            <div class="right col-md">
+            <div class="left col-md-8"><?php echo $config->home_text_left();?></div>
+            <div class="right col-md-4">
                 <div class="right-wrapper">
 					<?php echo $config->home_text_right();?>
                 </div>
