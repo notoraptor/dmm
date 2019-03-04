@@ -56,12 +56,10 @@ nav {
 .top-link {
     width: 3rem;
     height: 3rem;
-    display: block;
-    float: right;
+    display: inline-block;
     background-position: center center;
-    background-size: 2.5rem 2.5rem;
+    background-size: 2.3rem 2.3rem;
     background-repeat: no-repeat;
-    margin-left: 5px;
 }
 .top-link.facebook {
     background-image: url("../data/utils/facebook-black.svg");
@@ -78,6 +76,7 @@ nav {
 
 .menu-words {
     font-size: 1.5rem;
+    padding-left: 5rem;
 }
 .menu-logos {
 }
@@ -143,11 +142,14 @@ nav {
     top: -8rem;
 }
 #home .texts .left {
-    font-size: 7rem;
+    font-size: 6vw;
     line-height: 7rem;
 }
 #home .texts .right .right-wrapper {
     padding-top: 12rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.9rem;
 }
 
 /* md */

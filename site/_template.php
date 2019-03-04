@@ -54,8 +54,8 @@ ob_start();
 					}
 					?>
                     <div class="col-md">
-                        <a class="top-link instagram py-1" target="_blank" href="<?php echo $link_instagram;?>"></a>
                         <a class="top-link facebook py-1" target="_blank" href="<?php echo $link_facebook;?>"></a>
+                        <a class="top-link instagram py-1" target="_blank" href="<?php echo $link_instagram;?>"></a>
                     </div>
                 </nav>
             </div>
