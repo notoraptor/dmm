@@ -49,12 +49,12 @@ nav {
 }
 
 .top-link {
-    width: 1rem;
-    height: 1.5rem;
+    width: 4rem;
+    height: 4rem;
     display: block;
-    margin: auto;
+    float: right;
     background-position: center center;
-    background-size: 1rem 1rem;
+    background-size: 3rem 3rem;
     background-repeat: no-repeat;
 }
 .top-link.facebook {
@@ -70,8 +70,20 @@ nav {
     background-image: url("../data/utils/instagram-gold.svg");
 }
 
+.menu-words {
+    font-size: 1.5rem;
+}
+.menu-logos {
+}
+.menu-words nav > div:first-child {
+    text-align: left;
+}
+.menu-words nav > div:last-child {
+    text-align: right;
+}
+
 #home .logo-wrapper {
-    width: 80%;
+    width: 75%;
     height: 8rem;
 }
 #home .logo-wrapper .logo {
@@ -106,7 +118,7 @@ nav {
     z-index: 2;
 }
 #home .images .photo-2 {
-    width: 80%;
+    width: 75%;
     height: 80%;
     background-position: bottom right;
     background-size: contain;

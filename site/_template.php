@@ -1,7 +1,7 @@
 <?php
 function template(Data $data) {
 if (!session_id()) session_start();
-$menu_titles = array('ABOUT', 'MODELS', 'CONTACT');
+$menu_titles = array('DIVERSITY', 'MODELS', 'CONTACT');
 $menu_names = array('index', 'models', 'contact');
 $count_menu = count($menu_titles);
 ob_start();
@@ -25,29 +25,39 @@ ob_start();
 <?php } ?>
 <div id="content" class="<?php echo $data->content_class;?>">
     <?php if ($data->show_menu) { ?>
-    <nav class="row text-center my-5 align-items-center">
-        <?php for ($i = 0; $i < $count_menu; ++$i) {
-            $menu_title = $menu_titles[$i];
-            $menu_name = $menu_names[$i];
-            ?>
-            <div class="col-md">
-                <?php if ($data->pagename != $menu_name) { ?><a href="<?php echo $menu_name.'.php'; ?>"><?php } ?>
-                    <?php echo $menu_title; ?>
-                    <?php if ($data->pagename != $menu_name) { ?></a><?php } ?>
+        <div class="row align-items-center">
+            <div class="col-md-9 menu-words">
+                <nav class="row text-center my-5 align-items-center">
+					<?php for ($i = 0; $i < $count_menu; ++$i) {
+						$menu_title = $menu_titles[$i];
+						$menu_name = $menu_names[$i];
+						?>
+                        <div class="col-md">
+							<?php if ($data->pagename != $menu_name) { ?><a href="<?php echo $menu_name.'.php'; ?>"><?php } ?>
+								<?php echo $menu_title; ?>
+								<?php if ($data->pagename != $menu_name) { ?></a><?php } ?>
+                        </div>
+						<?php
+					}
+					?>
+                </nav>
             </div>
-            <?php
-        }
-        $link_facebook = 'index.php';
-        $link_instagram = 'index.php';
-        if ($data->db) {
-            $config = $data->db->config();
-            $link_facebook = $config->link_facebook();
-            $link_instagram = $config->link_instagram();
-        }
-        ?>
-        <div class="col-md"><a class="top-link facebook py-1" target="_blank" href="<?php echo $link_facebook;?>"></a></div>
-        <div class="col-md"><a class="top-link instagram py-1" target="_blank" href="<?php echo $link_instagram;?>"></a></div>
-    </nav>
+            <div class="col-md-3 menu-logos">
+                <nav class="row text-right my-5 align-items-center">
+					<?php
+                    $link_facebook = 'index.php';
+					$link_instagram = 'index.php';
+					if ($data->db) {
+						$config = $data->db->config();
+						$link_facebook = $config->link_facebook();
+						$link_instagram = $config->link_instagram();
+					}
+					?>
+                    <div class="col-md"><a class="top-link facebook py-1" target="_blank" href="<?php echo $link_facebook;?>"></a></div>
+                    <div class="col-md"><a class="top-link instagram py-1" target="_blank" href="<?php echo $link_instagram;?>"></a></div>
+                </nav>
+            </div>
+        </div>
     <?php };
 	echo $data->content;
     ?>
