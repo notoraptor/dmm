@@ -1,7 +1,7 @@
 <?php
 function template(Data $data) {
 if (!session_id()) session_start();
-$menu_titles = array('DIVERSITY', 'MODELS', 'CONTACT');
+$menu_titles = array('DMM', 'MODELS', 'CONTACT');
 $menu_names = array('index', 'models', 'contact');
 $count_menu = count($menu_titles);
 ob_start();
@@ -25,9 +25,9 @@ ob_start();
 <?php } ?>
 <div id="content" class="<?php echo $data->content_class;?>">
     <?php if ($data->show_menu) { ?>
-        <div class="row align-items-center">
+        <div class="row align-items-center navigation my-5">
             <div class="col-md-9 menu-words">
-                <nav class="row text-center my-5 align-items-center">
+                <nav class="row text-center align-items-center">
 					<?php for ($i = 0; $i < $count_menu; ++$i) {
 						$menu_title = $menu_titles[$i];
 						$menu_name = $menu_names[$i];
@@ -43,7 +43,7 @@ ob_start();
                 </nav>
             </div>
             <div class="col-md-3 menu-logos">
-                <nav class="row text-right my-5 align-items-center">
+                <nav class="row text-right align-items-center">
 					<?php
                     $link_facebook = 'index.php';
 					$link_instagram = 'index.php';
