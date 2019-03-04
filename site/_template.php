@@ -53,8 +53,10 @@ ob_start();
 						$link_instagram = $config->link_instagram();
 					}
 					?>
-                    <div class="col-md"><a class="top-link facebook py-1" target="_blank" href="<?php echo $link_facebook;?>"></a></div>
-                    <div class="col-md"><a class="top-link instagram py-1" target="_blank" href="<?php echo $link_instagram;?>"></a></div>
+                    <div class="col-md">
+                        <a class="top-link instagram py-1" target="_blank" href="<?php echo $link_instagram;?>"></a>
+                        <a class="top-link facebook py-1" target="_blank" href="<?php echo $link_facebook;?>"></a>
+                    </div>
                 </nav>
             </div>
         </div>

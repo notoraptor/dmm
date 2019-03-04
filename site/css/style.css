@@ -48,14 +48,20 @@ nav {
     border-radius: 0.25rem;
 }
 
+#content.container-fluid {
+    padding-left: 5rem;
+    padding-right: 5rem;
+}
+
 .top-link {
-    width: 4rem;
-    height: 4rem;
+    width: 3rem;
+    height: 3rem;
     display: block;
     float: right;
     background-position: center center;
-    background-size: 3rem 3rem;
+    background-size: 2.5rem 2.5rem;
     background-repeat: no-repeat;
+    margin-left: 5px;
 }
 .top-link.facebook {
     background-image: url("../data/utils/facebook-black.svg");
