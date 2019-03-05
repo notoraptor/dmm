@@ -36,9 +36,9 @@ $data = new Data($db);
 capture_start();
 ?>
 	<div>
-		<div class="models-menu mb-5 float-md-left">
-			<div class="menu-title"><?php if ($has_trend) { ?><span class="current-trend"><?php echo $trend; ?></span><?php } else { ?>By Type<?php } ?></div>
-			<ul>
+		<div class="models-menu row">
+			<div class="menu-title col-md-3"><?php if ($has_trend) { ?><span class="current-trend"><?php echo $trend; ?></span><?php } else { ?>By Type<?php } ?></div>
+			<ul class="col-md">
 				<?php foreach($model_categories->values() as $model_category) { ?>
 					<li><a href="models.php?trend=<?php echo urlencode($model_category);?>"><?php echo $model_category; ?></a></li>
 				<?php } ?>

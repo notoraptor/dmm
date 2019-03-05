@@ -183,6 +183,10 @@ a:hover {
 
 #models .models-menu {
     font-size: 4rem;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    height: 4rem;
+    line-height: 4rem;
 }
 #models .models {
     clear: both;
@@ -191,7 +195,6 @@ a:hover {
     cursor: pointer;
 }
 #models .models-menu ul {
-    position: absolute;
     display: none;
     z-index: 1;
     list-style-type: none;
@@ -199,11 +202,17 @@ a:hover {
     margin: 0;
 }
 #models .models-menu ul li {
-    margin: 0;
-    padding: 0;
+    margin-bottom: 2rem;
+}
+#models .models-menu ul li:before {
+    content: '— ';
 }
 #models .models-menu:hover ul {
     display: block;
+}
+
+#models .models-menu:hover + .models .row:first-child .model .image {
+    opacity: 0.5;
 }
 
 #model .wrapper {
