@@ -36,13 +36,24 @@ $data = new Data($db);
 capture_start();
 ?>
 	<div>
-		<div class="models-menu row">
-			<div class="menu-title col-md-3"><?php if ($has_trend) { ?><span class="current-trend"><?php echo $trend; ?></span><?php } else { ?>By Type<?php } ?></div>
-			<ul class="col-md">
-				<?php foreach($model_categories->values() as $model_category) { ?>
-					<li><a href="models.php?trend=<?php echo urlencode($model_category);?>"><?php echo $model_category; ?></a></li>
-				<?php } ?>
-			</ul>
+		<div class="models-menu float-md-left">
+			<div class="menu-title">
+                <div class="title-text"><?php if ($has_trend) { echo $trend; } else { ?>By Type<?php } ?></div><div class="long-dash"></div>
+            </div>
+			<div class="menu-content">
+                <?php
+                $sorted_categories = $model_categories->values();
+                $nb_sorted_categories = count($sorted_categories);
+                if ($nb_sorted_categories) {
+                    $model_category = $sorted_categories[0];
+                    ?><span><a href="models.php?trend=<?php echo urlencode($model_category);?>"><?php echo $model_category; ?></a></span><?php
+                }
+                for ($i = 1; $i < $nb_sorted_categories; ++$i) {
+					$model_category = $sorted_categories[$i];
+					?>, <span><a href="models.php?trend=<?php echo urlencode($model_category);?>"><?php echo $model_category; ?></a></span><?php
+                }
+                ?>
+			</div>
 		</div>
 		<div class="models">
 			<?php foreach ($models_lines as $line) {

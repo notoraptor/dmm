@@ -78,8 +78,6 @@ a:hover {
     font-size: 1.5rem;
     padding-left: 5rem;
 }
-.menu-logos {
-}
 .menu-words nav > div:first-child {
     text-align: left;
 }
@@ -152,8 +150,7 @@ a:hover {
     font-size: 0.9rem;
 }
 
-/* md */
-@media (min-width: 768px) {}
+/* md */  @media (min-width: 768px) {}
 
 #models .model .placeholder a {
     display: block;
@@ -182,37 +179,44 @@ a:hover {
 }
 
 #models .models-menu {
-    font-size: 4rem;
-    margin-top: 5rem;
-    margin-bottom: 5rem;
-    height: 4rem;
-    line-height: 4rem;
-}
-#models .models {
-    clear: both;
+    font-size: 5rem;
+    position: relative;
+    margin-top: 6rem;
+    margin-bottom: 6rem;
+    /*background-color: red;*/
 }
 #models .models-menu .menu-title {
     cursor: pointer;
 }
-#models .models-menu ul {
+#models .models-menu .menu-title > div {
+    display: inline-block;
+}
+#models .models-menu .menu-title .long-dash {
+    width: 3rem;
+    height: 0.4rem;
+    background-color: black;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+#models .models-menu .menu-content {
     display: none;
     z-index: 1;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+    position: absolute;
+    width: 200%;
+    /*background-color: yellow;*/
 }
-#models .models-menu ul li {
-    margin-bottom: 2rem;
-}
-#models .models-menu ul li:before {
-    content: '— ';
-}
-#models .models-menu:hover ul {
+#models .models-menu:hover .menu-content {
     display: block;
 }
-
+#models .models-menu:hover .menu-title .long-dash {
+    width: 8rem;
+    transition: width 0.2s;
+}
 #models .models-menu:hover + .models .row:first-child .model .image {
     opacity: 0.5;
+}
+#models .models {
+    clear: both;
 }
 
 #model .wrapper {
