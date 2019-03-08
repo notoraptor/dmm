@@ -13,20 +13,21 @@ $data->title = 'Submission | DMM';
 $data->pagename = 'submission';
 capture_start();
 ?>
-<div class="submission">
+<div class="submission pt-5">
     <div class="header d-flex">
 		<?php if (utils_submission_photo()) { ?>
             <div class="photo"><img class="img-fluid" src="<?php echo utils_as_link(utils_submission_photo());?>"/></div>
 		<?php } ?>
-        <div class="logo align-self-center"><img class="img-fluid" src="data/main/dmm_logo_cropped.png"/></div>
+        <div class="logo align-self-center text-md-right">
+            <div class="text-open-call">Open Call</div>
+            <div class="text-details"><a href="details.php">details</a></div>
+        </div>
     </div>
-    <h2 class="py-4"><?php echo $config->submission_title();?></h2>
-    <p class="text-center"><?php echo $config->submission_text();?></p>
-    <div class="bottom text-center mt-5">
-        <?php if (utils_submission_bottom_photo()) { ?>
-        <div class="image"><img class="img-fluid" src="<?php echo utils_as_link(utils_submission_bottom_photo());?>"/></div>
-		<?php } ?>
-        <div class="text"><?php echo $config->submission_bottom_photo_text();?></div>
+    <div class="row">
+        <!-- texte -->
+        <div class="col-md"></div>
+        <!-- formulaire -->
+        <div class="col-md"></div>
     </div>
 </div>
 <?php

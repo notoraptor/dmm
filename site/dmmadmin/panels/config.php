@@ -32,6 +32,7 @@ if(!empty($_POST)) {
 	get_photo_field('Home photo 2', 'home_photo_2', utils_home_photo_2_name(), 'utils_home_photo_2');
 	get_photo_field('Submission photo', 'submission_photo', utils_submission_photo_name(), 'utils_submission_photo');
 	get_photo_field('Submission bottom photo', 'submission_bottom_photo', utils_submission_bottom_photo_name(), 'utils_submission_bottom_photo');
+	get_photo_field('Contact unique photo', 'contact_unique_photo', utils_contact_unique_photo_name(), 'utils_contact_unique_photo');
 
 	$contact_video = hex2bin(utils_safe_post('contact_video'));
 	if($contact_video && (!utils_valid_url($contact_video) || !Video::parse($contact_video)))
@@ -104,14 +105,15 @@ function add_photo_field($title, $name, $current_photo) {
 		echo utils_textarea('Home text bottom','home_text_bottom');
 		echo utils_textarea('Contact text','contact_text');
 		echo input_url("Contact video link", 'contact_video');
-		echo utils_textarea('Submission title','submission_title');
-		echo utils_textarea('Submission text','submission_text');
-		echo utils_textarea('Submission bottom photo text','submission_bottom_photo_text');
+		echo utils_textarea('Details page middle title','submission_title');
+		echo utils_textarea('Details page text','submission_text');
+		echo utils_textarea('Details page title','submission_bottom_photo_text');
 
-		add_photo_field('Submission bottom photo', 'submission_bottom_photo', utils_submission_bottom_photo());
+		add_photo_field('Details page photo', 'submission_bottom_photo', utils_submission_bottom_photo());
 		add_photo_field('Submission photo', 'submission_photo', utils_submission_photo());
 		add_photo_field('Home photo 1', 'home_photo_1', utils_home_photo_1());
 		add_photo_field('Home photo 2', 'home_photo_2', utils_home_photo_2());
+		add_photo_field('Contact unique photo', 'contact_unique_photo', utils_contact_unique_photo());
 		?>
 	</div>
 	<div><input type="submit" value="Mettre &agrave; jour"/></div>

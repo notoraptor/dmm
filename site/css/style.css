@@ -73,7 +73,6 @@ a:hover {
 .top-link.instagram:hover {
     background-image: url("../data/utils/instagram-gold.svg");
 }
-
 .menu-words {
     font-size: 1.24vw;
     padding-left: 5rem;
@@ -293,11 +292,15 @@ a:hover {
     text-align: center;
 }
 #contact .video-wrapper {
-    width: 60%;
-    height: 30rem;
-    float: left;
+    position: relative;
+}
+#contact .video-wrapper:after {
+    padding-top: 56.25%;
+    display: block;
+    content: '';
 }
 #contact .video-wrapper .video {
+    position: absolute;
     width: 100%;
     height: 100%;
 }
@@ -305,20 +308,8 @@ a:hover {
     width: 100%;
     height: 100%;
 }
-#contact img {
-    max-width: 10rem;
-    max-height: 10rem;
-}
-#contact .presentation {
-    position: relative;
-}
-#contact .portfolio {
-    width: 85%;
-}
 #contact .agents {
     text-align: center;
-    position: absolute;
-    right: 0;
 }
 
 #submission h2 {
@@ -331,7 +322,12 @@ a:hover {
     width: 80%;
 }
 #submission .header .logo {
-    position: absolute; right: 0; width: 50%;
+    position: absolute;
+    right: 0;
+    width: 50%;
+}
+#submission .header .logo .text-open-call {
+    font-size: 10rem;
 }
 #submission .bottom .image {
     max-width: 50%; margin: auto;
@@ -341,4 +337,9 @@ a:hover {
 }
 
 #engage .engage {
+}
+
+#details .image {
+    max-width: 50%;
+    margin: auto;
 }

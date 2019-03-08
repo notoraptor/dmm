@@ -118,6 +118,7 @@ function utils_home_photo_1_name() {return 'home_1';}
 function utils_home_photo_2_name() {return 'home_2';}
 function utils_submission_photo_name() {return 'submission';}
 function utils_submission_bottom_photo_name() {return 'submission_bottom';}
+function utils_contact_unique_photo_name() {return 'contact_photo;';}
 function utils_model_photo_prefix($model_id) {return 'model_'.$model_id;}
 function utils_model_photo_name($model_id, $photo_id) {return utils_model_photo_prefix($model_id).'_'.$photo_id;}
 function utils_model_card_name($model_id) {return 'card_'.$model_id;}
@@ -128,6 +129,7 @@ function utils_home_photo_1() {return utils_photo(DIR_DB(), utils_home_photo_1_n
 function utils_home_photo_2() {return utils_photo(DIR_DB(), utils_home_photo_2_name());}
 function utils_submission_photo() {return utils_photo(DIR_DB(), utils_submission_photo_name());}
 function utils_submission_bottom_photo() {return utils_photo(DIR_DB(), utils_submission_bottom_photo_name());}
+function utils_contact_unique_photo() {return utils_photo(DIR_DB(), utils_contact_unique_photo_name());}
 function utils_model_photo($model_id, $photo_id) {return utils_photo(DIR_DB(), utils_model_photo_name($model_id, $photo_id));}
 function utils_model_photos($model_id) {return utils_photos(DIR_DB(), utils_model_photo_prefix($model_id));}
 function utils_model_card($model_id) {

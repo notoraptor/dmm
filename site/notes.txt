@@ -1,5 +1,4 @@
 - Menu By type dans models: exactement le même que sur https://agneslloydplatt.com/projects/
-- Taille de la barre de menus: mêmes proportions comme sur mon ordinateur
 
 PLus tard:
 - traduction

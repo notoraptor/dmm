@@ -13,32 +13,33 @@ $photos_lines = utils_array_to_lines($contact_photos, 4);
 $config = $db->config();
 $data = new Data($db);
 $contact_video = $config->contact_video();
+$contact_unique_photo = utils_contact_unique_photo();
 
 capture_start();
 ?>
-<div class="contacts pt-5">
+<div class="contacts pt-5 pb-5">
     <h1 class="mt-5 pb-4"><?php echo $config->contact_text();?></h1>
-    <div class="presentation d-flex">
-        <div class="portfolio">
-			<?php if ($contact_video) {
-				$video_info = get_video_codes($contact_video);
-				echo $video_info[0];
-				$data->scripts .= $video_info[1];
-			} ?>
-			<?php foreach ($contact_photos as $photo) {
-				?><img class="ml-2 mb-2" src="<?php echo $photo->getURL();?>"/><?php
-			} ?>
-        </div>
-        <div class="agents">
-			<?php foreach($agents as $agent) {
-				?>
+    <div class="row">
+        <?php
+        if ($contact_video) {
+            $video_info = get_video_codes($contact_video);
+            $data->scripts .= $video_info[1];
+            ?><div class="col-md-7" style="position: relative;"><?php echo $video_info[0]; ?></div><?php
+        }
+        if ($contact_unique_photo) {
+            ?><div class="col-md-3"><img class="img-fluid" src="<?php echo utils_as_link($contact_unique_photo);?>"/></div><?php
+        }
+        ?>
+        <div class="agents col-md-2">
+            <?php foreach($agents as $agent) {
+                ?>
                 <div class="agent my-4">
                     <div class="name"><?php echo $agent->full_name();?></div>
                     <div class="role"><?php echo $agent->role();?></div>
                     <?php if ($agent->email()) { ?><div class="email"><a target="_blank" href="mailto:<?php echo $agent->email();?>"><?php echo $agent->email();?></a></div><?php } ?>
                 </div>
-				<?php
-			} ?>
+                <?php
+            } ?>
             <div class="mt-5">
                 <a class="button btn btn-outline-dark" href="submission.php">for model submission</a>
             </div>
