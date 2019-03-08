@@ -184,13 +184,11 @@ a:hover {
 #models .model:hover .image {
     opacity: 0.5;
 }
-
 #models .models-menu {
     font-size: 5rem;
     position: relative;
     margin-top: 6rem;
     margin-bottom: 6rem;
-    /*background-color: red;*/
 }
 #models .models-menu .menu-title {
     cursor: pointer;
@@ -210,7 +208,6 @@ a:hover {
     z-index: 1;
     position: absolute;
     width: 200%;
-    /*background-color: yellow;*/
 }
 #models .models-menu:hover .menu-content {
     display: block;
@@ -334,6 +331,37 @@ a:hover {
 }
 #submission .bottom .text {
     font-size: 5rem; line-height: 5rem; position: relative; top: -2.5rem;
+}
+#submission form .files label {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+}
+#submission form .files .example-image {
+    background-color: rgb(80, 80, 80);
+}
+#submission form .files .example-image:after {
+    padding-top: 177%;
+    display: block;
+    content: '';
+}
+
+#submission form .selections label, #submission form button {
+    text-transform: uppercase;
+}
+#submission ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    text-transform: uppercase;
+    /* opacity: 1; *//* Firefox */
+}
+#submission :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    text-transform: uppercase;
+}
+#submission ::-ms-input-placeholder { /* Microsoft Edge */
+    text-transform: uppercase;
 }
 
 #engage .engage {
