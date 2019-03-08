@@ -14,7 +14,7 @@ $home_photo_2 = utils_home_photo_2();
 capture_start();
 ?>
 <div class="pt-5">
-    <div class="logo-wrapper">
+    <div class="logo-wrapper mt-5">
         <div class="logo" style="background-image: url('data/main/dmm_logo_cropped.png');"></div>
     </div>
     <div class="images">

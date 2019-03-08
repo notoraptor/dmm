@@ -12,7 +12,7 @@ $model_categories = $db->list_categories();
 $trend = utils_s_get('trend', '');
 $has_trend = true;
 if (!$trend) {
-	$trend = 'model';
+	$trend = 'models';
 	$has_trend = false;
 }
 if ($trend) {

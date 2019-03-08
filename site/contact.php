@@ -16,8 +16,8 @@ $contact_video = $config->contact_video();
 
 capture_start();
 ?>
-<div class="contacts">
-    <h1 class="pb-4"><?php echo $config->contact_text();?></h1>
+<div class="contacts pt-5">
+    <h1 class="mt-5 pb-4"><?php echo $config->contact_text();?></h1>
     <div class="presentation d-flex">
         <div class="portfolio">
 			<?php if ($contact_video) {
@@ -35,11 +35,13 @@ capture_start();
                 <div class="agent my-4">
                     <div class="name"><?php echo $agent->full_name();?></div>
                     <div class="role"><?php echo $agent->role();?></div>
-                    <div class="email"><?php echo $agent->email();?></div>
+                    <?php if ($agent->email()) { ?><div class="email"><a target="_blank" href="mailto:<?php echo $agent->email();?>"><?php echo $agent->email();?></a></div><?php } ?>
                 </div>
 				<?php
 			} ?>
-            <a class="button btn btn-outline-dark" href="submission.php">for model submission</a>
+            <div class="mt-5">
+                <a class="button btn btn-outline-dark" href="submission.php">for model submission</a>
+            </div>
         </div>
     </div>
 </div>
