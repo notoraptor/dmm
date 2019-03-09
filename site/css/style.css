@@ -321,10 +321,10 @@ a:hover {
 #submission .header .logo {
     position: absolute;
     right: 0;
-    width: 50%;
+    min-width: 50%;
 }
 #submission .header .logo .text-open-call {
-    font-size: 10rem;
+    font-size: 8.5vw;
 }
 #submission .bottom .image {
     max-width: 50%; margin: auto;

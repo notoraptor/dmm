@@ -24,13 +24,13 @@ capture_start();
         if ($contact_video) {
             $video_info = get_video_codes($contact_video);
             $data->scripts .= $video_info[1];
-            ?><div class="col-md-7" style="position: relative;"><?php echo $video_info[0]; ?></div><?php
+            ?><div class="col-lg-7" style="position: relative;"><?php echo $video_info[0]; ?></div><?php
         }
         if ($contact_unique_photo) {
-            ?><div class="col-md-3"><img class="img-fluid" src="<?php echo utils_as_link($contact_unique_photo);?>"/></div><?php
+            ?><div class="col-lg-3"><img class="img-fluid" src="<?php echo utils_as_link($contact_unique_photo);?>"/></div><?php
         }
         ?>
-        <div class="agents col-md-2">
+        <div class="agents col-lg-2">
             <?php foreach($agents as $agent) {
                 ?>
                 <div class="agent my-4">
