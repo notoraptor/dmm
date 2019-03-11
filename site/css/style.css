@@ -115,28 +115,30 @@ a:hover {
     width: 100%;
     height: 100%;
 }
-#home .images .photo-1 {
-    width: 75%;
-    height: 75%;
-    background-position: top left;
-    background-size: contain;
-    background-repeat: no-repeat;
-    position: relative;
-    z-index: 2;
-}
-#home .images .photo-2 {
-    width: 75%;
-    height: 75%;
-    background-position: bottom right;
-    background-size: contain;
-    background-repeat: no-repeat;
+#home .images img.image-1 {
+    display: block;
     position: absolute;
     z-index: 1;
+}
+#home .images img.image-2 {
+    display: block;
+    position: absolute;
     bottom: 0;
     right: 0;
 }
-#home .images .photo-2:hover {
-    z-index: 2;
+
+#home .images img.long-width {
+    width: 75%;
+    height: auto;
+}
+
+#home .images img.long-height {
+    height: 75%;
+    width: auto;
+}
+
+#home .images img.image-2:hover {
+    z-index: 1;
 }
 #home .texts {
     position: relative;

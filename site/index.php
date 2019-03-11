@@ -11,6 +11,24 @@ $data = new Data($db);
 $home_photo_1 = utils_home_photo_1();
 $home_photo_2 = utils_home_photo_2();
 
+$class_1 = 'long-width';
+$class_2 = 'long-width';
+
+if ($home_photo_1) {
+    $size_1 = getimagesize($home_photo_1);
+    $width = $size_1[0];
+    $height = $size_1[0];
+    if ($height > $width)
+        $class_1 = 'long-height';
+}
+if ($home_photo_2) {
+	$size_1 = getimagesize($home_photo_2);
+	$width = $size_1[0];
+	$height = $size_1[0];
+	if ($height > $width)
+		$class_2 = 'long-height';
+}
+
 capture_start();
 ?>
 <div class="pt-5">
@@ -19,8 +37,12 @@ capture_start();
     </div>
     <div class="images">
         <div class="images-wrapper">
-			<?php if ($home_photo_1) { ?><div class="photo-1" style="background-image: url('<?php echo utils_as_link($home_photo_1);?>');"></div><?php } ?>
-			<?php if ($home_photo_2) { ?><div class="photo-2" style="background-image: url('<?php echo utils_as_link($home_photo_2);?>');"></div><?php } ?>
+			<?php if ($home_photo_1) { ?>
+            <img class="image-1 <?php echo $class_1;?>" src="<?php echo utils_as_link($home_photo_1);?>"/>
+            <?php } ?>
+			<?php if ($home_photo_2) { ?>
+            <img class="image-2 <?php echo $class_1;?>" src="<?php echo utils_as_link($home_photo_2);?>"/>
+            <?php } ?>
         </div>
     </div>
     <div class="texts">
