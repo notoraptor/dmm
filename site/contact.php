@@ -18,8 +18,7 @@ $contact_unique_photo = utils_contact_unique_photo();
 capture_start();
 ?>
 <div class="contacts pt-5 pb-5">
-    <h1 class="mt-5 pb-4"><?php echo $config->contact_text();?></h1>
-    <div class="row">
+    <div class="row mt-5">
         <?php
         if ($contact_video) {
             $video_info = get_video_codes($contact_video);

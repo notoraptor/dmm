@@ -54,7 +54,7 @@ capture_start();
                 </div>
             </div>
         </div>
-        <div class="bottom mt-5 pt-5 text-center"><?php echo $config->home_text_bottom();?></div>
+        <div class="bottom text-center"><?php echo $config->home_text_bottom();?></div>
     </div>
 </div>
 <?php

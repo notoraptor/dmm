@@ -54,9 +54,9 @@ a:hover {
 }
 
 .top-link {
-    width: 2.5vw;
-    height: 2.5vw;
-    background-size: 1.9vw 1.9vw;
+    width: 2.2vw;
+    height: 2.2vw;
+    background-size: 1.6vw 1.6vw;
     background-position: center center;
     background-repeat: no-repeat;
     display: inline-block;
@@ -74,7 +74,7 @@ a:hover {
     background-image: url("../data/utils/instagram-gold.svg");
 }
 .menu-words {
-    font-size: 1.24vw;
+    font-size: 1.2rem;
     padding-left: 5rem;
 }
 .menu-words nav > div:first-child {
@@ -126,17 +126,14 @@ a:hover {
     bottom: 0;
     right: 0;
 }
-
 #home .images img.long-width {
     width: 75%;
     height: auto;
 }
-
 #home .images img.long-height {
     height: 75%;
     width: auto;
 }
-
 #home .images img.image-2:hover {
     z-index: 1;
 }
@@ -154,6 +151,9 @@ a:hover {
     text-transform: uppercase;
     font-weight: bold;
     font-size: 0.9rem;
+}
+#home .bottom {
+    margin-top: 15rem;
 }
 
 /* md */  @media (min-width: 768px) {}
@@ -322,9 +322,6 @@ a:hover {
     max-height: 100%;
 }
 
-#contact h1 {
-    text-align: center;
-}
 #contact .video-wrapper {
     position: relative;
 }
@@ -352,7 +349,9 @@ a:hover {
 
 /* 1rem <=> 0.86vw */
 
-
+#submission h1 {
+    text-align: center;
+}
 #submission .header {
     position: relative;
 }

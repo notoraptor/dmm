@@ -113,11 +113,11 @@ function add_photo_field($title, $name, $current_photo) {
 		echo utils_textarea('Home text left','home_text_left');
 		echo utils_textarea('Home text right','home_text_right');
 		echo utils_textarea('Home text bottom','home_text_bottom');
-		echo utils_textarea('Contact text','contact_text');
 		echo input_url("Contact video link", 'contact_video');
 		echo utils_textarea('Details page middle title','submission_title');
 		echo utils_textarea('Details page text','submission_text');
 		echo utils_textarea('Details page title','submission_bottom_photo_text');
+		echo utils_textarea('Submission middle title','contact_text');
 		echo utils_textarea('Submission form text left','submission_form_text_left');
 		echo utils_textarea('Submission form text right','submission_form_text_right');
 
