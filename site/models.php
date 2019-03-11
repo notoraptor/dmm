@@ -69,6 +69,7 @@ capture_start();
 								<div class="image">
 									<a href="model.php?id=<?php echo $model->id();?>">
 										<img class="img-fluid" src="<?php echo $profile_photo;?>"/>
+                                        <span class="mask"></span>
 									</a>
 								</div>
 								<?php

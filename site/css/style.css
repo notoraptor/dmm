@@ -141,11 +141,11 @@ a:hover {
 #home .texts {
     position: relative;
     z-index: 3;
-    top: -8rem;
+    top: -6vw;
 }
 #home .texts .left {
     font-size: 6vw;
-    line-height: 7rem;
+    line-height: 6vw;
 }
 #home .texts .right .right-wrapper {
     padding-top: 12rem;
@@ -169,6 +169,27 @@ a:hover {
     display: block;
     content: '';
 }
+#models .model .image {
+    position: relative;
+}
+#models .model .image span.mask {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-image: linear-gradient(transparent, rgba(255, 255, 255, 0.5));
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s linear;
+    -webkit-transition: visibility 0s, opacity 0.3s linear;
+    -moz-transition: visibility 0s, opacity 0.3s linear;
+    -o-transition: visibility 0s, opacity 0.3s linear;
+}
+#models .model:hover .image span.mask,
+#models .models-menu:hover + .models .row:first-child .model .image span.mask {
+    visibility: visible;
+    opacity: 1;
+}
 #models .model .name {
     text-align: center;
     font-size: 2rem;
@@ -181,17 +202,16 @@ a:hover {
 #models .model:hover .name {
     visibility: visible;
 }
-#models .model:hover .image {
-    opacity: 0.5;
-}
 #models .models-menu {
     font-size: 5rem;
     position: relative;
     margin-top: 6rem;
     margin-bottom: 6rem;
+    width: 50%;
 }
 #models .models-menu .menu-title {
     cursor: pointer;
+    white-space: nowrap;
 }
 #models .models-menu .menu-title > div {
     display: inline-block;
@@ -202,22 +222,22 @@ a:hover {
     background-color: black;
     vertical-align: middle;
     margin-left: 5px;
+    transition: width 0.2s;
+    -webkit-transition: width 0.2s;
+    -moz-transition: width 0.2s;
+    -o-transition: width 0.2s;
 }
 #models .models-menu .menu-content {
     display: none;
     z-index: 1;
     position: absolute;
-    width: 200%;
+    width: 10em;
 }
 #models .models-menu:hover .menu-content {
     display: block;
 }
 #models .models-menu:hover .menu-title .long-dash {
     width: 8rem;
-    transition: width 0.2s;
-}
-#models .models-menu:hover + .models .row:first-child .model .image {
-    opacity: 0.5;
 }
 #models .models {
     clear: both;
@@ -307,7 +327,14 @@ a:hover {
 }
 #contact .agents {
     text-align: center;
+    white-space: nowrap;
 }
+#contact .agents .email {
+    font-size: 0.86vw;
+}
+
+/* 1rem <=> 0.86vw */
+
 
 #submission .header {
     position: relative;
