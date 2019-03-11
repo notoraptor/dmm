@@ -346,6 +346,9 @@ a:hover {
 #contact .agents .email {
     font-size: 0.86vw;
 }
+#contact .contacts > .row {
+    margin-top: 13rem;
+}
 
 /* 1rem <=> 0.86vw */
 
@@ -354,6 +357,7 @@ a:hover {
 }
 #submission .header {
     position: relative;
+    margin-top: 8rem;
 }
 #submission .header .photo {
     width: 80%;
@@ -411,7 +415,14 @@ a:hover {
 #engage .engage {
 }
 
-#details .image {
+#details .details {
     max-width: 50%;
     margin: auto;
+    margin-top: 13rem;
+}
+#details .main-text {
+    margin: auto;
+    text-align: justify;
+    text-align-last: center;
+    -moz-text-align-last: center;
 }

@@ -15,11 +15,11 @@ capture_start();
 ?>
 <div class="details py-5 mb-5">
     <h1 class="text-center mt-5"><?php echo $config->submission_bottom_photo_text();?></h1>
+    <p class="main-text"><?php echo $config->submission_text();?></p>
 	<?php if (utils_submission_bottom_photo()) { ?>
     <div class="image"><img alt="open call details" class="img-fluid" src="<?php echo utils_as_link(utils_submission_bottom_photo());?>"/></div>
 	<?php } ?>
     <h2 class="py-5 text-center"><?php echo $config->submission_title();?></h2>
-    <p class="text-center"><?php echo $config->submission_text();?></p>
 </div>
 <?php
 capture_end($data->content);

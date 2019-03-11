@@ -175,8 +175,8 @@ capture_start();
 	<?php if($attention_message) { ?>
         <div class="mt-5 p-2 message-<?php echo $attention_type;?>"><?php echo $attention_message;?></div>
 	<?php }; ?>
-    <h1 class="mt-5 pb-5"><?php echo $config->contact_text();?></h1>
-    <div class="row my-5">
+    <h1 class="my-5 pb-5"><?php echo $config->contact_text();?></h1>
+    <div class="row my-5 pt-5">
         <!-- texte -->
         <div class="col-md"><?php echo $config->submission_form_text_left();?></div>
         <!-- formulaire -->
