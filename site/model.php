@@ -27,8 +27,7 @@ capture_start();
 <div class="wrapper d-flex">
     <div class="header pl-5 d-flex">
         <div class="logo-div"><a class="logo" href="index.php"><img src="data/main/dmm_logo_cropped.png"/></a></div>
-        <div class="info flex-grow-1 d-flex">
-            <div class="info-inner align-self-center">
+        <div class="info flex-grow-1 d-flex flex-column align-self-center">
                 <h1><?php echo $model->first_name();?></h1>
                 <h2><?php echo $model->hint();?></h2>
                 <div class="buttons">
@@ -37,7 +36,6 @@ capture_start();
                     <?php if ($model->video_link()) { echo '<a target="_blank" class="button btn btn-outline-dark" href="'.$model->video_link().'">CLIP</a>'; } ?>
                     <a target="_blank" class="button btn btn-outline-dark" href="engage.php?id=<?php echo $model->id();?>">ENGAGER</a>
                 </div>
-            </div>
         </div>
     </div>
     <div class="photos">
