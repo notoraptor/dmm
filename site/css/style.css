@@ -263,6 +263,20 @@ a:hover {
     left: 0;
     right: 0;
 }
+#model .options {
+    z-index: 1;
+    height: 3rem;
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding-right: 0.3rem;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s linear;
+    -webkit-transition: visibility 0s, opacity 0.3s linear;
+    -moz-transition: visibility 0s, opacity 0.3s linear;
+    -o-transition: visibility 0s, opacity 0.3s linear;
+}
 #model .details .detail {
     border-right: 1px solid gray;
 }
@@ -296,8 +310,9 @@ a:hover {
     white-space: nowrap;
 }
 #model .info h2 {
+    font-size: 3vw;
     font-weight: normal;
-    font-size: 5rem;
+    white-space: nowrap;
 }
 #model .photos {
     height: 100%;

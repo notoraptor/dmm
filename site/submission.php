@@ -181,7 +181,7 @@ capture_start();
         <!-- formulaire -->
         <div class="col-md">
             <form method="post" enctype="multipart/form-data">
-                <div class="form-row selections">
+                <div class="form-row selections mb-4">
                     <div class="custom-control custom-radio custom-control-inline">
                         <input class="custom-control-input" type="radio" id="female" value="female" name="sex" <?php if (utils_s_post('sex') === 'female') {echo 'checked';} ?>>
                         <label class="custom-control-label" for="female">Femme</label>

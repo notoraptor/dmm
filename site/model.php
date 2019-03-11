@@ -19,6 +19,11 @@ $data->meta_keywords[] = $model->full_name();
 $data->content_class = 'model';
 capture_start();
 ?>
+<div class="options d-flex align-items-center" id="options">
+    <a target="_blank" class="button btn btn-outline-dark" href="engage.php?id=<?php echo $model->id();?>">BOOKING</a>
+    &nbsp;
+    <button type="button" class="button btn btn-outline-dark" onclick="horizAnim();">&laquo;</button>
+</div>
 <div class="wrapper d-flex">
     <div class="header pl-5 d-flex">
         <div class="logo-div"><a class="logo" href="index.php"><img src="data/main/dmm_logo_cropped.png"/></a></div>
@@ -93,6 +98,29 @@ capture_start();
         }
     })();
 // --></script>
+<script type="text/javascript">//<!--
+    function horizAnim(event) {
+        if (event)
+            event.preventDefault();
+        $('html,body').animate({
+            scrollLeft: 0
+        }, 'slow');
+    }
+    function checkScroll(event) {
+        const element = document.getElementById('options');
+        if (element) {
+            if (window.pageXOffset > 200) {
+                element.style.visibility = 'visible';
+                element.style.opacity = '1';
+            } else {
+                element.style.visibility = 'hidden';
+                element.style.opacity = '0';
+            }
+        }
+    };
+    window.onscroll = checkScroll;
+    checkScroll();
+//--></script>
 <?php
 capture_end($data->scripts);
 echo template($data, $model);
