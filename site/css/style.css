@@ -373,7 +373,7 @@ a:hover {
     background-repeat: no-repeat;
 }
 #submission form .files .example-image:after {
-    padding-top: 177%;
+    padding-top: 150%;
     display: block;
     content: '';
 }

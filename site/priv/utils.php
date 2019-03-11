@@ -560,6 +560,39 @@ class Database {
 		}
 		return $link;
 	}
+	public function model_order_update($model_id, $model_rank, $models) {
+	    if (empty($models))
+	        return false;
+		$other_models = array();
+		$updated_model = null;
+		foreach ($models as $model) {
+		    if ($model->id() == $model_id) {
+		        $updated_model = $model;
+            } else {
+		        $other_models[] = $model;
+            }
+        }
+		if (!$updated_model || empty($other_models))
+		    return false;
+		if ($model_rank <= $other_models[0]->trend_rank())
+			array_splice($other_models, 0, 0, array($updated_model));
+		else if ($model_rank > $other_models[count($other_models) - 1]->trend_rank())
+		    $other_models[] = $updated_model;
+		else for ($i = 1; $i < count($other_models); ++$i) {
+			$current_rank = $other_models[$i]->trend_rank();
+			$previous_rank = $other_models[$i-1]->trend_rank();
+			if ($model_rank == $current_rank || ($previous_rank < $model_rank && $model_rank < $current_rank)) {
+				array_splice($other_models, $i, 0, array($updated_model));
+				break;
+			}
+		}
+		if (count($models) != count($other_models))
+		    return false;
+		for ($i = 0; $i < count($other_models); ++$i) {
+			$this->secure_modif('UPDATE '.DB_PREFIX.'model SET trend_rank = ? WHERE model_id = ?', array($i, $other_models[$i]->id()));
+		}
+		return true;
+	}
 	public function model_photo_update($model_id, $photo_id, $photo_rank) {
 		$photos = $this->model_photos($model_id);
 		if (empty($photos))
@@ -600,8 +633,8 @@ class Database {
 		$data['photos'] = $this->model_photos($id);
 		return new Model($data);
 	}
-	public function models() {
-		$data = $this->secure_query('SELECT * FROM '.DB_PREFIX.'model ORDER BY trend_rank ASC, model_id ASC');
+	public function models($category = null) {
+		$data = $this->secure_query('SELECT * FROM '.DB_PREFIX.'model ORDER BY trend_rank ASC, first_name ASC, last_name ASC, model_id ASC');
 		$models = array();
 		// Vidéos.
 		$countModels = count($data);
@@ -609,7 +642,15 @@ class Database {
 			$data[$i]['photos'] = $this->model_photos($data[$i]['model_id']);
 			$models[] = new Model($data[$i]);
 		}
-		return $models;
+		$selected_models = $models;
+		if ($category) {
+		    $selected_models = array();
+		    foreach ($models as $model) {
+		        if ($model->category() == $category)
+		            $selected_models[] = $model;
+            }
+        }
+		return $selected_models;
 	}
 	public function model_update($id, $fields) {
 		$keys = array_keys($fields);

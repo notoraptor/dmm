@@ -12,8 +12,8 @@ $allowedPages = array(
 	'deletecompcard',
 	'deletemodel',
 	'model',
-	'modelphoto',
 	'modelportfolio',
+	'modelsorder',
 	'models',
 	'newmodel',
 	'users'
