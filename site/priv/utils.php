@@ -13,7 +13,9 @@ $GLOBALS['CONFIG_FIELDS'] = array(
 	'contact_video',
 	'submission_title',
 	'submission_text',
-	'submission_bottom_photo_text'
+	'submission_bottom_photo_text',
+    'submission_form_text_left',
+    'submission_form_text_right',
 );
 $GLOBALS['MODEL_FIELDS'] = array(
 	'model_id',
@@ -119,6 +121,10 @@ function utils_home_photo_2_name() {return 'home_2';}
 function utils_submission_photo_name() {return 'submission';}
 function utils_submission_bottom_photo_name() {return 'submission_bottom';}
 function utils_contact_unique_photo_name() {return 'contact_photo;';}
+function utils_submission_demo_photo_1_name() {return 'submission_demo_1';}
+function utils_submission_demo_photo_2_name() {return 'submission_demo_2';}
+function utils_submission_demo_photo_3_name() {return 'submission_demo_3';}
+function utils_submission_demo_photo_4_name() {return 'submission_demo_4';}
 function utils_model_photo_prefix($model_id) {return 'model_'.$model_id;}
 function utils_model_photo_name($model_id, $photo_id) {return utils_model_photo_prefix($model_id).'_'.$photo_id;}
 function utils_model_card_name($model_id) {return 'card_'.$model_id;}
@@ -130,6 +136,10 @@ function utils_home_photo_2() {return utils_photo(DIR_DB(), utils_home_photo_2_n
 function utils_submission_photo() {return utils_photo(DIR_DB(), utils_submission_photo_name());}
 function utils_submission_bottom_photo() {return utils_photo(DIR_DB(), utils_submission_bottom_photo_name());}
 function utils_contact_unique_photo() {return utils_photo(DIR_DB(), utils_contact_unique_photo_name());}
+function utils_submission_demo_photo_1() {return utils_photo(DIR_DB(), utils_submission_demo_photo_1_name());}
+function utils_submission_demo_photo_2() {return utils_photo(DIR_DB(), utils_submission_demo_photo_2_name());}
+function utils_submission_demo_photo_3() {return utils_photo(DIR_DB(), utils_submission_demo_photo_3_name());}
+function utils_submission_demo_photo_4() {return utils_photo(DIR_DB(), utils_submission_demo_photo_4_name());}
 function utils_model_photo($model_id, $photo_id) {return utils_photo(DIR_DB(), utils_model_photo_name($model_id, $photo_id));}
 function utils_model_photos($model_id) {return utils_photos(DIR_DB(), utils_model_photo_prefix($model_id));}
 function utils_model_card($model_id) {
@@ -179,6 +189,8 @@ class Config extends DatabaseRow  {
 	public function submission_title() { return $this->data['submission_title']; }
 	public function submission_text() { return $this->data['submission_text']; }
 	public function submission_bottom_photo_text() { return $this->data['submission_bottom_photo_text']; }
+	public function submission_form_text_left() { return $this->data['submission_form_text_left']; }
+	public function submission_form_text_right() { return $this->data['submission_form_text_right']; }
 }
 
 class Model extends DatabaseRow {
@@ -404,6 +416,8 @@ class Database {
 			array('SHOW COLUMNS FROM '.DB_PREFIX."configuration LIKE 'site_email'", 'ALTER TABLE '.DB_PREFIX.'configuration ADD site_email VARCHAR(512)'),
 			array('SHOW COLUMNS FROM '.DB_PREFIX."configuration LIKE 'link_facebook'", 'ALTER TABLE '.DB_PREFIX.'configuration ADD link_facebook VARCHAR(512)'),
 			array('SHOW COLUMNS FROM '.DB_PREFIX."configuration LIKE 'link_instagram'", 'ALTER TABLE '.DB_PREFIX.'configuration ADD link_instagram VARCHAR(512)'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."configuration LIKE 'submission_form_text_left'", 'ALTER TABLE '.DB_PREFIX.'configuration ADD submission_form_text_left TEXT'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."configuration LIKE 'submission_form_text_right'", 'ALTER TABLE '.DB_PREFIX.'configuration ADD submission_form_text_right TEXT'),
 			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'adresse'", 'ALTER TABLE '.DB_PREFIX.'model ADD adresse VARCHAR(512)'),
 			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'ville'", 'ALTER TABLE '.DB_PREFIX.'model ADD ville VARCHAR(255)'),
 			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'code_postal'", 'ALTER TABLE '.DB_PREFIX.'model ADD code_postal VARCHAR(255)'),

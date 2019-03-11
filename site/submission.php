@@ -34,7 +34,6 @@ if (!empty($_POST)) {
         'email' => 'email',
         'eyes' => 'eye colour',
 	);
-	$special_fields = array('email', 'mobile');
 	$file_fields = array('file-1', 'file-2', 'file-3', 'file-4');
 	foreach($required_fields as $field_name => $field_title) {
 		$field_value = get_post($field_name, false);
@@ -74,7 +73,7 @@ if (!empty($_POST)) {
 		}
 	}
 	if (!$attention_type) {
-		$subject = 'DIVERSITY MONTREAL / Submission request ('.date('d/m/Y - H:i:s').')';
+		$subject = 'DIVERSITY MONTREAL / Model Submission Request ('.date('d/m/Y - H:i:s').')';
 		$body = '';
 		$field_names_to_print = array(
 			'sex',
@@ -113,10 +112,10 @@ if (!empty($_POST)) {
             'dress' => 'Dress',
             'email' => 'Email',
             'eyes' => 'Eye colour',
-            'file-1' => 'File 1',
-            'file-2' => 'File 2',
-            'file-3' => 'File 3',
-            'file-4' => 'File 4',
+            'file-1' => 'Close-up (photo)',
+            'file-2' => 'Waist-up (photo)',
+            'file-3' => 'Full-length (photo)',
+            'file-4' => 'Profile (photo)',
             'hairs' => 'Hair colour',
             'hips' => 'Hips',
             'waist' => 'Waist',
@@ -129,7 +128,7 @@ if (!empty($_POST)) {
 				<?php
 				foreach($field_names_to_print as $field_name_to_print) {
 					$title = $fields_titles[$field_name_to_print];
-					$value = isset($fields[$field_name_to_print]) && $fields[$field_name_to_print] ? $fields[$field_name_to_print] : '(none)';
+					$value = isset($fields[$field_name_to_print]) ? $fields[$field_name_to_print] : '(none)';
 					?>
                     <tr><td><strong><?php echo $title;?>:</strong></td><td><?php echo $value;?></td></tr>
 					<?php
@@ -164,7 +163,7 @@ $data->pagename = 'submission';
 capture_start();
 ?>
 <div class="submission pt-5">
-    <div class="header d-flex">
+    <div class="header d-flex pb-5">
 		<?php if (utils_submission_photo()) { ?>
             <div class="photo"><img class="img-fluid" src="<?php echo utils_as_link(utils_submission_photo());?>"/></div>
 		<?php } ?>
@@ -178,14 +177,7 @@ capture_start();
 	<?php }; ?>
     <div class="row my-5">
         <!-- texte -->
-        <div class="col-md">
-            <p>
-                S'il vous plaît soumettre les photos de vous en copiant les modèles d'images ci-contre: portrait, plan taille, plein pied, profil 3/4.
-            </p>
-            <p>
-                Les photos digitales doivent être naturelles (pas de lumière directe), pas de maquillage, cheveux détachés, visage neutre.
-            </p>
-        </div>
+        <div class="col-md"><?php echo $config->submission_form_text_left();?></div>
         <!-- formulaire -->
         <div class="col-md">
             <form method="post" enctype="multipart/form-data">
@@ -257,37 +249,42 @@ capture_start();
                 </div>
                 <div class="form-row">
                     <div class="form-group col-sm">
-                        <input type="text" name="email" class="form-control" placeholder="Email" value="<?php echo utils_s_post('email', '');?>"/>
+                        <input type="email" name="email" class="form-control" placeholder="Email" value="<?php echo utils_s_post('email', '');?>"/>
                     </div>
                     <div class="form-group col-sm">
                         <input type="text" name="eyes" class="form-control" placeholder="Eye colour" value="<?php echo utils_s_post('eyes', '');?>"/>
                     </div>
                 </div>
+                <div class="my-5"><?php echo $config->submission_form_text_right();?></div>
                 <div class="mt-4 mb-2 info">IMAGES (UP TO 2MB EACH)</div>
                 <div class="form-row files align-items-center text-center">
                     <div class="form-group col-sm">
-                        <div class="example-image">
+                        <div>CLOSE-UP</div>
+                        <div class="example-image" <?php if (utils_submission_demo_photo_1()) { ?>style="background-image: url('<?php echo utils_as_link(utils_submission_demo_photo_1()); ?>');"<?php } ?>>
                             <label class="button btn btn-outline-dark">
                                 <span id="file-1">upload</span> <input type="file" name="file-1" hidden onchange="displayLabelFile(event, 'file-1');"/>
                             </label>
                         </div>
                     </div>
                     <div class="form-group col-sm">
-                        <div class="example-image">
+                        <div>WAIST-UP</div>
+                        <div class="example-image" <?php if (utils_submission_demo_photo_2()) { ?>style="background-image: url('<?php echo utils_as_link(utils_submission_demo_photo_2()); ?>');"<?php } ?>>
                             <label class="button btn btn-outline-dark">
                                 <span id="file-2">upload</span> <input type="file" name="file-2" hidden onchange="displayLabelFile(event, 'file-2');"/>
                             </label>
                         </div>
                     </div>
                     <div class="form-group col-sm">
-                        <div class="example-image">
+                        <div>FULL LENGTH</div>
+                        <div class="example-image" <?php if (utils_submission_demo_photo_3()) { ?>style="background-image: url('<?php echo utils_as_link(utils_submission_demo_photo_3()); ?>');"<?php } ?>>
                             <label class="button btn btn-outline-dark">
                                 <span id="file-3">upload</span> <input type="file" name="file-3" hidden onchange="displayLabelFile(event, 'file-3');"/>
                             </label>
                         </div>
                     </div>
                     <div class="form-group col-sm">
-                        <div class="example-image">
+                        <div>PROFILE</div>
+                        <div class="example-image" <?php if (utils_submission_demo_photo_4()) { ?>style="background-image: url('<?php echo utils_as_link(utils_submission_demo_photo_4()); ?>');"<?php } ?>>
                             <label class="button btn btn-outline-dark">
                                 <span id="file-4">upload</span> <input type="file" name="file-4" hidden onchange="displayLabelFile(event, 'file-3');"/>
                             </label>
