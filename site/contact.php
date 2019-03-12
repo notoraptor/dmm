@@ -17,7 +17,7 @@ $contact_unique_photo = utils_contact_unique_photo();
 
 capture_start();
 ?>
-<div class="contacts pt-5 pb-5">
+<div class="contacts pb-5">
     <div class="row">
         <?php
         if ($contact_video) {

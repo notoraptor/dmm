@@ -13,6 +13,7 @@ $GLOBALS['CONFIG_FIELDS'] = array(
 	'contact_video',
 	'submission_title',
 	'submission_text',
+	'submission_details',
 	'submission_bottom_photo_text',
     'submission_form_text_left',
     'submission_form_text_right',
@@ -184,12 +185,13 @@ class Config extends DatabaseRow  {
 	public function home_text_left() { return $this->data['home_text_left']; }
 	public function home_text_right() { return $this->data['home_text_right']; }
 	public function home_text_bottom() { return $this->data['home_text_bottom']; }
-	public function contact_text() { return $this->data['contact_text']; }
 	public function contact_video() { return $this->data['contact_video']; }
-	public function submission_title() { return $this->data['submission_title']; }
-	public function submission_text() { return $this->data['submission_text']; }
-	public function submission_bottom_photo_text() { return $this->data['submission_bottom_photo_text']; }
-	public function submission_form_text_left() { return $this->data['submission_form_text_left']; }
+	public function details_page_title() { return $this->data['submission_bottom_photo_text']; }
+	public function details_page_text() { return $this->data['submission_text']; }
+	public function details_page_middle_title() { return $this->data['submission_title']; }
+	public function submission_title() { return $this->data['contact_text']; }
+	public function submission_details() { return $this->data['submission_details']; }
+	public function submission_main_text() { return $this->data['submission_form_text_left']; }
 	public function submission_form_text_right() { return $this->data['submission_form_text_right']; }
 }
 
@@ -418,6 +420,7 @@ class Database {
 			array('SHOW COLUMNS FROM '.DB_PREFIX."configuration LIKE 'link_instagram'", 'ALTER TABLE '.DB_PREFIX.'configuration ADD link_instagram VARCHAR(512)'),
 			array('SHOW COLUMNS FROM '.DB_PREFIX."configuration LIKE 'submission_form_text_left'", 'ALTER TABLE '.DB_PREFIX.'configuration ADD submission_form_text_left TEXT'),
 			array('SHOW COLUMNS FROM '.DB_PREFIX."configuration LIKE 'submission_form_text_right'", 'ALTER TABLE '.DB_PREFIX.'configuration ADD submission_form_text_right TEXT'),
+			array('SHOW COLUMNS FROM '.DB_PREFIX."configuration LIKE 'submission_details'", 'ALTER TABLE '.DB_PREFIX.'configuration ADD submission_details TEXT'),
 			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'adresse'", 'ALTER TABLE '.DB_PREFIX.'model ADD adresse VARCHAR(512)'),
 			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'ville'", 'ALTER TABLE '.DB_PREFIX.'model ADD ville VARCHAR(255)'),
 			array('SHOW COLUMNS FROM '.DB_PREFIX."model LIKE 'code_postal'", 'ALTER TABLE '.DB_PREFIX.'model ADD code_postal VARCHAR(255)'),
