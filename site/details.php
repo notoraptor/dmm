@@ -15,7 +15,7 @@ capture_start();
 ?>
 <div class="details pb-5 mb-5">
     <h1 class="text-center"><?php echo $config->details_page_title();?></h1>
-    <p class="main-text mt-5 text-justify hidden" id="main-text"><?php echo $config->details_page_text();?></p>
+    <p class="main-text mt-5 text-justify hidden" id="main-text" style="font-size: 1.4rem;"><?php echo $config->details_page_text();?></p>
 	<?php if (utils_submission_bottom_photo()) { ?>
     <div class="image"><img alt="open call details" class="img-fluid" src="<?php echo utils_as_link(utils_submission_bottom_photo());?>"/></div>
 	<?php } ?>

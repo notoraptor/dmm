@@ -163,132 +163,136 @@ $data->pagename = 'submission';
 capture_start();
 ?>
 <div class="submission container">
-    <h1 class="text-center"><?php echo $config->submission_title();?></h1>
-    <div class="mt-5 hidden text-justify" id="main-text"><?php echo $config->submission_main_text();?></div>
-    <div class="text-md-right text-center mt-5">
-        <div><a href="details.php">details</a></div>
-        <div><?php echo $config->submission_details();?></div>
-    </div>
-	<?php if($attention_message) { ?>
-        <div class="mt-5 p-2 message-<?php echo $attention_type;?>"><?php echo $attention_message;?></div>
-	<?php }; ?>
-    <!-- formulaire -->
-    <div class="my-5 pb-5">
-        <form method="post" enctype="multipart/form-data">
-            <div class="form-row selections mb-4">
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input class="custom-control-input" type="radio" id="female" value="female" name="sex" <?php if (utils_s_post('sex') === 'female') {echo 'checked';} ?>>
-                    <label class="custom-control-label" for="female">Femme</label>
-                </div>
-                <div class="custom-control custom-radio custom-control-inline">
-                    <input class="custom-control-input" type="radio" id="male" value="male" name="sex" <?php if (utils_s_post('sex') === 'male') {echo 'checked';} ?>>
-                    <label class="custom-control-label" for="male">Homme</label>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-sm">
-                    <input type="text" name="first_name" class="form-control" placeholder="First name" value="<?php echo utils_s_post('first_name', '');?>"/>
-                </div>
-                <div class="form-group col-sm">
-                    <input type="text" name="height" class="form-control" placeholder="Height" value="<?php echo utils_s_post('height', '');?>"/>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-sm">
-                    <input type="text" name="last_name" class="form-control" placeholder="Last name" value="<?php echo utils_s_post('last_name', '');?>"/>
-                </div>
-                <div class="form-group col-sm">
-                    <input type="text" name="bust" class="form-control" placeholder="Bust" value="<?php echo utils_s_post('bust', '');?>"/>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-sm">
-                    <input type="number" name="age" class="form-control" placeholder="Age" value="<?php echo utils_s_post('age', '');?>"/>
-                </div>
-                <div class="form-group col-sm">
-                    <input type="text" name="waist" class="form-control" placeholder="Waist" value="<?php echo utils_s_post('waist', '');?>"/>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-sm-6">
-                    <input type="text" name="city" class="form-control" placeholder="City" value="<?php echo utils_s_post('city', '');?>"/>
-                </div>
-                <div class="form-group col-sm">
-                    <input type="text" name="hips" class="form-control" placeholder="Hips" value="<?php echo utils_s_post('hips', '');?>"/>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-sm-6">
-                    <input type="text" name="state" class="form-control" placeholder="STATE" value="<?php echo utils_s_post('state', '');?>"/>
-                </div>
-                <div class="form-group col-sm">
-                    <input type="text" name="dress_size" class="form-control" placeholder="Dress size" value="<?php echo utils_s_post('dress_size', '');?>"/>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-sm">
-                    <input type="text" name="country" class="form-control" placeholder="COUNTRY" value="<?php echo utils_s_post('country', '');?>"/>
-                </div>
-                <div class="form-group col-sm">
-                    <input type="text" name="shoe" class="form-control" placeholder="Shoe" value="<?php echo utils_s_post('shoe', '');?>"/>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-sm">
-                    <input type="text" name="mobile" class="form-control" placeholder="mobile" value="<?php echo utils_s_post('mobile', '');?>"/>
-                </div>
-                <div class="form-group col-sm">
-                    <input type="text" name="hair" class="form-control" placeholder="Hair" value="<?php echo utils_s_post('hair', '');?>"/>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-sm">
-                    <input type="email" name="email" class="form-control" placeholder="Email" value="<?php echo utils_s_post('email', '');?>"/>
-                </div>
-                <div class="form-group col-sm">
-                    <input type="text" name="eyes" class="form-control" placeholder="Eye colour" value="<?php echo utils_s_post('eyes', '');?>"/>
-                </div>
-            </div>
-            <div class="my-5"><?php echo $config->submission_form_text_right();?></div>
-            <div class="mt-4 mb-2 info">IMAGES (UP TO 2MB EACH)</div>
-            <div class="form-row files align-items-center text-center">
-                <div class="form-group col-sm">
-                    <div>CLOSE-UP</div>
-                    <div class="example-image" <?php if (utils_submission_demo_photo_1()) { ?>style="background-image: url('<?php echo utils_as_link(utils_submission_demo_photo_1()); ?>');"<?php } ?>>
-                        <label class="button btn btn-outline-dark">
-                            <span id="file-1">upload</span> <input type="file" name="file-1" hidden onchange="displayLabelFile(event, 'file-1');"/>
-                        </label>
+    <div class="px-5 mx-4">
+        <h1 class="text-center"><?php echo $config->submission_title();?></h1>
+        <div class="mt-5 hidden text-justify" id="main-text" style="font-size: 1.4rem;"><?php echo $config->submission_main_text();?></div>
+        <div class="text-center mt-5 pt-5 text-open-call">
+            <div><?php echo $config->submission_details();?></div>
+        </div>
+        <div class="details mt-5 text-right">
+            <div><a href="details.php">details</a></div>
+        </div>
+        <?php if($attention_message) { ?>
+            <div class="mt-5 p-2 message-<?php echo $attention_type;?>"><?php echo $attention_message;?></div>
+        <?php }; ?>
+        <!-- formulaire -->
+        <div class="my-5 pb-5">
+            <form method="post" enctype="multipart/form-data">
+                <div class="form-row selections mb-4">
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input class="custom-control-input" type="radio" id="female" value="female" name="sex" <?php if (utils_s_post('sex') === 'female') {echo 'checked';} ?>>
+                        <label class="custom-control-label" for="female">Femme</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input class="custom-control-input" type="radio" id="male" value="male" name="sex" <?php if (utils_s_post('sex') === 'male') {echo 'checked';} ?>>
+                        <label class="custom-control-label" for="male">Homme</label>
                     </div>
                 </div>
-                <div class="form-group col-sm">
-                    <div>WAIST-UP</div>
-                    <div class="example-image" <?php if (utils_submission_demo_photo_2()) { ?>style="background-image: url('<?php echo utils_as_link(utils_submission_demo_photo_2()); ?>');"<?php } ?>>
-                        <label class="button btn btn-outline-dark">
-                            <span id="file-2">upload</span> <input type="file" name="file-2" hidden onchange="displayLabelFile(event, 'file-2');"/>
-                        </label>
+                <div class="form-row">
+                    <div class="form-group col-sm">
+                        <input type="text" name="first_name" class="form-control" placeholder="First name" value="<?php echo utils_s_post('first_name', '');?>"/>
+                    </div>
+                    <div class="form-group col-sm">
+                        <input type="text" name="height" class="form-control" placeholder="Height" value="<?php echo utils_s_post('height', '');?>"/>
                     </div>
                 </div>
-                <div class="form-group col-sm">
-                    <div>FULL LENGTH</div>
-                    <div class="example-image" <?php if (utils_submission_demo_photo_3()) { ?>style="background-image: url('<?php echo utils_as_link(utils_submission_demo_photo_3()); ?>');"<?php } ?>>
-                        <label class="button btn btn-outline-dark">
-                            <span id="file-3">upload</span> <input type="file" name="file-3" hidden onchange="displayLabelFile(event, 'file-3');"/>
-                        </label>
+                <div class="form-row">
+                    <div class="form-group col-sm">
+                        <input type="text" name="last_name" class="form-control" placeholder="Last name" value="<?php echo utils_s_post('last_name', '');?>"/>
+                    </div>
+                    <div class="form-group col-sm">
+                        <input type="text" name="bust" class="form-control" placeholder="Bust" value="<?php echo utils_s_post('bust', '');?>"/>
                     </div>
                 </div>
-                <div class="form-group col-sm">
-                    <div>PROFILE</div>
-                    <div class="example-image" <?php if (utils_submission_demo_photo_4()) { ?>style="background-image: url('<?php echo utils_as_link(utils_submission_demo_photo_4()); ?>');"<?php } ?>>
-                        <label class="button btn btn-outline-dark">
-                            <span id="file-4">upload</span> <input type="file" name="file-4" hidden onchange="displayLabelFile(event, 'file-3');"/>
-                        </label>
+                <div class="form-row">
+                    <div class="form-group col-sm">
+                        <input type="number" name="age" class="form-control" placeholder="Age" value="<?php echo utils_s_post('age', '');?>"/>
+                    </div>
+                    <div class="form-group col-sm">
+                        <input type="text" name="waist" class="form-control" placeholder="Waist" value="<?php echo utils_s_post('waist', '');?>"/>
                     </div>
                 </div>
-            </div>
-            <div class="form-group mt-3 submit-button">
-                <button type="submit" class="button btn btn-lg btn-outline-dark btn-block">Submit</button>
-            </div>
-        </form>
+                <div class="form-row">
+                    <div class="form-group col-sm-6">
+                        <input type="text" name="city" class="form-control" placeholder="City" value="<?php echo utils_s_post('city', '');?>"/>
+                    </div>
+                    <div class="form-group col-sm">
+                        <input type="text" name="hips" class="form-control" placeholder="Hips" value="<?php echo utils_s_post('hips', '');?>"/>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-6">
+                        <input type="text" name="state" class="form-control" placeholder="STATE" value="<?php echo utils_s_post('state', '');?>"/>
+                    </div>
+                    <div class="form-group col-sm">
+                        <input type="text" name="dress_size" class="form-control" placeholder="Dress size" value="<?php echo utils_s_post('dress_size', '');?>"/>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm">
+                        <input type="text" name="country" class="form-control" placeholder="COUNTRY" value="<?php echo utils_s_post('country', '');?>"/>
+                    </div>
+                    <div class="form-group col-sm">
+                        <input type="text" name="shoe" class="form-control" placeholder="Shoe" value="<?php echo utils_s_post('shoe', '');?>"/>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm">
+                        <input type="text" name="mobile" class="form-control" placeholder="mobile" value="<?php echo utils_s_post('mobile', '');?>"/>
+                    </div>
+                    <div class="form-group col-sm">
+                        <input type="text" name="hair" class="form-control" placeholder="Hair" value="<?php echo utils_s_post('hair', '');?>"/>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm">
+                        <input type="email" name="email" class="form-control" placeholder="Email" value="<?php echo utils_s_post('email', '');?>"/>
+                    </div>
+                    <div class="form-group col-sm">
+                        <input type="text" name="eyes" class="form-control" placeholder="Eye colour" value="<?php echo utils_s_post('eyes', '');?>"/>
+                    </div>
+                </div>
+                <div class="my-5"><?php echo $config->submission_form_text_right();?></div>
+                <div class="mt-4 mb-2 info">IMAGES (UP TO 2MB EACH)</div>
+                <div class="form-row files align-items-center text-center">
+                    <div class="form-group col-sm">
+                        <div>CLOSE-UP</div>
+                        <div class="example-image" <?php if (utils_submission_demo_photo_1()) { ?>style="background-image: url('<?php echo utils_as_link(utils_submission_demo_photo_1()); ?>');"<?php } ?>>
+                            <label class="button btn btn-outline-dark">
+                                <span id="file-1">upload</span> <input type="file" name="file-1" hidden onchange="displayLabelFile(event, 'file-1');"/>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm">
+                        <div>WAIST-UP</div>
+                        <div class="example-image" <?php if (utils_submission_demo_photo_2()) { ?>style="background-image: url('<?php echo utils_as_link(utils_submission_demo_photo_2()); ?>');"<?php } ?>>
+                            <label class="button btn btn-outline-dark">
+                                <span id="file-2">upload</span> <input type="file" name="file-2" hidden onchange="displayLabelFile(event, 'file-2');"/>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm">
+                        <div>FULL LENGTH</div>
+                        <div class="example-image" <?php if (utils_submission_demo_photo_3()) { ?>style="background-image: url('<?php echo utils_as_link(utils_submission_demo_photo_3()); ?>');"<?php } ?>>
+                            <label class="button btn btn-outline-dark">
+                                <span id="file-3">upload</span> <input type="file" name="file-3" hidden onchange="displayLabelFile(event, 'file-3');"/>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm">
+                        <div>PROFILE</div>
+                        <div class="example-image" <?php if (utils_submission_demo_photo_4()) { ?>style="background-image: url('<?php echo utils_as_link(utils_submission_demo_photo_4()); ?>');"<?php } ?>>
+                            <label class="button btn btn-outline-dark">
+                                <span id="file-4">upload</span> <input type="file" name="file-4" hidden onchange="displayLabelFile(event, 'file-3');"/>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mt-3 submit-button">
+                    <button type="submit" class="button btn btn-lg btn-outline-dark btn-block">Submit</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 <?php
