@@ -33,6 +33,7 @@ if (!empty($_POST)) {
         'hair' => 'hair colour',
         'email' => 'email',
         'eyes' => 'eye colour',
+        'message' => 'message',
 	);
 	$file_fields = array('file-1', 'file-2', 'file-3', 'file-4');
 	foreach($required_fields as $field_name => $field_title) {
@@ -73,6 +74,13 @@ if (!empty($_POST)) {
 		}
 	}
 	if (!$attention_type) {
+	    $message = htmlentities($fields['message']);
+		$message = str_replace("\r\n", "<br/>", $message);
+		$message = str_replace("\n", "<br/>", $message);
+		$message = str_replace("\r", "<br/>", $message);
+		$fields['message'] = $message;
+    }
+	if (!$attention_type) {
 		$subject = 'DIVERSITY MONTREAL / Model Submission Request ('.date('d/m/Y - H:i:s').')';
 		$body = '';
 		$field_names_to_print = array(
@@ -93,6 +101,7 @@ if (!empty($_POST)) {
 			'city',
 			'state',
 			'country',
+			'message',
 		);
 		$fields_titles = array(
 			'age' => 'Age',
@@ -119,6 +128,7 @@ if (!empty($_POST)) {
             'hairs' => 'Hair colour',
             'hips' => 'Hips',
             'waist' => 'Waist',
+            'message' => 'Message',
 		);
 		capture_start();
 		?>
@@ -130,7 +140,7 @@ if (!empty($_POST)) {
 					$title = $fields_titles[$field_name_to_print];
 					$value = isset($fields[$field_name_to_print]) ? $fields[$field_name_to_print] : '(none)';
 					?>
-                    <tr><td><strong><?php echo $title;?>:</strong></td><td><?php echo $value;?></td></tr>
+                    <tr><td valign="top"><strong><?php echo $title;?>:</strong></td><td><?php echo $value;?></td></tr>
 					<?php
 				}
 				foreach($file_fields as $file_field_name) {
@@ -164,8 +174,14 @@ capture_start();
 ?>
 <div class="submission container">
     <div class="px-5 mx-4">
-        <h1 class="text-center"><?php echo $config->submission_title();?></h1>
-        <div class="mt-5 hidden text-justify" id="main-text" style="font-size: 1.4rem;"><?php echo $config->submission_main_text();?></div>
+        <div class="titled-outer text-center">
+            <div class="titled-inner">
+                <h1 class="text-center"><?php echo $config->submission_title();?></h1>
+                <div class="titled-content-wrapper d-flex">
+                    <div class="mt-5 text-justify flex-grow-1 square-text"><?php echo $config->submission_main_text();?></div>
+                </div>
+            </div>
+        </div>
         <div class="text-center mt-5 pt-5 text-open-call">
             <div><?php echo $config->submission_details();?></div>
         </div>
@@ -288,6 +304,14 @@ capture_start();
                         </div>
                     </div>
                 </div>
+                <div class="mt-4">
+                    <p><?php echo $config->submission_form_message_desc();?></p>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <textarea class="form-control" name="message" placeholder="Message"><?php echo utils_s_post('message', '');?></textarea>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group mt-3 submit-button">
                     <button type="submit" class="button btn btn-lg btn-outline-dark btn-block">Submit</button>
                 </div>
@@ -314,21 +338,6 @@ capture_start();
             }
         }
     }
-    function manageMainText() {
-        const element = document.getElementById('main-text');
-        if (element) {
-            console.log(`width: ${element.clientWidth}`);
-            console.log(`height: ${element.clientHeight}`);
-            const width = element.clientWidth;
-            const height = element.clientHeight;
-            const area = width * height;
-            const side = Math.sqrt(area);
-            element.classList.remove('hidden');
-            element.classList.add('displayed');
-            element.style.maxWidth = `${side}px`;
-        }
-    }
-    manageMainText();
 //--></script>
 <?php
 capture_end($data->scripts);

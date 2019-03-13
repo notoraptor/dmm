@@ -84,6 +84,24 @@ a:hover {
     text-align: right;
 }
 
+.titled-outer {
+    /*background-color: red;*/
+}
+.titled-inner {
+    /*background-color: green;*/
+    display: inline-block;
+}
+.titled-inner h1 {
+    /*background-color: blue;*/
+}
+.square-text {
+    font-size: 1.4rem;
+    text-align-last: center;
+    -moz-text-align-last: center;
+    /*background-color: yellow;*/
+    width: 0;
+}
+
 #home .logo-wrapper {
     width: 75%;
     position: relative;
@@ -155,8 +173,6 @@ a:hover {
 #home .bottom {
     margin-top: 15rem;
 }
-
-/* md */  @media (min-width: 768px) {}
 
 #models .model .placeholder a {
     display: block;
@@ -352,10 +368,8 @@ a:hover {
 
 /* 1rem <=> 0.86vw */
 
-#submission h1 {
+#submission .titled-outer {
     margin-top: 13rem;
-}
-#submission .displayed {
 }
 #submission .text-open-call {
     border-top: 1px solid black;
@@ -397,30 +411,20 @@ a:hover {
     text-transform: uppercase;
 }
 
-div#main-text.hidden {
-    position: absolute;
-    visibility: hidden;
-    width: auto;
-    height: auto;
-    white-space: nowrap;
-}
-div#main-text.displayed {
-    margin: auto;
-    text-align-last: center;
-    -moz-text-align-last: center;
-}
-
 #engage .engage {
 }
 
 #details .details {
-    max-width: 50%;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 13rem;
+}
+/*// Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+    #details .details {
+        max-width: 50%;
+    }
 }
 #details .main-text {
     margin: auto;
-    text-align: justify;
-    text-align-last: center;
-    -moz-text-align-last: center;
 }

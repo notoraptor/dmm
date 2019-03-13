@@ -14,8 +14,14 @@ $data->pagename = 'details';
 capture_start();
 ?>
 <div class="details pb-5 mb-5">
-    <h1 class="text-center"><?php echo $config->details_page_title();?></h1>
-    <p class="main-text mt-5 text-justify hidden" id="main-text" style="font-size: 1.4rem;"><?php echo $config->details_page_text();?></p>
+    <div class="titled-outer text-center">
+        <div class="titled-inner">
+            <h1 class="text-center"><?php echo $config->details_page_title();?></h1>
+            <div class="titled-content-wrapper d-flex">
+                <div class="mt-5 text-justify flex-grow-1 square-text"><?php echo $config->details_page_text();?></div>
+            </div>
+        </div>
+    </div>
 	<?php if (utils_submission_bottom_photo()) { ?>
     <div class="image"><img alt="open call details" class="img-fluid" src="<?php echo utils_as_link(utils_submission_bottom_photo());?>"/></div>
 	<?php } ?>
@@ -23,27 +29,6 @@ capture_start();
 </div>
 <?php
 capture_end($data->content);
-capture_start();
-?>
-<script>//<!--
-    function manageMainText() {
-        const element = document.getElementById('main-text');
-        if (element) {
-            console.log(`width: ${element.clientWidth}`);
-            console.log(`height: ${element.clientHeight}`);
-            const width = element.clientWidth;
-            const height = element.clientHeight;
-            const area = width * height;
-            const side = Math.sqrt(area);
-            element.classList.remove('hidden');
-            element.classList.add('displayed');
-            element.style.maxWidth = `${side}px`;
-        }
-    }
-    manageMainText();
-    //--></script>
-<?php
-capture_end($data->scripts);
 echo template($data);
 ?>
 

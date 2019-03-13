@@ -1,0 +1,36 @@
+<html>
+<head>
+    <style>
+        body {
+            text-align: center;
+        }
+        .wrapper > * {
+            border: 1px solid;
+        }
+        .child {
+            display: flex;
+        }
+        .child div {
+            flex-grow: 1;
+            width: 0;
+        }
+        .wrapper {
+            border: 1px solid red;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <h1>This div is dynamically sized based on its content</h1>
+    <div class="child">
+        <div>
+            This div will always be the same width as the preceding div, even if its content is longer
+            (or shorter too) lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
+            lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
+            lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum
+        </div>
+    </div>
+</div>
+</body>
+</html>
