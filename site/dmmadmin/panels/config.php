@@ -24,9 +24,7 @@ if(!empty($_POST)) {
 	$home_text_right = utils_safe_post('home_text_right');
 	$home_text_bottom = utils_safe_post('home_text_bottom');
 	$contact_text = utils_safe_post('contact_text');
-	$submission_title = utils_safe_post('submission_title');
 	$submission_text = utils_safe_post('submission_text');
-	$submission_bottom_photo_text = utils_safe_post('submission_bottom_photo_text');
 	$submission_form_text_left = utils_safe_post('submission_form_text_left');
 	$submission_details = utils_safe_post('submission_details');
 	$submission_form_text_right = utils_safe_post('submission_form_text_right');
@@ -35,7 +33,6 @@ if(!empty($_POST)) {
 	get_photo_field('Home photo 1', 'home_photo_1', utils_home_photo_1_name(), 'utils_home_photo_1');
 	get_photo_field('Home photo 2', 'home_photo_2', utils_home_photo_2_name(), 'utils_home_photo_2');
 	get_photo_field('Submission photo', 'submission_photo', utils_submission_photo_name(), 'utils_submission_photo');
-	get_photo_field('Submission bottom photo', 'submission_bottom_photo', utils_submission_bottom_photo_name(), 'utils_submission_bottom_photo');
 	get_photo_field('Contact unique photo', 'contact_unique_photo', utils_contact_unique_photo_name(), 'utils_contact_unique_photo');
 	get_photo_field('Submission form demo photo 1', 'submission_demo_photo_1', utils_submission_demo_photo_1_name(), 'utils_submission_demo_photo_1');
 	get_photo_field('Submission form demo photo 2', 'submission_demo_photo_2', utils_submission_demo_photo_2_name(), 'utils_submission_demo_photo_2');
@@ -61,9 +58,7 @@ if(!empty($_POST)) {
 		        'home_text_right' => $home_text_right,
 		        'home_text_bottom' => $home_text_bottom,
 		        'contact_text' => $contact_text,
-		        'submission_title' => $submission_title,
 		        'submission_text' => $submission_text,
-		        'submission_bottom_photo_text' => $submission_bottom_photo_text,
 		        'submission_form_text_left' => $submission_form_text_left,
 		        'submission_details' => $submission_details,
 		        'submission_form_text_right' => $submission_form_text_right,
@@ -84,9 +79,7 @@ $_POST = array(
 	'home_text_right' => utils_safe_post('home_text_right', $config->home_text_right()),
 	'home_text_bottom' => utils_safe_post('home_text_bottom', $config->home_text_bottom()),
 	'contact_text' => utils_safe_post('contact_text', $config->submission_title()),
-	'submission_title' => utils_safe_post('submission_title', $config->details_page_middle_title()),
-	'submission_text' => utils_safe_post('submission_text', $config->details_page_text()),
-	'submission_bottom_photo_text' => utils_safe_post('submission_bottom_photo_text', $config->details_page_title()),
+	'submission_text' => utils_safe_post('submission_text', $config->submission_more_details()),
 	'submission_form_text_left' => utils_safe_post('submission_form_text_left', $config->submission_main_text()),
 	'submission_details' => utils_safe_post('submission_details', $config->submission_details()),
 	'submission_form_text_right' => utils_safe_post('submission_form_text_right', $config->submission_form_text_right()),
@@ -120,16 +113,13 @@ function add_photo_field($title, $name, $current_photo) {
 		echo utils_textarea('Home text right','home_text_right');
 		echo utils_textarea('Home text bottom','home_text_bottom');
 		echo input_url("Contact video link", 'contact_video');
-		echo utils_textarea('Details page middle title','submission_title');
-		echo utils_textarea('Details page text','submission_text');
-		echo utils_textarea('Details page title','submission_bottom_photo_text');
 		echo utils_textarea('Submission title','contact_text');
 		echo utils_textarea('Submission main text','submission_form_text_left');
 		echo utils_textarea('Submission details line','submission_details');
+		echo utils_textarea('Submission more details line','submission_text');
 		echo utils_textarea('Submission form text for photos','submission_form_text_right');
 		echo utils_textarea('Submission form text for message','submission_form_message_desc');
 
-		add_photo_field('Details page photo', 'submission_bottom_photo', utils_submission_bottom_photo());
 		add_photo_field('Submission photo', 'submission_photo', utils_submission_photo());
 		add_photo_field('Submission form demo photo 1', 'submission_demo_photo_1', utils_submission_demo_photo_1());
 		add_photo_field('Submission form demo photo 2', 'submission_demo_photo_2', utils_submission_demo_photo_2());
@@ -147,9 +137,7 @@ function add_photo_field($title, $name, $current_photo) {
             'home_text_right',
             'home_text_bottom',
             'contact_text',
-            'submission_title',
             'submission_text',
-            'submission_bottom_photo_text',
             'submission_form_text_left',
             'submission_details',
             'submission_form_text_right',

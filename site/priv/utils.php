@@ -188,10 +188,10 @@ class Config extends DatabaseRow  {
 	public function home_text_bottom() { return $this->data['home_text_bottom']; }
 	public function contact_video() { return $this->data['contact_video']; }
 	public function details_page_title() { return $this->data['submission_bottom_photo_text']; }
-	public function details_page_text() { return $this->data['submission_text']; }
 	public function details_page_middle_title() { return $this->data['submission_title']; }
 	public function submission_title() { return $this->data['contact_text']; }
 	public function submission_details() { return $this->data['submission_details']; }
+	public function submission_more_details() { return $this->data['submission_text']; }
 	public function submission_main_text() { return $this->data['submission_form_text_left']; }
 	public function submission_form_message_desc() { return $this->data['submission_form_message_desc']; }
 	public function submission_form_text_right() { return $this->data['submission_form_text_right']; }

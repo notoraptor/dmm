@@ -18,7 +18,7 @@ $contact_unique_photo = utils_contact_unique_photo();
 capture_start();
 ?>
 <div class="contacts pb-5">
-    <div class="row">
+    <div class="row align-items-center">
         <?php
         if ($contact_video) {
             $video_info = get_video_codes($contact_video);
@@ -40,7 +40,7 @@ capture_start();
                 <?php
             } ?>
             <div class="mt-5">
-                <a class="button btn btn-outline-dark" href="submission.php">for model submission</a>
+                <a class="btn btn-dark no-border-radius" href="submission.php">for model submission</a>
             </div>
         </div>
     </div>

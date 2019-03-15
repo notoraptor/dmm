@@ -37,6 +37,9 @@ a:hover {
     border-radius: 0 !important;
     background-color: white;
 }
+.no-border-radius {
+    border-radius: 0 !important;
+}
 .message-error {
     color: red;
     border: 1px solid red;
@@ -373,6 +376,35 @@ a:hover {
 }
 #submission .text-open-call {
     border-top: 1px solid black;
+    position: relative;
+}
+#submission .few-details {
+    position: absolute;
+    width: 100%;
+    transition: visibility 0s, opacity 0.3s linear;
+    -webkit-transition: visibility 0s, opacity 0.3s linear;
+    -moz-transition: visibility 0s, opacity 0.3s linear;
+    -o-transition: visibility 0s, opacity 0.3s linear;
+}
+#submission .more-details {
+    color: white;
+    background-color: black;
+    position: absolute;
+    width: 100%;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s linear;
+    -webkit-transition: visibility 0s, opacity 0.3s linear;
+    -moz-transition: visibility 0s, opacity 0.3s linear;
+    -o-transition: visibility 0s, opacity 0.3s linear;
+}
+#submission .show-more .few-details {
+    visibility: hidden;
+    opacity: 0;
+}
+#submission .show-more .more-details {
+    visibility: visible;
+    opacity: 1;
 }
 #submission .details {
     border-bottom: 1px solid black;
@@ -399,6 +431,9 @@ a:hover {
 }
 #submission form .selections label, #submission form button {
     text-transform: uppercase;
+}
+#submission form textarea.textarea-message {
+    height: 8rem;
 }
 #submission ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     text-transform: uppercase;

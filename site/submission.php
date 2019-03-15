@@ -178,15 +178,18 @@ capture_start();
             <div class="titled-inner">
                 <h1 class="text-center"><?php echo $config->submission_title();?></h1>
                 <div class="titled-content-wrapper d-flex">
-                    <div class="mt-5 text-justify flex-grow-1 square-text"><?php echo $config->submission_main_text();?></div>
+                    <div class="mt-4 text-justify flex-grow-1 square-text"><?php echo $config->submission_main_text();?></div>
                 </div>
             </div>
         </div>
-        <div class="text-center mt-5 pt-5 text-open-call">
-            <div><?php echo $config->submission_details();?></div>
-        </div>
-        <div class="details mt-5 text-right">
-            <div><a href="details.php">details</a></div>
+        <div class="section-details">
+            <div class="text-center mt-5 pt-5 text-open-call">
+                <div class="few-details"><?php echo $config->submission_details();?></div>
+                <div class="more-details py-3 px-1"><?php echo $config->submission_more_details();?></div>
+            </div>
+            <div class="details pt-5 mt-5 text-right">
+                <div><a href="#">details</a></div>
+            </div>
         </div>
         <?php if($attention_message) { ?>
             <div class="mt-5 p-2 message-<?php echo $attention_type;?>"><?php echo $attention_message;?></div>
@@ -308,7 +311,7 @@ capture_start();
                     <p><?php echo $config->submission_form_message_desc();?></p>
                     <div class="form-row">
                         <div class="form-group col">
-                            <textarea class="form-control" name="message" placeholder="Message"><?php echo utils_s_post('message', '');?></textarea>
+                            <textarea class="form-control textarea-message" name="message" placeholder="Message"><?php echo utils_s_post('message', '');?></textarea>
                         </div>
                     </div>
                 </div>
@@ -338,6 +341,20 @@ capture_start();
             }
         }
     }
+    $(document).ready(function () {
+        const sectionDetails = $('.section-details');
+        const textOpenCall = $('.text-open-call');
+        const detailsLink = $('.details a');
+        detailsLink.mouseenter(function () {
+            sectionDetails.addClass('show-more');
+        });
+        sectionDetails.mouseleave(function () {
+            sectionDetails.removeClass('show-more');
+        });
+        detailsLink.click(function () {
+            return false;
+        })
+    })
 //--></script>
 <?php
 capture_end($data->scripts);
