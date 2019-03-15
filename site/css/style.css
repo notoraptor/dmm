@@ -177,6 +177,12 @@ a:hover {
     margin-top: 15rem;
 }
 
+#models .model {
+    margin-bottom: 2rem;
+}
+#models .model .placeholder {
+    background-color: rgb(80, 80, 80);
+}
 #models .model .placeholder a {
     display: block;
     position: absolute;
@@ -193,7 +199,13 @@ a:hover {
 #models .model .image {
     position: relative;
 }
-#models .model .image span.mask {
+#models .model .image a {
+    color: black;
+}
+#models .model .image a .model-name:hover {
+    color: #AB8636;
+}
+#models .model .image .mask {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -206,17 +218,21 @@ a:hover {
     -moz-transition: visibility 0s, opacity 0.3s linear;
     -o-transition: visibility 0s, opacity 0.3s linear;
 }
-#models .model:hover .image span.mask,
-#models .models-menu:hover + .models .row:first-child .model .image span.mask {
+#models .model:hover .image .mask,
+#models .models-menu:hover + .models .row:first-child .model .image .mask {
     visibility: visible;
     opacity: 1;
 }
 #models .model .name {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+    background-image: linear-gradient(transparent, rgba(255, 255, 255, 0.5));
     text-align: center;
     font-weight: bold;
-    height: 2rem;
-    position: relative;
-    top: -1.2rem;
     opacity: 0;
     z-index: 1;
     transition: visibility 0s, opacity 0.3s linear;
@@ -224,8 +240,16 @@ a:hover {
     -moz-transition: visibility 0s, opacity 0.3s linear;
     -o-transition: visibility 0s, opacity 0.3s linear;
 }
+#models .model .name .name-table {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+#models .model .name .name-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
 #models .model .name.hint {
-    top: -2rem;
 }
 #models .model .name .model-name {
     font-size: 2rem;

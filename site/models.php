@@ -63,27 +63,21 @@ capture_start();
 						?>
 					<div class="col-md-3 align-self-center">
 						<div class="model">
-							<?php
-							if ($profile_photo) {
-								?>
-								<div class="image">
-									<a href="model.php?id=<?php echo $model->id();?>">
-										<img class="img-fluid" src="<?php echo $profile_photo;?>"/>
-                                        <span class="mask"></span>
-									</a>
-								</div>
-								<?php
-							} else {
-								?>
-								<div class="image placeholder" style="background-color: rgb(80, 80, 80);">
-									<a href="model.php?id=<?php echo $model->id();?>"></a>
-								</div>
-								<?php
-							}
-							?>
-							<div class="name <?php if ($model->hint()) {echo 'hint';}; ?>">
-                                <div class="model-name"><a href="model.php?id=<?php echo $model->id();?>"><?php echo $model->first_name();?></a></div>
-                                <div class="model-hint"><?php echo $model->hint();?></div>
+                            <div class="image <?php if (!$profile_photo) {echo 'placeholder';} ?>">
+                                <a href="model.php?id=<?php echo $model->id();?>">
+                                    <?php if ($profile_photo) { ?>
+                                        <img class="img-fluid" src="<?php echo $profile_photo;?>"/>
+                                        <div class="mask"></div>
+                                        <div class="name p-2 <?php if ($model->hint()) {echo 'hint';}; ?>">
+                                            <div class="name-table">
+                                                <div class="name-cell">
+                                                    <div class="model-name"><?php echo $model->first_name();?></div>
+                                                    <div class="model-hint"><?php echo $model->hint();?></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </a>
                             </div>
 						</div>
 					</div>
