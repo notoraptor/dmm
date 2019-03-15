@@ -17,14 +17,14 @@ $class_2 = 'long-width';
 if ($home_photo_1) {
     $size_1 = getimagesize($home_photo_1);
     $width = $size_1[0];
-    $height = $size_1[0];
+    $height = $size_1[1];
     if ($height > $width)
         $class_1 = 'long-height';
 }
 if ($home_photo_2) {
 	$size_1 = getimagesize($home_photo_2);
 	$width = $size_1[0];
-	$height = $size_1[0];
+	$height = $size_1[1];
 	if ($height > $width)
 		$class_2 = 'long-height';
 }
