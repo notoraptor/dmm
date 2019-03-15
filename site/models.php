@@ -81,7 +81,10 @@ capture_start();
 								<?php
 							}
 							?>
-							<div class="name"><a href="model.php?id=<?php echo $model->id();?>"><?php echo $model->first_name();?></a></div>
+							<div class="name <?php if ($model->hint()) {echo 'hint';}; ?>">
+                                <div class="model-name"><a href="model.php?id=<?php echo $model->id();?>"><?php echo $model->first_name();?></a></div>
+                                <div class="model-hint"><?php echo $model->hint();?></div>
+                            </div>
 						</div>
 					</div>
 					<?php
