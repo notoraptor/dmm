@@ -380,27 +380,11 @@ a:hover {
 #contact .contacts > .row {
     margin-top: 13rem;
 }
-#contact .magnifier {
-    position: relative;
-}
-#contact .magnifier .img-magnifier-glass {
-    position: absolute;
-    border: 2px solid black;
-    cursor: crosshair;
-    /*Set the size of the magnifier glass:*/
-    width: 200px;
-    height: 200px;
-    background-color: white;
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s, opacity 0.3s linear;
-    -webkit-transition: visibility 0s, opacity 0.3s linear;
-    -moz-transition: visibility 0s, opacity 0.3s linear;
-    -o-transition: visibility 0s, opacity 0.3s linear;
-}
-#contact .magnifier:hover .img-magnifier-glass {
-    visibility: visible;
-    opacity: 1;
+#contact .elements .element {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 /* 1rem <=> 0.86vw */
