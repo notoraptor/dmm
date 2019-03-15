@@ -255,6 +255,9 @@ a:hover {
     font-size: 2rem;
     line-height: 2rem;
 }
+#models .model .name .model-hint {
+    font-style: italic;
+}
 #models .model:hover .name {
     visibility: visible;
     opacity: 1;

@@ -81,6 +81,18 @@ ob_start();
                 };
             }
         }
+        // Désactivation du click sur les images.
+        const images = document.getElementsByTagName('img');
+        for(let image of images) {
+            image.onmousedown = function () {
+                // console.log(`clicked ${image.src}`);
+                return false;
+            };
+            image.oncontextmenu = function () {
+                // console.log(`clicked ${image.src}`);
+                return false;
+            }
+        }
     }
 //--></script>
 </body>
