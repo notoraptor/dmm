@@ -182,12 +182,12 @@ capture_start();
                 </div>
             </div>
         </div>
-        <div class="section-details">
-            <div class="text-center mt-5 pt-5 text-open-call">
-                <div class="few-details"><?php echo $config->submission_details();?></div>
-                <div class="more-details py-3 px-1"><?php echo $config->submission_more_details();?></div>
+        <div class="section-details mt-5 pt-5">
+            <div class="text-center mb-5 text-open-call">
+                <div class="few-details"><div class="wrapper"><?php echo $config->submission_details();?></div></div>
+                <div class="more-details py-4 px-1"><div class="wrapper"><?php echo $config->submission_more_details();?></div></div>
             </div>
-            <div class="details pt-5 mt-5 text-right">
+            <div class="details text-right">
                 <div><a href="#">details</a></div>
             </div>
         </div>
@@ -345,6 +345,19 @@ capture_start();
         const sectionDetails = $('.section-details');
         const textOpenCall = $('.text-open-call');
         const detailsLink = $('.details a');
+        const fewDetails = $('.few-details');
+        const moreDetails = $('.more-details');
+        function resizeTextOpenCall() {
+            let fewDetailsHeightString = fewDetails.css('height');
+            let moreDetailsHeightString = moreDetails.css('height');
+            const fewDetailsHeight = parseInt(fewDetailsHeightString.replace('px', ''));
+            const moreDetailsHeight = parseInt(moreDetailsHeightString.replace('px', ''));
+            // console.log(`few details: ${fewDetailsHeight}`);
+            // console.log(`more details: ${moreDetailsHeight}`);
+            textOpenCall.css('height', `${fewDetailsHeight > moreDetailsHeight ? fewDetailsHeight : moreDetailsHeight}px`);
+        }
+        resizeTextOpenCall();
+        $(window).resize(resizeTextOpenCall);
         detailsLink.mouseenter(function () {
             sectionDetails.addClass('show-more');
         });
