@@ -380,6 +380,9 @@ a:hover {
     max-height: 100%;
 }
 
+#contact video#vid {
+    width: 100%;
+}
 #contact .video-wrapper {
     position: relative;
 }

@@ -26,7 +26,7 @@ capture_start();
 </div>
 <div class="wrapper d-flex">
     <div class="header pl-5 d-flex">
-        <div class="logo-div"><a class="logo" href="index.php"><img src="data/main/dmm_logo_cropped.png"/></a></div>
+        <div class="logo-div"><a class="logo" href="models.php"><img src="data/main/dmm_logo_cropped.png"/></a></div>
         <div class="info flex-grow-1 d-flex flex-column align-self-center">
                 <h1><?php echo $model->first_name();?></h1>
                 <div class="buttons">
