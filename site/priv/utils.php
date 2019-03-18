@@ -187,7 +187,7 @@ class Config extends DatabaseRow  {
 	public function home_text_right() { return $this->data['home_text_right']; }
 	public function home_text_bottom() { return $this->data['home_text_bottom']; }
 	public function contact_video() { return $this->data['contact_video']; }
-	public function details_page_title() { return $this->data['submission_bottom_photo_text']; }
+	public function contact_bottom_left() { return $this->data['submission_bottom_photo_text']; }
 	public function details_page_middle_title() { return $this->data['submission_title']; }
 	public function submission_title() { return $this->data['contact_text']; }
 	public function submission_details() { return $this->data['submission_details']; }

@@ -387,12 +387,55 @@ a:hover {
 #contact .navigation-wrapper {
     padding-left: 5rem;
     padding-right: 5rem;
+    background-color: transparent;
+    color: white;
+}
+#contact .navigation-wrapper a {
+    color: white;
+}
+#contact .navigation-wrapper a:hover {
+    color: #AB8636;
+}
+#contact .navigation-wrapper .top-link.facebook:hover {
+    background-image: url("../data/utils/facebook-gold.svg");
+}
+#contact .navigation-wrapper .top-link.instagram:hover {
+    background-image: url("../data/utils/instagram-gold.svg");
+}
+#contact .navigation-wrapper.sticked .top-link.facebook:hover {
+    background-image: url("../data/utils/facebook-gold.svg");
+}
+#contact .navigation-wrapper.sticked .top-link.instagram:hover {
+    background-image: url("../data/utils/instagram-gold.svg");
+}
+#contact .navigation-wrapper .top-link.facebook {
+    background-image: url("../data/utils/facebook-white.svg");
+}
+#contact .navigation-wrapper .top-link.instagram {
+    background-image: url("../data/utils/instagram-white.svg");
+}
+#contact .navigation-wrapper.sticked .top-link.facebook {
+    background-image: url("../data/utils/facebook-black.svg");
+}
+#contact .navigation-wrapper.sticked .top-link.instagram {
+    background-image: url("../data/utils/instagram-black.svg");
+}
+#contact .navigation-wrapper.sticked {
+    background-color: white;
+    color: black;
+}
+#contact .navigation-wrapper.sticked a {
+    color: black;
+}
+#contact .navigation-wrapper.sticked a:hover {
+    color: #AB8636;
 }
 #contact .agents.row {
     margin: 0;
 }
 #contact video#vid {
     width: 100%;
+    margin-top: -9rem;
 }
 #contact .agents {
     white-space: nowrap;
@@ -416,7 +459,12 @@ a:hover {
     display: table-cell;
     vertical-align: middle;
 }
-
+#contact .bottom .bottom-element {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
 
 /* 1rem <=> 0.86vw */
 
