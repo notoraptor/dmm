@@ -29,7 +29,6 @@ if(!empty($_POST)) {
 	$submission_details = utils_safe_post('submission_details');
 	$submission_form_text_right = utils_safe_post('submission_form_text_right');
 	$submission_form_message_desc = utils_safe_post('submission_form_message_desc');
-	$contact_bottom_left = utils_safe_post('contact_bottom_left');
 
 	get_photo_field('Home photo 1', 'home_photo_1', utils_home_photo_1_name(), 'utils_home_photo_1');
 	get_photo_field('Home photo 2', 'home_photo_2', utils_home_photo_2_name(), 'utils_home_photo_2');
@@ -86,7 +85,6 @@ $_POST = array(
 	'submission_details' => utils_safe_post('submission_details', $config->submission_details()),
 	'submission_form_text_right' => utils_safe_post('submission_form_text_right', $config->submission_form_text_right()),
 	'submission_form_message_desc' => utils_safe_post('submission_form_message_desc', $config->submission_form_message_desc()),
-	'contact_bottom_left' => utils_safe_post('contact_bottom_left', $config->contact_bottom_left()),
 );
 
 function add_photo_field($title, $name, $current_photo) {
@@ -122,16 +120,15 @@ function add_photo_field($title, $name, $current_photo) {
 		echo utils_textarea('Submission more details line','submission_text');
 		echo utils_textarea('Submission form text for photos','submission_form_text_right');
 		echo utils_textarea('Submission form text for message','submission_form_message_desc');
-		echo utils_textarea('Contact bottom left text','contact_bottom_left');
 
 		add_photo_field('Contact photo for button "for submission"', 'contact_photo_for_submission', utils_contact_submission_photo());
+		add_photo_field('Contact bottom photo', 'contact_unique_photo', utils_contact_unique_photo());
 		add_photo_field('Submission form demo photo 1', 'submission_demo_photo_1', utils_submission_demo_photo_1());
 		add_photo_field('Submission form demo photo 2', 'submission_demo_photo_2', utils_submission_demo_photo_2());
 		add_photo_field('Submission form demo photo 3', 'submission_demo_photo_3', utils_submission_demo_photo_3());
 		add_photo_field('Submission form demo photo 4', 'submission_demo_photo_4', utils_submission_demo_photo_4());
 		add_photo_field('Home photo 1', 'home_photo_1', utils_home_photo_1());
 		add_photo_field('Home photo 2', 'home_photo_2', utils_home_photo_2());
-		add_photo_field('Contact second photo', 'contact_unique_photo', utils_contact_unique_photo());
 		?>
 	</div>
 	<div><input type="submit" value="Mettre &agrave; jour"/></div>
@@ -146,7 +143,6 @@ function add_photo_field($title, $name, $current_photo) {
             'submission_details',
             'submission_form_text_right',
             'submission_form_message_desc',
-            'contact_bottom_left',
         ];
         function wrap() {
             careful(['contact_video', 'link_facebook', 'link_instagram']);

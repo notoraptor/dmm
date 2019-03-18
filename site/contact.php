@@ -57,21 +57,14 @@ capture_start();
         </div>
 		<?php
     }
-    ?>
-    <div class="row mt-5 pt-5 px-5 mx-5 bottom">
-        <div id="bottom-left" class="col-lg-7 bottom-element text-lg-left text-center pb-5 mb-5">
-            <?php echo $config->contact_bottom_left();?>
+	if ($contact_unique_photo) {
+		?>
+        <div id="bottom" class="text-center my-5 py-5">
+            <img id="bottom-photo" class="img-fluid w-25" src="<?php echo utils_as_link($contact_unique_photo);?>"/>
         </div>
 		<?php
-		if ($contact_unique_photo) {
-			?>
-            <div id="bottom-right" class="text-center col-lg-5 bottom-element">
-                <img id="contact-unique-photo" class="img-fluid" src="<?php echo utils_as_link($contact_unique_photo);?>"/>
-            </div>
-			<?php
-		}
-		?>
-    </div>
+	}
+    ?>
 </div>
 <?php
 capture_end($data->content);
@@ -88,25 +81,15 @@ function onScroll() {
     }
 }
 function onBottomImageHover() {
-    const image = document.getElementById('contact-unique-photo');
-    const bottomLeft = document.getElementById('bottom-left');
-    const bottomRight = document.getElementById('bottom-right');
+    const image = document.getElementById('bottom-photo');
     if (image) {
         image.onmouseover = function () {
-            bottomLeft.classList.remove('col-lg-7');
-            bottomLeft.classList.add('col-lg-2');
-            if (bottomRight) {
-                bottomRight.classList.remove('col-lg-5');
-                bottomRight.classList.add('col-lg-10');
-            }
+            image.classList.remove('w-25');
+            image.classList.add('w-100');
         };
         image.onmouseout = function () {
-            bottomLeft.classList.remove('col-lg-2');
-            bottomLeft.classList.add('col-lg-7');
-            if (bottomRight) {
-                bottomRight.classList.remove('col-lg-10');
-                bottomRight.classList.add('col-lg-5');
-            }
+            image.classList.remove('w-100');
+            image.classList.add('w-25');
         };
     }
 };
@@ -115,15 +98,6 @@ onScroll();
 onBottomImageHover();
 //--></script>
 <?php
-
-if ($contact_unique_photo) {
-	?>
-    <script type="text/javascript">//<!--
-
-    //--></script>
-	<?php
-}
-
 capture_end($data->scripts);
 
 $data->title = 'Contact | DMM';
