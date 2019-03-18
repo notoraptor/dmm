@@ -10,7 +10,7 @@ class Data {
 	public $show_menu = true;
 	public $content = '';
 	public $scripts = '';
-	public $content_class = 'container-fluid';
+	public $content_class = 'container-fluid default-container';
 	public function __construct(Database $db = null) {
 		$this->db = $db;
 		if(session_id()) {

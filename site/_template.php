@@ -25,6 +25,7 @@ ob_start();
 <?php } ?>
 <div id="content" class="<?php echo $data->content_class;?>">
     <?php if ($data->show_menu) { ?>
+        <div class="navigation-wrapper">
         <div class="row align-items-center navigation my-5">
             <div class="col-md-9 menu-words">
                 <nav class="row text-center align-items-center">
@@ -59,6 +60,7 @@ ob_start();
                     </div>
                 </nav>
             </div>
+        </div>
         </div>
     <?php };
 	echo $data->content;

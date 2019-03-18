@@ -120,7 +120,7 @@ function utils_photos($folder, $prefix) {
 
 function utils_home_photo_1_name() {return 'home_1';}
 function utils_home_photo_2_name() {return 'home_2';}
-function utils_submission_photo_name() {return 'submission';}
+function utils_contact_submission_photo_name() {return 'submission';}
 function utils_submission_bottom_photo_name() {return 'submission_bottom';}
 function utils_contact_unique_photo_name() {return 'contact_photo;';}
 function utils_submission_demo_photo_1_name() {return 'submission_demo_1';}
@@ -135,7 +135,7 @@ function utils_contact_photo_name($photo_id) {return utils_contact_photo_prefix(
 
 function utils_home_photo_1() {return utils_photo(DIR_DB(), utils_home_photo_1_name());}
 function utils_home_photo_2() {return utils_photo(DIR_DB(), utils_home_photo_2_name());}
-function utils_submission_photo() {return utils_photo(DIR_DB(), utils_submission_photo_name());}
+function utils_contact_submission_photo() {return utils_photo(DIR_DB(), utils_contact_submission_photo_name());}
 function utils_submission_bottom_photo() {return utils_photo(DIR_DB(), utils_submission_bottom_photo_name());}
 function utils_contact_unique_photo() {return utils_photo(DIR_DB(), utils_contact_unique_photo_name());}
 function utils_submission_demo_photo_1() {return utils_photo(DIR_DB(), utils_submission_demo_photo_1_name());}
