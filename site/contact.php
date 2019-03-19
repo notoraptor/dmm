@@ -20,7 +20,7 @@ capture_start();
 ?>
 <div class="contact pb-5">
     <div>
-        <video id="vid" loop autoplay muted>
+        <video id="vid" loop autoplay>
             <source src="data/videos/ULTRA-MEGA-FINAL-BOUNCE-DMM.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
