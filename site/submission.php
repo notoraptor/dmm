@@ -302,7 +302,7 @@ capture_start();
                         <div>PROFILE</div>
                         <div class="example-image" <?php if (utils_submission_demo_photo_4()) { ?>style="background-image: url('<?php echo utils_as_link(utils_submission_demo_photo_4()); ?>');"<?php } ?>>
                             <label class="button btn btn-outline-dark">
-                                <span id="file-4">upload</span> <input type="file" name="file-4" hidden onchange="displayLabelFile(event, 'file-3');"/>
+                                <span id="file-4">upload</span> <input type="file" name="file-4" hidden onchange="displayLabelFile(event, 'file-4');"/>
                             </label>
                         </div>
                     </div>
