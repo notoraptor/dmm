@@ -122,7 +122,7 @@ function utils_home_photo_1_name() {return 'home_1';}
 function utils_home_photo_2_name() {return 'home_2';}
 function utils_contact_submission_photo_name() {return 'submission';}
 function utils_submission_bottom_photo_name() {return 'submission_bottom';}
-function utils_contact_unique_photo_name() {return 'contact_photo;';}
+function utils_contact_unique_photo_name() {return 'contact_photo';} // todo rename
 function utils_submission_demo_photo_1_name() {return 'submission_demo_1';}
 function utils_submission_demo_photo_2_name() {return 'submission_demo_2';}
 function utils_submission_demo_photo_3_name() {return 'submission_demo_3';}
