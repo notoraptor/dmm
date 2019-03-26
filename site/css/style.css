@@ -430,15 +430,9 @@ a:hover {
 #contact .navigation-wrapper.sticked a:hover {
     color: #AB8636;
 }
-#contact .agents.row {
-    margin: 0;
-}
 #contact video#vid {
     width: 100%;
     margin-top: -9rem;
-}
-#contact .agents {
-    white-space: nowrap;
 }
 #contact .contact-submission-photo {
     position: relative;

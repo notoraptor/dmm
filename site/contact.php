@@ -25,16 +25,34 @@ capture_start();
             Your browser does not support the video tag.
         </video>
     </div>
-    <div class="agents row text-center py-5 px-5 mx-5">
-        <?php foreach($agents as $agent) {
+    <div class="agents text-center py-5 px-5 mx-5">
+        <?php
+        $nb_agents = count($agents);
+        $groups_agents = array();
+        if ($nb_agents % 2 == 1) {
+            $groups_agents[] = array($agents[0]);
+            unset($agents[0]);
+            $nb_agents -= 1;
+        }
+        for ($i = 0; $i < $nb_agents / 2; ++$i) {
+            $groups_agents[] = array($agents[2*$i], $agents[2*$i + 1]);
+        }
+        foreach ($groups_agents as $group) {
             ?>
-            <div class="agent col-md pt-5">
-                <div class="name"><?php echo $agent->full_name();?></div>
-                <div class="role"><?php echo $agent->role();?></div>
-                <?php if ($agent->email()) { ?><div class="email"><a target="_blank" href="mailto:<?php echo $agent->email();?>"><?php echo $agent->email();?></a></div><?php } ?>
+            <div class="d-inline-block">
+                <?php foreach ($group as $agent) {
+					?>
+                    <div class="agent pt-5 px-5 d-inline-block">
+                        <div class="name"><?php echo $agent->full_name();?></div>
+                        <div class="role"><?php echo $agent->role();?></div>
+						<?php if ($agent->email()) { ?><div class="email"><a target="_blank" href="mailto:<?php echo $agent->email();?>"><?php echo $agent->email();?></a></div><?php } ?>
+                    </div>
+					<?php
+                } ?>
             </div>
             <?php
-        } ?>
+        }
+        ?>
     </div>
     <?php
     if ($contact_submission_photo) {
