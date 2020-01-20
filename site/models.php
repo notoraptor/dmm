@@ -44,13 +44,21 @@ capture_start();
                 <?php
                 $sorted_categories = $model_categories->values();
                 $nb_sorted_categories = count($sorted_categories);
-                if ($nb_sorted_categories) {
-                    $model_category = $sorted_categories[0];
-                    ?><span><a href="models.php?trend=<?php echo urlencode($model_category);?>"><?php echo $model_category; ?></a></span><?php
-                }
-                for ($i = 1; $i < $nb_sorted_categories; ++$i) {
+                $special_model = null;
+                $count_printed = 0;
+                for ($i = 0; $i < $nb_sorted_categories; ++$i) {
 					$model_category = $sorted_categories[$i];
-					?>, <span><a href="models.php?trend=<?php echo urlencode($model_category);?>"><?php echo $model_category; ?></a></span><?php
+					if (strpos(strtolower(trim($model_category)), '14 ') === 0) {
+					    $special_model = $model_category;
+					    continue;
+                    }
+					if ($count_printed) echo ', ';
+					?><span><a href="models.php?trend=<?php echo urlencode($model_category);?>"><?php echo $model_category; ?></a></span><?php
+                    ++$count_printed;
+                }
+                if ($special_model) {
+                    if ($count_printed) echo ', ';
+					?><span><a href="models.php?trend=<?php echo urlencode($special_model);?>"><?php echo $special_model; ?></a></span><?php
                 }
                 ?>
 			</div>
